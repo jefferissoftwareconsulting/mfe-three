@@ -102,7 +102,11 @@ export class MfeThree extends LitElement {
           >Increment</sp-button
         >
       </p>
-      <p><button @click=${this.__showSettings}>Settings</button></p>
+      <p>
+        <sp-button type="transparent" @click=${this.__showSettings}
+          >Settings</sp-button
+        >
+      </p>
     `;
   }
 
@@ -111,9 +115,14 @@ export class MfeThree extends LitElement {
       <h2>Settings | ${this.title}</h2>
       <div>
         <label>Background colour</label>
-        <input type="text" @input="${this.__setBgColor}" />
+        <sp-input-text
+          type="text"
+          @input="${this.__setBgColor}"
+        ></sp-input-text>
       </div>
-      <p><button @click=${this.__saveSettings}>Done</button></p>
+      <p>
+        <sp-button type="primary" @click=${this.__saveSettings}>Done</sp-button>
+      </p>
     `;
   }
 
