@@ -1,14 +1,8 @@
-## editors
-/.idea
-/.vscode
-
 ## system files
 .DS_Store
 
 ## npm
-/node_modules/
 /npm-debug.log
-*/node_modules/
 
 ## testing
 /coverage/
@@ -16,6 +10,8 @@
 ## temp folders
 /.tmp/
 
-# build
-/_site/
-/dist/
+storybook-static
+custom-elements.json
+
+## build
+/out-tsc/

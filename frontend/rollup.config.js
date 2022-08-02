@@ -10,7 +10,7 @@ export default {
     chunkFileNames: '[hash].js',
     assetFileNames: '[hash][extname]',
     format: 'es',
-    dir: 'dist',
+    dir: '../dist',
   },
   preserveEntrySignatures: false,
 

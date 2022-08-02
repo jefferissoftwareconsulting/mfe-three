@@ -1,6 +1,6 @@
 import { LitElement, css, html, customElement } from 'lit-element';
 import { ifDefined } from 'lit-html/directives/if-defined.js';
-import { JSXProps } from './../types';
+import { JSXProps } from '../types';
 
 declare global {
   namespace JSX {

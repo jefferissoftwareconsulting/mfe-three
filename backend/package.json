@@ -1,0 +1,26 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon src/index.ts"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/firebase": "^3.2.1",
+    "@types/koa": "^2.13.5",
+    "firebase-tools": "^11.4.0",
+    "nodemon": "^2.0.19",
+    "ts-node": "^10.9.1"
+  },
+  "dependencies": {
+    "@koa/cors": "^3.3.0",
+    "@koa/router": "^12.0.0",
+    "@types/koa__router": "^8.0.11",
+    "firebase": "^9.9.1",
+    "koa": "^2.13.4",
+    "koa-body": "^5.0.0"
+  }
+}

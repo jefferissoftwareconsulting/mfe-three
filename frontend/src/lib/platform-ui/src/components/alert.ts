@@ -1,58 +1,58 @@
-import { css, customElement, html, LitElement } from 'lit-element'
-import { makeScopedTagName } from '../utils/lit-utils'
-import { JSXProps } from './../types'
+import { css, customElement, html, LitElement } from 'lit-element';
+import { makeScopedTagName } from '../utils/lit-utils';
+import { JSXProps } from '../types';
 
 interface AlertProps {
-  type?: 'info' | 'success' | 'warning' | 'error'
-  clearable?: boolean
-  title?: string
+  type?: 'info' | 'success' | 'warning' | 'error';
+  clearable?: boolean;
+  title?: string;
 }
 
-export const ALERT = makeScopedTagName('alert')
+export const ALERT = makeScopedTagName('alert');
 
 declare global {
   namespace JSX {
     interface IntrinsicElements {
-      [ALERT]: JSXProps<Alert, AlertProps>
+      [ALERT]: JSXProps<Alert, AlertProps>;
     }
   }
 
   interface HTMLElementTagNameMap {
-    [ALERT]: Alert
+    [ALERT]: Alert;
   }
 }
 
 class AlertEvent extends CustomEvent<never> {
   constructor(eventType: AlertEventType) {
-    super(`${ALERT}-${eventType}`, { bubbles: true, composed: true })
+    super(`${ALERT}-${eventType}`, { bubbles: true, composed: true });
   }
 }
 
-type AlertEventType = 'cleared'
+type AlertEventType = 'cleared';
 
 @customElement(ALERT)
 export class Alert extends LitElement {
   static properties = {
     type: {
       type: String,
-      reflect: true
+      reflect: true,
     },
     title: {
-      type: String
+      type: String,
     },
     clearable: {
-      type: Boolean
+      type: Boolean,
     },
     cleared: {
       type: Boolean,
-      attribute: false
-    }
-  }
+      attribute: false,
+    },
+  };
 
-  type = 'info'
-  clearable = false
-  title = ''
-  cleared = false
+  type = 'info';
+  clearable = false;
+  title = '';
+  cleared = false;
 
   static styles = css`
     .alert-container {
@@ -119,23 +119,23 @@ export class Alert extends LitElement {
     .clear-button sp-icon {
       vertical-align: middle;
     }
-  `
+  `;
 
   getIcon() {
     switch (this.type) {
       case 'success':
-        return 'tickFill'
+        return 'tickFill';
       case 'warning':
       case 'error':
-        return 'exclamationFill'
+        return 'exclamationFill';
       default:
-        return 'infoFill'
+        return 'infoFill';
     }
   }
 
   clear() {
-    this.cleared = true
-    this.dispatchEvent(new AlertEvent('cleared'))
+    this.cleared = true;
+    this.dispatchEvent(new AlertEvent('cleared'));
   }
 
   render() {
@@ -143,7 +143,9 @@ export class Alert extends LitElement {
       ? html`<div class="alert-container">
           <sp-icon class="type-icon" icon="${this.getIcon()}"></sp-icon>
           <div role="alert">
-            ${this.title ? html`<div><sp-heading>${this.title}</sp-heading></div>` : html``}
+            ${this.title
+              ? html`<div><sp-heading>${this.title}</sp-heading></div>`
+              : html``}
             <div><slot /></div>
           </div>
           ${this.clearable
@@ -152,6 +154,6 @@ export class Alert extends LitElement {
               </button>`
             : ''}
         </div>`
-      : null
+      : null;
   }
 }
