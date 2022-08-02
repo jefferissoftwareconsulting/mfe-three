@@ -9,7 +9,7 @@ import path from 'path';
 export default {
   input: 'index.html',
   output: {
-    entryFileNames: '[hash].js',
+    entryFileNames: 'index.js',
     chunkFileNames: '[hash].js',
     assetFileNames: '[hash][extname]',
     format: 'es',
