@@ -1,6 +1,6 @@
-import { LitElement, css, html, customElement } from 'lit-element'
-import { ifDefined } from 'lit-html/directives/if-defined'
-import { JSXProps } from './../types'
+import { LitElement, css, html, customElement } from 'lit-element';
+import { ifDefined } from 'lit-html/directives/if-defined.js';
+import { JSXProps } from './../types';
 
 declare global {
   namespace JSX {
@@ -8,26 +8,26 @@ declare global {
       'sp-link': JSXProps<
         Link,
         {
-          'link-type'?: LinkTypes
-          'is-external'?: boolean
-          target?: string
-          rel?: string
-          href?: string
-          virtual?: boolean
+          'link-type'?: LinkTypes;
+          'is-external'?: boolean;
+          target?: string;
+          rel?: string;
+          href?: string;
+          virtual?: boolean;
         }
-      >
+      >;
       'sp-link-button': JSXProps<
         LinkButton,
         {
-          'link-type'?: LinkTypes
+          'link-type'?: LinkTypes;
         }
-      >
+      >;
     }
   }
 
   interface HTMLElementTagNameMap {
-    'sp-link': Link
-    'sp-link-button': LinkButton
+    'sp-link': Link;
+    'sp-link-button': LinkButton;
   }
 }
 
@@ -57,14 +57,14 @@ const linkStyles = css`
   :host([link-type='secondary']:hover) {
     text-decoration: none;
   }
-`
+`;
 
 const resetLinkStyle = css`
   a {
     color: inherit;
     text-decoration: inherit;
   }
-`
+`;
 
 const resetButtonStyles = css`
   button {
@@ -78,13 +78,13 @@ const resetButtonStyles = css`
     color: inherit;
     cursor: pointer;
   }
-`
+`;
 
-type LinkTypes = 'primary' | 'secondary'
+type LinkTypes = 'primary' | 'secondary';
 
 @customElement('sp-link')
 export class Link extends LitElement {
-  static styles = [resetLinkStyle, linkStyles]
+  static styles = [resetLinkStyle, linkStyles];
 
   static properties = {
     linkType: { type: String, attribute: 'link-type', reflect: true },
@@ -92,25 +92,25 @@ export class Link extends LitElement {
     target: { type: String, reflect: true },
     rel: { type: String, reflect: true },
     href: { type: String, reflect: true },
-    virtual: { type: Boolean, reflect: true }
-  }
+    virtual: { type: Boolean, reflect: true },
+  };
 
-  linkType: LinkTypes = 'primary'
-  target?: string
-  rel?: string
-  href?: string
-  virtual = false
-  isExternal = false
+  linkType: LinkTypes = 'primary';
+  target?: string;
+  rel?: string;
+  href?: string;
+  virtual = false;
+  isExternal = false;
 
   handleClick(event: Event) {
-    if (this.virtual) event.preventDefault()
+    if (this.virtual) event.preventDefault();
   }
 
   connectedCallback() {
-    super.connectedCallback()
+    super.connectedCallback();
 
     if (this.isExternal) {
-      this.target = '_blank'
+      this.target = '_blank';
     }
   }
 
@@ -124,19 +124,23 @@ export class Link extends LitElement {
       >
         <slot></slot>
       </a>
-      ${this.isExternal ? html`<sp-icon icon="openLink" size="12"></sp-icon>` : ''}
-    `
+      ${this.isExternal
+        ? html`<sp-icon icon="openLink" size="12"></sp-icon>`
+        : ''}
+    `;
   }
 }
 
 @customElement('sp-link-button')
 export class LinkButton extends LitElement {
-  static styles = [resetButtonStyles, linkStyles]
+  static styles = [resetButtonStyles, linkStyles];
 
-  static properties = { linkType: { type: String, attribute: 'link-type', reflect: true } }
-  linkType: LinkTypes = 'primary'
+  static properties = {
+    linkType: { type: String, attribute: 'link-type', reflect: true },
+  };
+  linkType: LinkTypes = 'primary';
 
   render() {
-    return html` <button><slot></slot></button>`
+    return html` <button><slot></slot></button>`;
   }
 }

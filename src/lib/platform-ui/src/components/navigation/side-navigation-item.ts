@@ -1,6 +1,6 @@
-import { JSXProps } from '../../types'
-import { LitElement, css, html, customElement } from 'lit-element'
-import { ifDefined } from 'lit-html/directives/if-defined'
+import { JSXProps } from '../../types';
+import { LitElement, css, html, customElement } from 'lit-element';
+import { ifDefined } from 'lit-html/directives/if-defined.js';
 
 declare global {
   namespace JSX {
@@ -8,17 +8,17 @@ declare global {
       'sp-side-navigation-item': JSXProps<
         SideNavigationItem,
         {
-          target?: string
-          rel?: string
-          href?: string
-          active?: boolean
+          target?: string;
+          rel?: string;
+          href?: string;
+          active?: boolean;
         }
-      >
+      >;
     }
   }
 
   interface HTMLElementTagNameMap {
-    'sp-side-navigation-item': SideNavigationItem
+    'sp-side-navigation-item': SideNavigationItem;
   }
 }
 
@@ -48,30 +48,34 @@ const sideNavItemStyles = css`
     color: var(--sp-color-primary-600);
     border-color: var(--sp-color-primary-600);
   }
-`
+`;
 
 @customElement('sp-side-navigation-item')
 export class SideNavigationItem extends LitElement {
-  static styles = [sideNavItemStyles]
+  static styles = [sideNavItemStyles];
 
   static properties = {
     target: { type: String, reflect: true },
     rel: { type: String, reflect: true },
     href: { type: String, reflect: true },
-    active: { type: Boolean, reflect: true }
-  }
+    active: { type: Boolean, reflect: true },
+  };
 
-  target?: string
-  rel?: string
-  href?: string
+  target?: string;
+  rel?: string;
+  href?: string;
 
   render() {
     return html`
       <li>
-        <a href="${ifDefined(this.href)}" target="${ifDefined(this.target)}" rel="${ifDefined(this.rel)}">
+        <a
+          href="${ifDefined(this.href)}"
+          target="${ifDefined(this.target)}"
+          rel="${ifDefined(this.rel)}"
+        >
           <slot></slot>
         </a>
       </li>
-    `
+    `;
   }
 }

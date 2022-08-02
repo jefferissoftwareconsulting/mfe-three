@@ -1,7 +1,7 @@
-import { LitElement, css, html, customElement } from 'lit-element'
-import { classMap } from 'lit-html/directives/class-map'
-import type { JSXProps } from '../../types'
-import '../../animation/fade-in-out'
+import { LitElement, css, html, customElement } from 'lit-element';
+import { classMap } from 'lit-html/directives/class-map.js';
+import type { JSXProps } from '../../types';
+import '../../animation/fade-in-out';
 
 declare global {
   namespace JSX {
@@ -9,22 +9,22 @@ declare global {
       'sp-modal': JSXProps<
         Modal,
         {
-          size: 'small' | 'medium' | 'large' | 'x-large'
-          open: boolean
-          'no-close'?: boolean
+          size: 'small' | 'medium' | 'large' | 'x-large';
+          open: boolean;
+          'no-close'?: boolean;
         }
-      >
+      >;
     }
   }
 
   interface HTMLElementTagNameMap {
-    'sp-modal': Modal
+    'sp-modal': Modal;
   }
 }
 
 export class ModalCloseEvent extends CustomEvent<never> {
   constructor() {
-    super('sp-modal-close', { bubbles: true })
+    super('sp-modal-close', { bubbles: true });
   }
 }
 
@@ -89,40 +89,40 @@ export class Modal extends LitElement {
     ::slotted(sp-modal-body:first-child) {
       padding-top: var(--sp-spacing-10);
     }
-  `
+  `;
 
   static properties = {
     size: { type: String },
     open: { type: Boolean },
     shown: { attribute: false },
-    noClose: { type: Boolean, attribute: 'no-close' }
-  }
-  size: 'small' | 'medium' | 'large' | 'x-large' = 'small'
-  open = false
-  noClose = false
-  shown = this.open // TODO: Is this needed? this.shown is never read
+    noClose: { type: Boolean, attribute: 'no-close' },
+  };
+  size: 'small' | 'medium' | 'large' | 'x-large' = 'small';
+  open = false;
+  noClose = false;
+  shown = this.open; // TODO: Is this needed? this.shown is never read
 
   connectedCallback() {
-    super.connectedCallback()
-    window.addEventListener('keyup', this.handleKeyUp, true)
+    super.connectedCallback();
+    window.addEventListener('keyup', this.handleKeyUp, true);
   }
 
   disconnectedCallback() {
-    super.disconnectedCallback()
-    window.removeEventListener('keyup', this.handleKeyUp, true)
+    super.disconnectedCallback();
+    window.removeEventListener('keyup', this.handleKeyUp, true);
   }
 
   /**
    * Closes the modal with Escape key
    */
   private handleKeyUp = (event: KeyboardEvent) => {
-    if (event.key === 'Escape') return this.handleClose(event)
-  }
+    if (event.key === 'Escape') return this.handleClose(event);
+  };
 
   // NOTE: Ideally this would be @query('#overlay', true) overlay: HTMLDivElement | null but
   // that doesn't work - probably because of the way we're compiling the Typescript
   private get overlay() {
-    return this.renderRoot.querySelector('#overlay')
+    return this.renderRoot.querySelector('#overlay');
   }
 
   /**
@@ -136,16 +136,19 @@ export class Modal extends LitElement {
    * expectation for modal content.
    */
   private handleClose = (event: MouseEvent | KeyboardEvent) => {
-    if ((event instanceof MouseEvent && this.noClose) || (event instanceof MouseEvent && event.target !== this.overlay))
-      return
+    if (
+      (event instanceof MouseEvent && this.noClose) ||
+      (event instanceof MouseEvent && event.target !== this.overlay)
+    )
+      return;
 
-    event.stopPropagation()
-    this.dispatchEvent(new ModalCloseEvent())
-  }
+    event.stopPropagation();
+    this.dispatchEvent(new ModalCloseEvent());
+  };
 
   private handleTransitionEnd(event: Event) {
     if (event.target === this.overlay) {
-      this.shown = false
+      this.shown = false;
     }
   }
 
@@ -158,7 +161,7 @@ export class Modal extends LitElement {
             overlay: true,
             medium: this.size === 'medium',
             large: this.size === 'large',
-            'x-large': this.size === 'x-large'
+            'x-large': this.size === 'x-large',
           })}"
           @mousedown=${this.handleClose}
           @keyup=${() => undefined}
@@ -169,6 +172,6 @@ export class Modal extends LitElement {
           </div>
         </div>
       </sp-fade-in-out>
-    `
+    `;
   }
 }

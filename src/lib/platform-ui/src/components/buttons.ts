@@ -1,12 +1,12 @@
-import { LitElement, customElement, css, html } from 'lit-element'
-import { classMap } from 'lit-html/directives/class-map'
-import { makeScopedTagName } from '../utils/lit-utils'
-import type { JSXProps } from '../types'
-import type { IconKey } from './icon'
-import '../layout/flex'
-import './loading'
+import { LitElement, customElement, css, html } from 'lit-element';
+import { classMap } from 'lit-html/directives/class-map.js';
+import { makeScopedTagName } from '../utils/lit-utils';
+import type { JSXProps } from '../types';
+import type { IconKey } from './icon';
+import '../layout/flex';
+import './loading';
 
-export const BUTTON = makeScopedTagName('button')
+export const BUTTON = makeScopedTagName('button');
 
 declare global {
   namespace JSX {
@@ -14,39 +14,43 @@ declare global {
       [BUTTON]: JSXProps<
         Button,
         {
-          'button-type'?: ButtonTypes
-          loading?: boolean
-          compact?: boolean
-          disabled?: boolean
-          'leading-icon'?: IconKey
-          'trailing-icon'?: IconKey
-          'icon-size'?: string
+          'button-type'?: ButtonTypes;
+          loading?: boolean;
+          compact?: boolean;
+          disabled?: boolean;
+          'leading-icon'?: IconKey;
+          'trailing-icon'?: IconKey;
+          'icon-size'?: string;
         }
-      >
+      >;
       'sp-button-group': JSXProps<
         ButtonGroup,
         {
-          compact?: boolean
+          compact?: boolean;
         }
-      >
+      >;
     }
   }
 
   interface HTMLElementTagNameMap {
-    [BUTTON]: Button
-    'sp-button-group': ButtonGroup
+    [BUTTON]: Button;
+    'sp-button-group': ButtonGroup;
   }
 }
 
 class ButtonEvent extends CustomEvent<never> {
   constructor(eventType: ButtonEventType) {
-    super(`${BUTTON}-${eventType}`, { bubbles: true, composed: true })
+    super(`${BUTTON}-${eventType}`, { bubbles: true, composed: true });
   }
 }
 
-type ButtonEventType = 'click'
+type ButtonEventType = 'click';
 
-type ButtonTypes = 'primary' | 'secondary' | 'transparent' | 'transparent-primary'
+type ButtonTypes =
+  | 'primary'
+  | 'secondary'
+  | 'transparent'
+  | 'transparent-primary';
 
 @customElement(BUTTON)
 export class Button extends LitElement {
@@ -70,10 +74,22 @@ export class Button extends LitElement {
       border-width: var(--sp-spacing-px);
       border-right-width: var(--sp-border-r-width, var(--sp-spacing-px));
       border-style: solid;
-      border-top-left-radius: var(--sp-button-l-radius, var(--sp-border-radius-medium));
-      border-bottom-left-radius: var(--sp-button-l-radius, var(--sp-border-radius-medium));
-      border-top-right-radius: var(--sp-button-r-radius, var(--sp-border-radius-medium));
-      border-bottom-right-radius: var(--sp-button-r-radius, var(--sp-border-radius-medium));
+      border-top-left-radius: var(
+        --sp-button-l-radius,
+        var(--sp-border-radius-medium)
+      );
+      border-bottom-left-radius: var(
+        --sp-button-l-radius,
+        var(--sp-border-radius-medium)
+      );
+      border-top-right-radius: var(
+        --sp-button-r-radius,
+        var(--sp-border-radius-medium)
+      );
+      border-bottom-right-radius: var(
+        --sp-button-r-radius,
+        var(--sp-border-radius-medium)
+      );
       vertical-align: top;
     }
 
@@ -181,60 +197,77 @@ export class Button extends LitElement {
       display: flex;
       gap: var(--sp-spacing-2);
     }
-  `
+  `;
 
   static properties = {
-    buttonType: { type: String, reflect: true, attribute: 'button-type', noAccessor: true },
+    buttonType: {
+      type: String,
+      reflect: true,
+      attribute: 'button-type',
+      noAccessor: true,
+    },
     leadingIcon: { type: String, reflect: true, attribute: 'leading-icon' },
     trailingIcon: { type: String, reflect: true, attribute: 'trailing-icon' },
     iconSize: { type: String, attribute: 'icon-size' },
     loading: { type: Boolean, reflect: true },
     compact: { type: Boolean, reflect: true },
-    disabled: { type: Boolean, reflect: true }
-  }
+    disabled: { type: Boolean, reflect: true },
+  };
 
-  buttonType: ButtonTypes = 'primary'
-  leadingIcon?: IconKey
-  trailingIcon?: IconKey
-  iconSize? = 18
-  loading = false
-  compact = false
-  disabled = false
+  buttonType: ButtonTypes = 'primary';
+  leadingIcon?: IconKey;
+  trailingIcon?: IconKey;
+  iconSize? = 18;
+  loading = false;
+  compact = false;
+  disabled = false;
 
   protected emit(eventType: ButtonEventType) {
-    this.dispatchEvent(new ButtonEvent(eventType))
+    this.dispatchEvent(new ButtonEvent(eventType));
   }
 
   render() {
     return html`
       <button
         @click=${() => {
-          if (!this.disabled) this.emit('click')
+          if (!this.disabled) this.emit('click');
         }}
         type="button"
         ?disabled=${this.disabled}
         class=${classMap({
           primary: this.buttonType === 'primary' && !this.disabled,
           secondary: this.buttonType === 'secondary' && !this.disabled,
-          transparent: this.buttonType === 'transparent' || this.buttonType === 'transparent-primary',
+          transparent:
+            this.buttonType === 'transparent' ||
+            this.buttonType === 'transparent-primary',
           transparentPrimary: this.buttonType === 'transparent-primary',
           compact: this.compact,
-          loading: this.loading
+          loading: this.loading,
         })}
       >
         <div class="contents">
           ${this.leadingIcon
-            ? html`<sp-icon class="pre-icon" size=${this.iconSize} icon="${this.leadingIcon}"></sp-icon>`
+            ? html`<sp-icon
+                class="pre-icon"
+                size=${this.iconSize}
+                icon="${this.leadingIcon}"
+              ></sp-icon>`
             : null}
           <slot></slot>
           ${this.trailingIcon
-            ? html`<sp-icon class="post-icon" size=${this.iconSize} icon="${this.trailingIcon}"></sp-icon>`
+            ? html`<sp-icon
+                class="post-icon"
+                size=${this.iconSize}
+                icon="${this.trailingIcon}"
+              ></sp-icon>`
             : null}
         </div>
 
-        ${this.loading ? html`<sp-loading-spinner size="18"></sp-loading-spinner>` : null}
+        ${this.loading
+          ? html`<sp-loading-spinner size="18"></sp-loading-spinner>`
+          : null}
       </button>
-    `
+    `;
   }
 }
 
@@ -258,14 +291,16 @@ export class ButtonGroup extends LitElement {
       --sp-button-r-radius: 0;
       --sp-border-r-width: 0;
     }
-  `
+  `;
 
   static properties = {
-    compact: { type: Boolean }
-  }
-  compact = false
+    compact: { type: Boolean },
+  };
+  compact = false;
 
   render() {
-    return html`<sp-row class=${classMap({ compact: this.compact })}><slot></slot></sp-row>`
+    return html`<sp-row class=${classMap({ compact: this.compact })}
+      ><slot></slot
+    ></sp-row>`;
   }
 }

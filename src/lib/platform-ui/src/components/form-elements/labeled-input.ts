@@ -1,30 +1,40 @@
-import { css, customElement, LitElement } from 'lit-element'
-import { html, TemplateResult } from 'lit-html'
-import { classMap } from 'lit-html/directives/class-map'
-import { makeScopedTagName } from '../../utils/lit-utils'
-import { InputBase, IInputBaseAttributes } from './input-base'
-import type { JSXProps } from '../../types'
-import './input-guide'
-import './input-error'
+import { css, customElement, LitElement } from 'lit-element';
+import { html, TemplateResult } from 'lit-html';
+import { classMap } from 'lit-html/directives/class-map.js';
+import { makeScopedTagName } from '../../utils/lit-utils';
+import { InputBase, IInputBaseAttributes } from './input-base';
+import type { JSXProps } from '../../types';
+import './input-guide';
+import './input-error';
 
-export const labeledInput = makeScopedTagName('labeled-input')
-export const inputLabel = makeScopedTagName('input-label')
+export const labeledInput = makeScopedTagName('labeled-input');
+export const inputLabel = makeScopedTagName('input-label');
 
 declare global {
   namespace JSX {
     interface IntrinsicElements {
-      [inputLabel]: JSXProps<InputLabel>
-      [labeledInput]: JSXProps<LabeledInput<unknown>, ILabeledInputAttributes<unknown>>
+      [inputLabel]: JSXProps<InputLabel>;
+      [labeledInput]: JSXProps<
+        LabeledInput<unknown>,
+        ILabeledInputAttributes<unknown>
+      >;
     }
   }
 
   interface HTMLElementTagNameMap {
-    [inputLabel]: InputLabel
-    [labeledInput]: LabeledInput<unknown>
+    [inputLabel]: InputLabel;
+    [labeledInput]: LabeledInput<unknown>;
   }
 }
 
-export type InputSizes = 'x-small' | 'small' | 'medium' | 'large' | 'x-large' | 'auto' | 'full'
+export type InputSizes =
+  | 'x-small'
+  | 'small'
+  | 'medium'
+  | 'large'
+  | 'x-large'
+  | 'auto'
+  | 'full';
 
 const inputSizes = css`
   .size-x-small {
@@ -50,7 +60,7 @@ const inputSizes = css`
   .size-full {
     width: 100%;
   }
-`
+`;
 
 const labelPositions = css`
   .container {
@@ -92,7 +102,7 @@ const labelPositions = css`
     margin-left: auto;
     white-space: nowrap;
   }
-`
+`;
 
 const guideStyles = css`
   .guide {
@@ -103,14 +113,14 @@ const guideStyles = css`
     margin-left: auto;
     white-space: nowrap;
   }
-`
+`;
 
-export type LabelPosition = 'side' | 'top'
+export type LabelPosition = 'side' | 'top';
 
 export interface ILabeledInputAttributes<T> extends IInputBaseAttributes<T> {
-  'label-position'?: LabelPosition
-  required?: boolean
-  size?: InputSizes
+  'label-position'?: LabelPosition;
+  required?: boolean;
+  size?: InputSizes;
 }
 
 /**
@@ -121,7 +131,7 @@ export interface ILabeledInputAttributes<T> extends IInputBaseAttributes<T> {
  */
 @customElement(labeledInput)
 export class LabeledInput<T> extends InputBase<T> {
-  static styles = [inputSizes, labelPositions, guideStyles]
+  static styles = [inputSizes, labelPositions, guideStyles];
 
   static properties = {
     ...InputBase.properties,
@@ -130,33 +140,39 @@ export class LabeledInput<T> extends InputBase<T> {
     size: { type: String, reflect: true },
     hasLabel: { state: true },
     hasPrompt: { state: true },
-    hasError: { state: true }
-  }
+    hasError: { state: true },
+  };
 
-  required = false
-  labelPosition: LabelPosition = 'top'
-  size: InputSizes = 'medium'
-  protected hasLabel = false
-  protected hasPrompt = false
-  protected hasError = false
+  required = false;
+  labelPosition: LabelPosition = 'top';
+  size: InputSizes = 'medium';
+  protected hasLabel = false;
+  protected hasPrompt = false;
+  protected hasError = false;
 
   handleLabelChange() {
-    const slotElement = this.shadowRoot?.querySelector('slot[name="label"]') as HTMLSlotElement
-    this.hasLabel = slotElement.assignedNodes().length > 0
+    const slotElement = this.shadowRoot?.querySelector(
+      'slot[name="label"]'
+    ) as HTMLSlotElement;
+    this.hasLabel = slotElement.assignedNodes().length > 0;
   }
 
   handlePromptChange() {
-    const slotElement = this.shadowRoot?.querySelector('slot[name="prompt"]') as HTMLSlotElement
-    this.hasPrompt = slotElement.assignedNodes().length > 0
+    const slotElement = this.shadowRoot?.querySelector(
+      'slot[name="prompt"]'
+    ) as HTMLSlotElement;
+    this.hasPrompt = slotElement.assignedNodes().length > 0;
   }
 
   handleErrorChange() {
-    const slotElement = this.shadowRoot?.querySelector('slot[name="error"]') as HTMLSlotElement
-    this.hasError = slotElement.assignedNodes().length > 0
+    const slotElement = this.shadowRoot?.querySelector(
+      'slot[name="error"]'
+    ) as HTMLSlotElement;
+    this.hasError = slotElement.assignedNodes().length > 0;
   }
 
   renderInput(): TemplateResult | null {
-    return html`<slot></slot>`
+    return html`<slot></slot>`;
   }
 
   /**
@@ -165,15 +181,15 @@ export class LabeledInput<T> extends InputBase<T> {
    * to create that structural layer if needed.
    */
   renderInputContainer() {
-    return this.renderInput()
+    return this.renderInput();
   }
 
   renderGuide(): TemplateResult | null {
-    return null
+    return null;
   }
 
   render() {
-    const sizeClass = `size-${this.size}`
+    const sizeClass = `size-${this.size}`;
 
     return html`
       ${this.labelPosition === 'side'
@@ -187,7 +203,7 @@ export class LabeledInput<T> extends InputBase<T> {
           no-gap
           class=${classMap({
             'has-label': this.hasLabel,
-            [sizeClass]: this.hasPrompt
+            [sizeClass]: this.hasPrompt,
           })}
         >
           <label slot="left" for=${this.id} class="field-label">
@@ -196,7 +212,9 @@ export class LabeledInput<T> extends InputBase<T> {
               ${this.required ? '*' : ''}
             </sp-input-label>
           </label>
-          ${this.labelPosition === 'top' ? html`<span slot="right"><slot name="prompt"></slot></span>` : ''}
+          ${this.labelPosition === 'top'
+            ? html`<span slot="right"><slot name="prompt"></slot></span>`
+            : ''}
         </sp-split-row>
 
         <div class=${sizeClass}>
@@ -205,18 +223,20 @@ export class LabeledInput<T> extends InputBase<T> {
           <div
             class=${classMap({
               guide: true,
-              'has-error': this.hasError
+              'has-error': this.hasError,
             })}
           >
             <sp-input-error>
               <slot @slotchange=${this.handleErrorChange} name="error"></slot>
             </sp-input-error>
 
-            ${this.renderGuide() ? html`<div class="guide-right">${this.renderGuide()}</div>` : null}
+            ${this.renderGuide()
+              ? html`<div class="guide-right">${this.renderGuide()}</div>`
+              : null}
           </div>
         </div>
       </div>
-    `
+    `;
   }
 }
 
@@ -228,9 +248,9 @@ export class InputLabel extends LitElement {
       color: var(--sp-color-label-text);
       line-height: var(-sp-line-height);
     }
-  `
+  `;
 
   render() {
-    return html`<slot></slot>`
+    return html`<slot></slot>`;
   }
 }

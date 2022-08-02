@@ -1,37 +1,38 @@
-import { html, customElement } from 'lit-element'
-import moment from 'moment'
-import { makeScopedTagName } from '../../utils/lit-utils'
-import { InputSelect, IInputSelectAttributes } from './input-select'
-import { InputSelectOption, MENU_ITEM, MenuItem } from './input-select-base'
-import type { JSXProps } from '../../types'
+import { html, customElement } from 'lit-element';
+import { makeScopedTagName } from '../../utils/lit-utils';
+import { InputSelect, IInputSelectAttributes } from './input-select';
+import { InputSelectOption, MENU_ITEM, MenuItem } from './input-select-base';
+import type { JSXProps } from '../../types';
 
-export const INPUT_TIME = makeScopedTagName('input-time')
+export const INPUT_TIME = makeScopedTagName('input-time');
 
-export const TIME_FORMAT = 'h:mma'
+export const TIME_REGEX_LOOSE =
+  /^([1-9]|1[0-9]|2[0-3]):([0-5])([0-9])?(am?|pm?)?$/;
+export const TIME_REGEX_24H = /^(1[3-9]|2[0-3]).*/;
+export const TIME_REGEX_12H = /^(\d\d?)(am?|pm?)/;
 
-export const TIME_REGEX_LOOSE = /^([1-9]|1[0-9]|2[0-3]):([0-5])([0-9])?(am?|pm?)?$/
-export const TIME_REGEX_24H = /^(1[3-9]|2[0-3]).*/
-export const TIME_REGEX_12H = /^(\d\d?)(am?|pm?)/
+export type InputSelectQueryHandler = (
+  query: string,
+  item: MenuItem
+) => boolean;
 
-export type InputSelectQueryHandler = (query: string, item: MenuItem) => boolean
-
-export type TimeSuffix = 'UTC' | 'AEST'
+export type TimeSuffix = 'UTC' | 'AEST';
 
 export interface IInputTimeAttributes extends IInputSelectAttributes {
-  increment?: number
-  suffix?: TimeSuffix
-  'is-freeform'?: boolean
+  increment?: number;
+  suffix?: TimeSuffix;
+  'is-freeform'?: boolean;
 }
 
 declare global {
   namespace JSX {
     interface IntrinsicElements {
-      [INPUT_TIME]: JSXProps<InputTime, IInputTimeAttributes>
+      [INPUT_TIME]: JSXProps<InputTime, IInputTimeAttributes>;
     }
   }
 
   interface HTMLElementTagNameMap {
-    [INPUT_TIME]: InputTime
+    [INPUT_TIME]: InputTime;
   }
 }
 
@@ -43,8 +44,8 @@ declare global {
  */
 const timeOption = (time: string, suffix?: TimeSuffix): InputSelectOption => ({
   label: `${time}${suffix ? ` (${suffix})` : ''}`,
-  value: time
-})
+  value: time,
+});
 
 /**
  * Constructs an array of options objects to populate a select input with time
@@ -53,20 +54,14 @@ const timeOption = (time: string, suffix?: TimeSuffix): InputSelectOption => ({
  * @param increment Minutes between each option
  * @param suffix Optional timezone suffix to be appended to labels
  */
-const buildTimeOptions = (increment: number, suffix?: TimeSuffix): InputSelectOption[] => {
-  const minutesInDay = 24 * 60
-  const optionsCount = Math.ceil(minutesInDay / increment)
-  const baseTime = moment().startOf('day')
+const buildTimeOptions = (
+  increment: number,
+  suffix?: TimeSuffix
+): InputSelectOption[] => {
+  const minutesInDay = 24 * 60;
 
-  return Array(optionsCount)
-    .fill(null)
-    .map((_, index) => {
-      const incrementalTime = index > 0 ? baseTime.add(increment, 'minutes') : baseTime
-      const time = incrementalTime.format(TIME_FORMAT)
-
-      return timeOption(time, suffix)
-    })
-}
+  return [];
+};
 
 /**
  * Validates a query string against a loose time format. Builds a list of valid
@@ -76,20 +71,22 @@ const buildTimeOptions = (increment: number, suffix?: TimeSuffix): InputSelectOp
  * @param suffix Optional time suffix to append to labels
  */
 const buildFreeformTimeOptions = (query: string, suffix?: TimeSuffix) => {
-  const trimmedQuery = query.trim()
-  const matchLooseTime = query.match(TIME_REGEX_LOOSE)
+  const trimmedQuery = query.trim();
+  const matchLooseTime = query.match(TIME_REGEX_LOOSE);
 
-  if (!trimmedQuery || !matchLooseTime) return []
+  if (!trimmedQuery || !matchLooseTime) return [];
 
-  const [, hours, tensOfMinutes, singleMinutes] = matchLooseTime
+  const [, hours, tensOfMinutes, singleMinutes] = matchLooseTime;
 
-  const numHours = parseInt(hours, 10)
-  const formattedHours = numHours > 12 ? `${numHours - 12}` : `${numHours}`
-  const formattedMinutes = `${tensOfMinutes}${singleMinutes || 0}`
-  const formattedTime = `${formattedHours}:${formattedMinutes}`
+  const numHours = parseInt(hours, 10);
+  const formattedHours = numHours > 12 ? `${numHours - 12}` : `${numHours}`;
+  const formattedMinutes = `${tensOfMinutes}${singleMinutes || 0}`;
+  const formattedTime = `${formattedHours}:${formattedMinutes}`;
 
-  return ['am', 'pm'].map(amPm => timeOption(`${formattedTime}${amPm}`, suffix))
-}
+  return ['am', 'pm'].map(amPm =>
+    timeOption(`${formattedTime}${amPm}`, suffix)
+  );
+};
 
 /**
  * Validates a menu item against a query string matching a loose 24-hour time
@@ -100,18 +97,18 @@ const buildFreeformTimeOptions = (query: string, suffix?: TimeSuffix) => {
  * '2015' -> '8:15pm'
  */
 const is24HourTimeQuery: InputSelectQueryHandler = (query, { value }) => {
-  const match24HourTime = query.match(TIME_REGEX_24H)
+  const match24HourTime = query.match(TIME_REGEX_24H);
 
-  if (!match24HourTime) return false
+  if (!match24HourTime) return false;
 
-  const [, hours] = match24HourTime
+  const [, hours] = match24HourTime;
 
-  const formattedHours = `${parseInt(hours, 10) - 12}`
-  const formattedMinutes = query.substring(hours.length).replace(':', '')
-  const formattedTime = `${formattedHours}:${formattedMinutes}`
+  const formattedHours = `${parseInt(hours, 10) - 12}`;
+  const formattedMinutes = query.substring(hours.length).replace(':', '');
+  const formattedTime = `${formattedHours}:${formattedMinutes}`;
 
-  return !!(value?.startsWith(formattedTime) && value?.endsWith('pm'))
-}
+  return !!(value?.startsWith(formattedTime) && value?.endsWith('pm'));
+};
 
 /**
  * Validates a menu item against a query string matching a loose 12-hour time
@@ -121,21 +118,21 @@ const is24HourTimeQuery: InputSelectQueryHandler = (query, { value }) => {
  * '10am', '1pm'
  */
 const isShortTimeQuery: InputSelectQueryHandler = (query, { value }) => {
-  const matchShortTime = query.match(TIME_REGEX_12H)
+  const matchShortTime = query.match(TIME_REGEX_12H);
 
-  if (!matchShortTime) return false
+  if (!matchShortTime) return false;
 
-  const [, hour, amPm] = matchShortTime
+  const [, hour, amPm] = matchShortTime;
 
-  return !!value?.replace(':00', '').startsWith(`${hour}${amPm}`)
-}
+  return !!value?.replace(':00', '').startsWith(`${hour}${amPm}`);
+};
 
 /**
  * Runs a series of custom time queries
  */
 const isValidTimeQuery: InputSelectQueryHandler = (...args) => {
-  return isShortTimeQuery(...args) || is24HourTimeQuery(...args)
-}
+  return isShortTimeQuery(...args) || is24HourTimeQuery(...args);
+};
 
 /**
  * InputTime is a convenient time-based preset of InputSelect.
@@ -159,38 +156,38 @@ export class InputTime extends InputSelect {
     suffix: { type: String, reflect: true },
     mode: { type: String, reflect: true },
     isFreeform: { type: Boolean, attribute: 'is-freeform', reflect: true },
-    freeformOptions: { type: Array, state: true }
-  }
+    freeformOptions: { type: Array, state: true },
+  };
 
-  increment = 15
-  suffix?: TimeSuffix
-  isFreeform = false
-  placeholder = 'Select time'
-  trailingIcon = 'time'
-  options: InputSelectOption[] = []
-  private freeformOptions: InputSelectOption[] = []
+  increment = 15;
+  suffix?: TimeSuffix;
+  isFreeform = false;
+  placeholder = 'Select time';
+  trailingIcon = 'time';
+  options: InputSelectOption[] = [];
+  private freeformOptions: InputSelectOption[] = [];
 
   /**
    * Builds time presets and assigns to the options on mount
    */
   connectedCallback() {
-    super.connectedCallback()
-    this.options = buildTimeOptions(this.increment, this.suffix)
+    super.connectedCallback();
+    this.options = buildTimeOptions(this.increment, this.suffix);
   }
 
   /**
    * Empties the freeform options state
    */
   resetFreeformOptions() {
-    this.freeformOptions = []
+    this.freeformOptions = [];
   }
 
   /**
    * Resets freeform options when the dropdown is closed
    */
   handleCloseDropdown() {
-    super.handleCloseDropdown()
-    this.resetFreeformOptions()
+    super.handleCloseDropdown();
+    this.resetFreeformOptions();
   }
 
   /**
@@ -198,14 +195,16 @@ export class InputTime extends InputSelect {
    * component is data-driven so does not use slotted content.
    */
   getItems() {
-    return Array.from(this.shadowRoot?.querySelectorAll(MENU_ITEM) || []) as MenuItem[]
+    return Array.from(
+      this.shadowRoot?.querySelectorAll(MENU_ITEM) || []
+    ) as MenuItem[];
   }
 
   /**
    * Applies custom query logic to handle fuzzy time formatting.
    */
   protected isCustomQueryMatch(item: MenuItem): boolean {
-    return this.query ? isValidTimeQuery(this.query, item) : false
+    return this.query ? isValidTimeQuery(this.query, item) : false;
   }
 
   /**
@@ -214,11 +213,14 @@ export class InputTime extends InputSelect {
    * query value, and toggles the state based on that result.
    */
   private handleNoResults() {
-    if (this.hasQueryResults) return null
-    if (!this.isFreeform) return this.renderNoResultsMessage()
+    if (this.hasQueryResults) return null;
+    if (!this.isFreeform) return this.renderNoResultsMessage();
 
-    this.freeformOptions = buildFreeformTimeOptions(this.query as string, this.suffix)
-    this.hasResults = !!this.freeformOptions.length
+    this.freeformOptions = buildFreeformTimeOptions(
+      this.query as string,
+      this.suffix
+    );
+    this.hasResults = !!this.freeformOptions.length;
   }
 
   /**
@@ -226,10 +228,10 @@ export class InputTime extends InputSelect {
    * freeform query doesn't evaluate to a valid time.
    */
   private renderFreeformOptions() {
-    if (!this.isFreeform) return null
-    if (!this.hasQueryResults) return this.renderNoResultsMessage()
+    if (!this.isFreeform) return null;
+    if (!this.hasQueryResults) return this.renderNoResultsMessage();
 
-    return this.renderOptionsData(this.freeformOptions)
+    return this.renderOptionsData(this.freeformOptions);
   }
 
   /**
@@ -237,6 +239,9 @@ export class InputTime extends InputSelect {
    * if the feature is enabled.
    */
   protected renderDropdownContent() {
-    return html` ${this.handleNoResults()} ${this.renderOptionsData()} ${this.renderFreeformOptions()} `
+    return html`
+      ${this.handleNoResults()} ${this.renderOptionsData()}
+      ${this.renderFreeformOptions()}
+    `;
   }
 }

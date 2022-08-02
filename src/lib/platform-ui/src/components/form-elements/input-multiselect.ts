@@ -1,35 +1,49 @@
-import { html, customElement, css } from 'lit-element'
-import { ifDefined } from 'lit-html/directives/if-defined'
-import { makeScopedTagName } from '../../utils/lit-utils'
-import { IInputSelectBaseAttributes, InputSelectBase, InputSelectOption, MenuItem } from './input-select-base'
-import type { JSXProps } from '../../types'
-import type { BaseInputChangeEventPayload, InputChangeEvent } from './input-base'
-import type { InputSizes } from './labeled-input'
+import { html, customElement, css } from 'lit-element';
+import { ifDefined } from 'lit-html/directives/if-defined.js';
+import { makeScopedTagName } from '../../utils/lit-utils';
+import {
+  IInputSelectBaseAttributes,
+  InputSelectBase,
+  InputSelectOption,
+  MenuItem,
+} from './input-select-base';
+import type { JSXProps } from '../../types';
+import type {
+  BaseInputChangeEventPayload,
+  InputChangeEvent,
+} from './input-base';
+import type { InputSizes } from './labeled-input';
 
-const inputMultiselect = makeScopedTagName('input-multiselect')
+const inputMultiselect = makeScopedTagName('input-multiselect');
 
-export type MultiSelectChangeEvent = InputChangeEvent<BaseInputChangeEventPayload<ValueType>>
+export type MultiSelectChangeEvent = InputChangeEvent<
+  BaseInputChangeEventPayload<ValueType>
+>;
 
 declare global {
   namespace JSX {
     interface IntrinsicElements {
-      [inputMultiselect]: JSXProps<InputMultiselect, IInputMultiSelectAttributes>
+      [inputMultiselect]: JSXProps<
+        InputMultiselect,
+        IInputMultiSelectAttributes
+      >;
     }
   }
 
   interface HTMLElementTagNameMap {
-    [inputMultiselect]: InputMultiselect
+    [inputMultiselect]: InputMultiselect;
   }
 }
 
-interface IInputMultiSelectAttributes extends IInputSelectBaseAttributes<ValueType> {
-  size?: InputSizes
-  canSearch?: boolean
+interface IInputMultiSelectAttributes
+  extends IInputSelectBaseAttributes<ValueType> {
+  size?: InputSizes;
+  canSearch?: boolean;
 }
 
-type ValueType = unknown[]
+type ValueType = unknown[];
 
-const SELECT_ALL_ID = 'selectAll'
+const SELECT_ALL_ID = 'selectAll';
 
 /**
  * Multi Select input component
@@ -96,8 +110,8 @@ export class InputMultiselect extends InputSelectBase<ValueType> {
         padding: var(--sp-spacing-1);
         color: var(--input-placeholder-font-color);
       }
-    `
-  ]
+    `,
+  ];
 
   static properties = {
     ...InputSelectBase.properties,
@@ -107,38 +121,38 @@ export class InputMultiselect extends InputSelectBase<ValueType> {
 
     query: { type: String, state: true },
     selectedIndex: { type: Number, state: true },
-    hasResults: { type: Boolean, state: true }
-  }
+    hasResults: { type: Boolean, state: true },
+  };
 
-  canSearch?: boolean
-  size: InputSizes = 'x-large'
-  protected query? = ''
-  protected hasResults = false
-  valueLabels: { label: string; value: ValueType }[] = []
-  options?: InputSelectOption[]
+  canSearch?: boolean;
+  size: InputSizes = 'x-large';
+  protected query? = '';
+  protected hasResults = false;
+  valueLabels: { label: string; value: ValueType }[] = [];
+  options?: InputSelectOption[];
 
   connectedCallback() {
-    super.connectedCallback()
+    super.connectedCallback();
     this.keyBindings['Backspace'] = e => {
-      if (!e.target?.value && !this.readonly) this.removeLastValue()
-    }
+      if (!e.target?.value && !this.readonly) this.removeLastValue();
+    };
 
     this.keyBindings['Enter'] = () => {
       if (!this.isDropdownOpen()) {
-        this.openDropdown()
-        return
+        this.openDropdown();
+        return;
       }
 
-      const thisItem = this.getItems()[this.selectedIndex]
+      const thisItem = this.getItems()[this.selectedIndex];
 
       if (thisItem.id === SELECT_ALL_ID) {
-        this.toggleAllSelected()
-        return
+        this.toggleAllSelected();
+        return;
       }
 
-      if (thisItem && !thisItem.disabled) this.toggleSelection(thisItem.value)
-      if (thisItem && thisItem.disabled) return
-    }
+      if (thisItem && !thisItem.disabled) this.toggleSelection(thisItem.value);
+      if (thisItem && thisItem.disabled) return;
+    };
   }
 
   /**
@@ -147,13 +161,18 @@ export class InputMultiselect extends InputSelectBase<ValueType> {
   private get allSelected(): boolean {
     const { enabled, toggled } = this.getItems().reduce(
       (accumulator, current) => ({
-        enabled: !current.disabled && current.id !== SELECT_ALL_ID ? accumulator.enabled + 1 : accumulator.enabled,
-        toggled: current.toggled ? accumulator.toggled + 1 : accumulator.toggled
+        enabled:
+          !current.disabled && current.id !== SELECT_ALL_ID
+            ? accumulator.enabled + 1
+            : accumulator.enabled,
+        toggled: current.toggled
+          ? accumulator.toggled + 1
+          : accumulator.toggled,
       }),
       { enabled: 0, toggled: 0 }
-    )
+    );
 
-    return enabled === toggled
+    return enabled === toggled;
   }
 
   /**
@@ -161,10 +180,13 @@ export class InputMultiselect extends InputSelectBase<ValueType> {
    */
   dispatchChange() {
     this.dispatchEvent(
-      new CustomEvent<BaseInputChangeEventPayload<ValueType>>('sp-input-change', {
-        detail: { value: [...(this.value || [])] }
-      })
-    )
+      new CustomEvent<BaseInputChangeEventPayload<ValueType>>(
+        'sp-input-change',
+        {
+          detail: { value: [...(this.value || [])] },
+        }
+      )
+    );
   }
 
   /**
@@ -173,10 +195,10 @@ export class InputMultiselect extends InputSelectBase<ValueType> {
    */
   protected handleCloseDropdown() {
     window.setTimeout(() => {
-      this.clearKeySelectedItem()
-      this.resetSearch()
-      this.selectedIndex = -1
-    }, 200) // 200ms so that the search change results don't flicker
+      this.clearKeySelectedItem();
+      this.resetSearch();
+      this.selectedIndex = -1;
+    }, 200); // 200ms so that the search change results don't flicker
   }
 
   /**
@@ -184,46 +206,46 @@ export class InputMultiselect extends InputSelectBase<ValueType> {
    * Value label is synchronised with the new value and the search is reset to the value label
    */
   protected handleValueChange() {
-    this.syncValueLabels()
+    this.syncValueLabels();
   }
 
   /**
    * Handles clicking a value in the dropdown
    */
   protected handleSelect(event: CustomEvent) {
-    const target = event.target as MenuItem
+    const target = event.target as MenuItem;
 
     if (target.id === SELECT_ALL_ID) {
-      this.toggleAllSelected()
-      return
+      this.toggleAllSelected();
+      return;
     }
 
-    this.toggleSelection(event.detail.item.value)
+    this.toggleSelection(event.detail.item.value);
   }
 
   toggleAllSelected() {
-    const value: ValueType = []
+    const value: ValueType = [];
 
     if (!this.allSelected) {
       this.getItems().forEach(item => {
-        if (!item.disabled && item.id !== SELECT_ALL_ID) value.push(item.value)
-      })
+        if (!item.disabled && item.id !== SELECT_ALL_ID) value.push(item.value);
+      });
     }
 
-    this.setValue(value)
+    this.setValue(value);
   }
 
   /**
    * Adds/removes the value from the value array
    */
   toggleSelection(value: unknown) {
-    const payload = this.value ? [...this.value] : []
+    const payload = this.value ? [...this.value] : [];
 
-    const index = payload.indexOf(value)
-    if (index > -1) payload.splice(index, 1)
-    if (index === -1) payload.push(value)
+    const index = payload.indexOf(value);
+    if (index > -1) payload.splice(index, 1);
+    if (index === -1) payload.push(value);
 
-    this.setValue(payload)
+    this.setValue(payload);
   }
 
   /**
@@ -231,26 +253,30 @@ export class InputMultiselect extends InputSelectBase<ValueType> {
    * This needs to run on every render to ensure the elements have the correct status
    */
   private applyToggleStatusToChildren() {
-    let toggleCount = 0
+    let toggleCount = 0;
 
     this.getItems().forEach(item => {
-      item.toggleable = true
-      const isToggled = this.value && this.value.includes(item.value)
-      if (isToggled) toggleCount += 1
-      item.toggled = isToggled
-    })
+      item.toggleable = true;
+      const isToggled = this.value && this.value.includes(item.value);
+      if (isToggled) toggleCount += 1;
+      item.toggled = isToggled;
+    });
   }
 
   private onQueryChange({ target }: { target: HTMLInputElement }) {
-    if (!this.isDropdownOpen()) this.openDropdown()
-    this.query = target?.value
+    if (!this.isDropdownOpen()) this.openDropdown();
+    this.query = target?.value;
   }
 
   protected renderReferenceElement() {
-    this.applyToggleStatusToChildren()
-    this.search()
+    this.applyToggleStatusToChildren();
+    this.search();
 
-    return html` <div class="wrapper" @keydown="${this.handleKeydown}" tabindex="0">
+    return html` <div
+      class="wrapper"
+      @keydown="${this.handleKeydown}"
+      tabindex="0"
+    >
       ${!this.canSearch && this.valueLabels.length === 0
         ? html`<div class="placeholder">${this.placeholder}</div>`
         : undefined}
@@ -261,7 +287,7 @@ export class InputMultiselect extends InputSelectBase<ValueType> {
             color="neutral"
             theme="subtle"
             @sp-lozenge-delete="${() => {
-              if (!this.readonly) this.toggleSelection(value)
+              if (!this.readonly) this.toggleSelection(value);
             }}"
             can-delete
             >${label}</sp-lozenge
@@ -275,48 +301,53 @@ export class InputMultiselect extends InputSelectBase<ValueType> {
             class="search-area"
           />`
         : null}
-    </div>`
+    </div>`;
   }
 
   protected renderDropdownContent() {
     return html`
       ${!this.hasQueryResults ? this.renderNoResultsMessage() : null}
-      <sp-menu-item id="${SELECT_ALL_ID}" toggleable ?toggled="${this.allSelected}">Select All</sp-menu-item>
+      <sp-menu-item
+        id="${SELECT_ALL_ID}"
+        toggleable
+        ?toggled="${this.allSelected}"
+        >Select All</sp-menu-item
+      >
       ${this.options?.length ? this.renderOptionsData() : html`<slot></slot>`}
-    `
+    `;
   }
 
   removeLastValue() {
-    this.value?.pop()
-    this.handleValueChange()
+    this.value?.pop();
+    this.handleValueChange();
   }
 
   /**
    * Clears the search query
    **/
   resetSearch() {
-    this.query = ''
+    this.query = '';
   }
 
   /**
    * Marks anything that's text value doesn't match the search query as hidden
    */
   protected search() {
-    this.hasResults = false
-    const lowerQuery = this.query?.toLowerCase()
+    this.hasResults = false;
+    const lowerQuery = this.query?.toLowerCase();
 
     this.getItems().forEach(item => {
       // If no query display all items
       if (!lowerQuery) {
-        item.hidden = false
-        this.hasResults = true
-        return
+        item.hidden = false;
+        this.hasResults = true;
+        return;
       }
 
-      const found = this.isQueryMatch(item)
-      if (found) this.hasResults = true
-      item.hidden = !found
-    })
+      const found = this.isQueryMatch(item);
+      if (found) this.hasResults = true;
+      item.hidden = !found;
+    });
   }
 
   /**
@@ -325,25 +356,25 @@ export class InputMultiselect extends InputSelectBase<ValueType> {
   getItems() {
     return [
       this.shadowRoot?.querySelector(`sp-menu-item#${SELECT_ALL_ID}`) || [],
-      ...super.getItems()
-    ] as MenuItem<ValueType>[]
+      ...super.getItems(),
+    ] as MenuItem<ValueType>[];
   }
 
   /**
    * Synchronises the lozenges with the selected items
    */
   private syncValueLabels() {
-    const items = this.getItems()
+    const items = this.getItems();
 
     this.valueLabels = this.value
       ? this.value.map(value => {
           return {
             label: this.getItemLabel(items.find(item => item.value === value)),
-            value: value as ValueType
-          }
+            value: value as ValueType,
+          };
         })
-      : []
+      : [];
 
-    this.render()
+    this.render();
   }
 }

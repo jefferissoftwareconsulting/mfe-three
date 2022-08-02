@@ -1,28 +1,31 @@
-import { html, customElement, css } from 'lit-element'
-import { ifDefined } from 'lit-html/directives/if-defined'
-import { JSXProps } from '../../types'
-import { BaseInputChangeEventPayload, InputChangeEvent } from './input-base'
-import { IInputTextBaseAttributes, InputTextBase } from './input-text-base'
-import { InputSizes } from './labeled-input'
+import { html, customElement, css } from 'lit-element';
+import { ifDefined } from 'lit-html/directives/if-defined.js';
+import { JSXProps } from '../../types';
+import { BaseInputChangeEventPayload, InputChangeEvent } from './input-base';
+import { IInputTextBaseAttributes, InputTextBase } from './input-text-base';
+import { InputSizes } from './labeled-input';
 
-export type NumberChangeEvent = InputChangeEvent<BaseInputChangeEventPayload<string>>
+export type NumberChangeEvent = InputChangeEvent<
+  BaseInputChangeEventPayload<string>
+>;
 declare global {
   namespace JSX {
     interface IntrinsicElements {
-      'sp-input-number': JSXProps<InputNumber, IInputNumberAttributes>
+      'sp-input-number': JSXProps<InputNumber, IInputNumberAttributes>;
     }
   }
 
   interface HTMLElementTagNameMap {
-    'sp-input-number': InputNumber
+    'sp-input-number': InputNumber;
   }
 }
 
-interface IInputNumberAttributes extends IInputTextBaseAttributes<number | string> {
-  'has-no-stepper'?: boolean
-  step?: number
-  min?: number
-  max?: number
+interface IInputNumberAttributes
+  extends IInputTextBaseAttributes<number | string> {
+  'has-no-stepper'?: boolean;
+  step?: number;
+  min?: number;
+  max?: number;
 }
 
 const removeStepper = css`
@@ -37,10 +40,10 @@ const removeStepper = css`
   input[type='number'] {
     -moz-appearance: textfield;
   }
-`
+`;
 
 // Add to this array if we want to exclude more chars e.g. `-`, `+`
-const excludedCharacters = ['e']
+const excludedCharacters = ['e'];
 
 /**
  * Returns true when a supplied text character exists within a list of excluded
@@ -48,7 +51,8 @@ const excludedCharacters = ['e']
  *
  * @param character A single character within a string
  */
-const isExcludedCharacter = (character: string) => excludedCharacters.includes(character.toLowerCase())
+const isExcludedCharacter = (character: string) =>
+  excludedCharacters.includes(character.toLowerCase());
 
 /**
  * Returns true when a supplied text string contains one or more of the excluded
@@ -57,31 +61,33 @@ const isExcludedCharacter = (character: string) => excludedCharacters.includes(c
  * @param text A string to search for excluded characters within
  */
 const hasExcludedCharacter = (text: string) =>
-  !!excludedCharacters.find(character => text.toLowerCase().includes(character))
+  !!excludedCharacters.find(character =>
+    text.toLowerCase().includes(character)
+  );
 
 /**
  * Blocks keyboard entry of characters we don't support for number fields. Bind
  * to keydown event to stop it before reaching input/change events.
  */
 const handleInputOfExcludedCharacters = (event: KeyboardEvent) => {
-  if (isExcludedCharacter(event.key)) event.preventDefault()
-}
+  if (isExcludedCharacter(event.key)) event.preventDefault();
+};
 
 /**
  * Blocks pasting of characters we don't support for number fields. Bind to the
  * paste event to stop it before reaching input/change events.
  */
 const handlePasteOfExcludedCharacters = (event: ClipboardEvent) => {
-  const { clipboardData } = event || window
-  const pasted = clipboardData?.getData('text')?.toLowerCase()
+  const { clipboardData } = event || window;
+  const pasted = clipboardData?.getData('text')?.toLowerCase();
 
-  if (!pasted) return
+  if (!pasted) return;
 
   if (isExcludedCharacter(pasted) || hasExcludedCharacter(pasted)) {
-    event.stopPropagation()
-    event.preventDefault()
+    event.stopPropagation();
+    event.preventDefault();
   }
-}
+};
 
 @customElement('sp-input-number')
 export class InputNumber extends InputTextBase<string> {
@@ -128,8 +134,8 @@ export class InputNumber extends InputTextBase<string> {
         cursor: unset;
         background-color: var(--sp-color-neutral-250);
       }
-    `
-  ]
+    `,
+  ];
 
   static properties = {
     ...InputTextBase.properties,
@@ -137,38 +143,38 @@ export class InputNumber extends InputTextBase<string> {
     step: { type: Number, reflect: true },
     min: { type: Number, reflect: true },
     max: { type: Number, reflect: true },
-    hasNoStepper: { type: Boolean, reflect: true, attribute: 'has-no-stepper' }
-  }
+    hasNoStepper: { type: Boolean, reflect: true, attribute: 'has-no-stepper' },
+  };
 
-  hasNoStepper = false
-  min?: number
-  max?: number
-  size: InputSizes = 'medium'
-  step = '1'
+  hasNoStepper = false;
+  min?: number;
+  max?: number;
+  size: InputSizes = 'medium';
+  step = '1';
 
   getInput() {
-    return this.shadowRoot?.querySelector(`input`)
+    return this.shadowRoot?.querySelector(`input`);
   }
 
   private handleIncrease() {
-    const input = this.getInput()
-    input?.stepUp()
-    this.handleSteppedChange(input?.value ?? '')
+    const input = this.getInput();
+    input?.stepUp();
+    this.handleSteppedChange(input?.value ?? '');
   }
 
   private handleDecrease() {
-    const input = this.getInput()
-    input?.stepDown()
-    this.handleSteppedChange(input?.value ?? '')
+    const input = this.getInput();
+    input?.stepDown();
+    this.handleSteppedChange(input?.value ?? '');
   }
 
   private handleSteppedChange(newValue: string) {
-    this.value = newValue
-    this.dispatchChange()
+    this.value = newValue;
+    this.dispatchChange();
   }
 
   private get stepperLayout() {
-    if (this.hasNoStepper) return null
+    if (this.hasNoStepper) return null;
 
     return html`
       <div class="stepper-container">
@@ -191,7 +197,7 @@ export class InputNumber extends InputTextBase<string> {
           <sp-icon size="10" icon="plus"></sp-icon>
         </button>
       </div>
-    `
+    `;
   }
 
   renderInput() {
@@ -213,6 +219,6 @@ export class InputNumber extends InputTextBase<string> {
       />
 
       ${this.stepperLayout}
-    </div>`
+    </div>`;
   }
 }

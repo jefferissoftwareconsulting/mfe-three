@@ -1,38 +1,38 @@
-import { html, css, customElement, TemplateResult } from 'lit-element'
-import { ifDefined } from 'lit-html/directives/if-defined'
-import { JSXProps } from '../../types'
-import { IInputBaseAttributes, InputBase } from './input-base'
+import { html, css, customElement, TemplateResult } from 'lit-element';
+import { ifDefined } from 'lit-html/directives/if-defined.js';
+import { JSXProps } from '../../types';
+import { IInputBaseAttributes, InputBase } from './input-base';
 
-export type CheckboxChangeEvent = CustomEvent<CheckboxChangeEventPayload>
+export type CheckboxChangeEvent = CustomEvent<CheckboxChangeEventPayload>;
 
 declare global {
   namespace JSX {
     interface IntrinsicElements {
-      'sp-input-checkbox': JSXProps<InputCheckbox, IInputCheckboxAttributes>
+      'sp-input-checkbox': JSXProps<InputCheckbox, IInputCheckboxAttributes>;
     }
   }
 
   interface HTMLElementTagNameMap {
-    'sp-input-checkbox': InputCheckbox
+    'sp-input-checkbox': InputCheckbox;
   }
 }
 
 interface CheckboxChangeEventPayload {
-  checked: boolean
-  indeterminate: boolean
+  checked: boolean;
+  indeterminate: boolean;
 }
 
 interface IInputCheckboxAttributes extends IInputBaseAttributes {
-  checked?: boolean
-  disabled?: boolean
-  indeterminate?: boolean
+  checked?: boolean;
+  disabled?: boolean;
+  indeterminate?: boolean;
 }
 
 const CHECKBOX_STATES = {
   Checked: 'Checked',
   Indeterminate: 'Indeterminate',
-  Empty: 'Empty'
-}
+  Empty: 'Empty',
+};
 
 @customElement('sp-input-checkbox')
 export class InputCheckbox extends InputBase<string> {
@@ -84,84 +84,84 @@ export class InputCheckbox extends InputBase<string> {
         position: absolute;
         left: 0;
       }
-    `
-  ]
+    `,
+  ];
 
   static properties = {
     ...InputBase.properties,
     value: { type: String },
     checked: { type: Boolean, reflect: true },
     disabled: { type: Boolean, reflect: true },
-    indeterminate: { type: Boolean, reflect: true }
-  }
+    indeterminate: { type: Boolean, reflect: true },
+  };
 
-  checked = false
-  disabled = false
-  indeterminate = false
+  checked = false;
+  disabled = false;
+  indeterminate = false;
 
-  private checkboxState = CHECKBOX_STATES.Empty
-  private inputElement: HTMLInputElement | null = null
+  private checkboxState = CHECKBOX_STATES.Empty;
+  private inputElement: HTMLInputElement | null = null;
 
   updateProxyInput() {
-    super.updateProxyInput()
-    if (!this.proxyInput) return
+    super.updateProxyInput();
+    if (!this.proxyInput) return;
 
     if (this.checked) {
-      this.proxyInput.setAttribute('checked', '')
-      this.proxyInput.value = this.value || ''
+      this.proxyInput.setAttribute('checked', '');
+      this.proxyInput.value = this.value || '';
     } else {
-      this.proxyInput.value = ''
+      this.proxyInput.value = '';
     }
   }
 
   handleKeyPress(e: KeyboardEvent) {
-    if (e.key === ' ') this.onInput()
+    if (e.key === ' ') this.onInput();
   }
 
   onInput() {
-    if (this.readonly || this.disabled) return
+    if (this.readonly || this.disabled) return;
 
     switch (this.checkboxState) {
       case CHECKBOX_STATES.Checked:
-        this.checked = false
-        break
+        this.checked = false;
+        break;
 
       case CHECKBOX_STATES.Empty:
-        this.checked = true
-        break
+        this.checked = true;
+        break;
 
       case CHECKBOX_STATES.Indeterminate:
-        this.checked = true
-        this.indeterminate = false
-        if (this.inputElement) this.inputElement.indeterminate = false
-        break
+        this.checked = true;
+        this.indeterminate = false;
+        if (this.inputElement) this.inputElement.indeterminate = false;
+        break;
     }
 
     this.dispatchEvent(
       new CustomEvent<CheckboxChangeEventPayload>('sp-input-change', {
-        detail: { checked: this.checked, indeterminate: this.indeterminate }
+        detail: { checked: this.checked, indeterminate: this.indeterminate },
       })
-    )
+    );
   }
 
   getIcon(): TemplateResult | undefined {
     switch (this.checkboxState) {
       case CHECKBOX_STATES.Checked:
-        return html`<sp-icon icon="checkBoxTick" size="16"></sp-icon>`
+        return html`<sp-icon icon="checkBoxTick" size="16"></sp-icon>`;
 
       case CHECKBOX_STATES.Indeterminate:
-        return html`<sp-icon icon="zoomOut" size="16"></sp-icon>`
+        return html`<sp-icon icon="zoomOut" size="16"></sp-icon>`;
 
       case CHECKBOX_STATES.Empty:
-        return undefined
+        return undefined;
     }
   }
 
   firstUpdated() {
-    this.inputElement = this.renderRoot.querySelector('input')
+    this.inputElement = this.renderRoot.querySelector('input');
 
     if (this.indeterminate && this.inputElement) {
-      this.inputElement.indeterminate = true
+      this.inputElement.indeterminate = true;
     }
   }
 
@@ -170,10 +170,14 @@ export class InputCheckbox extends InputBase<string> {
       ? CHECKBOX_STATES.Checked
       : this.indeterminate
       ? CHECKBOX_STATES.Indeterminate
-      : CHECKBOX_STATES.Empty
+      : CHECKBOX_STATES.Empty;
 
     return html` <label>
-      <div class="checkbox" tabindex=${this.disabled ? '-1' : '0'} @keypress=${this.handleKeyPress}>
+      <div
+        class="checkbox"
+        tabindex=${this.disabled ? '-1' : '0'}
+        @keypress=${this.handleKeyPress}
+      >
         ${this.getIcon()}
       </div>
 
@@ -189,6 +193,6 @@ export class InputCheckbox extends InputBase<string> {
       />
 
       <slot></slot>
-    </label>`
+    </label>`;
   }
 }

@@ -1,49 +1,49 @@
-import { css, customElement, html, LitElement } from 'lit-element'
-import { classMap } from 'lit-html/directives/class-map'
-import { makeScopedTagName } from '../utils/lit-utils'
-import type { JSXProps } from '../types'
-import type { IconKey } from './icon'
+import { css, customElement, html, LitElement } from 'lit-element';
+import { classMap } from 'lit-html/directives/class-map.js';
+import { makeScopedTagName } from '../utils/lit-utils';
+import type { JSXProps } from '../types';
+import type { IconKey } from './icon';
 
-export const avatar = makeScopedTagName('avatar')
-export const avatarGroup = makeScopedTagName('avatar-group')
+export const avatar = makeScopedTagName('avatar');
+export const avatarGroup = makeScopedTagName('avatar-group');
 
 enum AvatarSize {
   tiny,
   small,
   medium,
-  large
+  large,
 }
 
 enum AvatarTheme {
   solid,
   subtle,
-  border
+  border,
 }
 
-type Size = keyof typeof AvatarSize
-type Theme = keyof typeof AvatarTheme
+type Size = keyof typeof AvatarSize;
+type Theme = keyof typeof AvatarTheme;
 
 interface AvatarProps {
-  'is-placeholder-hidden'?: boolean
-  'has-outer-border'?: boolean
-  icon?: IconKey
-  'image-src'?: string
-  label: string
-  size?: Size
-  theme?: Theme
+  'is-placeholder-hidden'?: boolean;
+  'has-outer-border'?: boolean;
+  icon?: IconKey;
+  'image-src'?: string;
+  label: string;
+  size?: Size;
+  theme?: Theme;
 }
 
 declare global {
   namespace JSX {
     interface IntrinsicElements {
-      [avatar]: JSXProps<Avatar, AvatarProps>
-      [avatarGroup]: JSXProps<AvatarGroup>
+      [avatar]: JSXProps<Avatar, AvatarProps>;
+      [avatarGroup]: JSXProps<AvatarGroup>;
     }
   }
 
   interface HTMLElementTagNameMap {
-    [avatar]: Avatar
-    [avatarGroup]: AvatarGroup
+    [avatar]: Avatar;
+    [avatarGroup]: AvatarGroup;
   }
 }
 
@@ -164,34 +164,44 @@ export class Avatar extends LitElement {
     .hidden {
       display: none;
     }
-  `
+  `;
 
   static properties = {
-    hasOuterBorder: { type: Boolean, attribute: 'has-outer-border', reflect: true },
+    hasOuterBorder: {
+      type: Boolean,
+      attribute: 'has-outer-border',
+      reflect: true,
+    },
     icon: { type: String, attribute: 'icon', reflect: true },
     imageSrc: { type: String, attribute: 'image-src', reflect: true },
-    isPlaceholderHidden: { type: Boolean, attribute: 'is-placeholder-hidden', reflect: true },
+    isPlaceholderHidden: {
+      type: Boolean,
+      attribute: 'is-placeholder-hidden',
+      reflect: true,
+    },
     label: { type: String, attribute: 'label', reflect: true },
     size: { type: String, attribute: 'size', reflect: true },
     theme: { type: String, attribute: 'theme', reflect: true },
-    slottedElementsCount: { type: Number, state: true }
-  }
+    slottedElementsCount: { type: Number, state: true },
+  };
 
-  hasOuterBorder = false
-  icon?: IconKey
-  imageSrc?: string
-  isPlaceholderHidden = false
-  label = ''
-  size: Size = 'medium'
-  theme: Theme = 'solid'
-  private slottedElementsCount = 0
+  hasOuterBorder = false;
+  icon?: IconKey;
+  imageSrc?: string;
+  isPlaceholderHidden = false;
+  label = '';
+  size: Size = 'medium';
+  theme: Theme = 'solid';
+  private slottedElementsCount = 0;
 
   /**
    * Sets the count of slotted elements on slot change
    */
   private handleSlotChange({ target }: Event) {
-    const children = (target as HTMLSlotElement)?.assignedElements({ flatten: true })
-    this.slottedElementsCount = children.length
+    const children = (target as HTMLSlotElement)?.assignedElements({
+      flatten: true,
+    });
+    this.slottedElementsCount = children.length;
   }
 
   /**
@@ -200,53 +210,55 @@ export class Avatar extends LitElement {
    * medium and above, otherwise only the first word is used.
    */
   private get abbreviatedLabel() {
-    if (!this.label || this.isPlaceholderHidden) return ''
+    if (!this.label || this.isPlaceholderHidden) return '';
 
-    const sizeEnum = AvatarSize[this.size]
-    const maxLength = sizeEnum < AvatarSize.medium ? 1 : 2
+    const sizeEnum = AvatarSize[this.size];
+    const maxLength = sizeEnum < AvatarSize.medium ? 1 : 2;
 
     return this.label
       .split(' ')
       .slice(0, maxLength)
       .map(segment => segment.charAt(0))
       .join('')
-      .toUpperCase()
+      .toUpperCase();
   }
 
   private get iconTemplate() {
-    const sizeEnum = AvatarSize[this.size]
+    const sizeEnum = AvatarSize[this.size];
 
     const iconSize = () => {
       switch (sizeEnum) {
         case AvatarSize.large:
-          return 20
+          return 20;
 
         case AvatarSize.medium:
         case AvatarSize.small:
-          return 10
+          return 10;
 
         case AvatarSize.tiny:
-          return 6.5
+          return 6.5;
       }
-    }
+    };
 
     return html`
       <span class="icon" aria-label=${this.label}>
         <sp-icon size=${iconSize()} icon=${this.icon}></sp-icon>
       </span>
-    `
+    `;
   }
 
   private get textTemplate() {
     return html`
       <span aria-label=${this.label}>
-        ${this.slottedElementsCount ? `+${this.slottedElementsCount}` : this.abbreviatedLabel}
+        ${this.slottedElementsCount
+          ? `+${this.slottedElementsCount}`
+          : this.abbreviatedLabel}
       </span>
-    `
+    `;
   }
 
   private get imageTemplate() {
-    return html`<img src=${this.imageSrc} alt=${this.label} />`
+    return html`<img src=${this.imageSrc} alt=${this.label} />`;
   }
 
   private get slotTemplate() {
@@ -254,32 +266,36 @@ export class Avatar extends LitElement {
       <div
         class=${classMap({
           overflow: true,
-          hidden: true // TODO: Update to !this.slottedElementsCount - ENG-20071 https://skedulo.atlassian.net/browse/ENG-20071
+          hidden: true, // TODO: Update to !this.slottedElementsCount - ENG-20071 https://skedulo.atlassian.net/browse/ENG-20071
         })}
       >
         <slot @slotchange=${this.handleSlotChange} />
       </div>
-    `
+    `;
   }
 
   private get avatarTemplate() {
     switch (true) {
       case !!this.imageSrc:
-        return this.imageTemplate
+        return this.imageTemplate;
 
       case !!this.icon:
-        return this.iconTemplate
+        return this.iconTemplate;
 
       default:
-        return this.textTemplate
+        return this.textTemplate;
     }
   }
 
   render() {
     return html`
-      <div class="wrapper"><sp-tooltip is-fixed content=${this.label}>${this.avatarTemplate}</sp-tooltip></div>
+      <div class="wrapper">
+        <sp-tooltip is-fixed content=${this.label}
+          >${this.avatarTemplate}</sp-tooltip
+        >
+      </div>
       ${this.slotTemplate}
-    `
+    `;
   }
 }
 
@@ -294,9 +310,9 @@ export class AvatarGroup extends LitElement {
     ::slotted(sp-avatar:not(:first-child)) {
       margin-left: -0.6em;
     }
-  `
+  `;
 
   render() {
-    return html`<slot />`
+    return html`<slot />`;
   }
 }
