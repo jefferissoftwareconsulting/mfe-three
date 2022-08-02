@@ -9,7 +9,8 @@
     "install": "npm-run-all -p install:be install:fe",
     "start:be": "cd backend; npm start",
     "start:fe": "cd frontend; npm start",
-    "start": "npm-run-all -p start:be start:fe"
+    "start": "npm-run-all -p start:be start:fe",
+    "build": "cd frontend && npm run build"
   },
   "repository": {
     "type": "git",
