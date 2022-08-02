@@ -2,7 +2,6 @@ import { html, css, LitElement } from 'lit';
 import { property } from 'lit/decorators.js';
 import eventBus from './lib/event-bus.js';
 import config from './config.js';
-import '../src/lib/platform-ui/src/index.js';
 
 interface Settings {
   bgColor?: string;
