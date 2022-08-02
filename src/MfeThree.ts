@@ -73,22 +73,25 @@ export class MfeThree extends LitElement {
   }
 
   __saveSettings() {
-    const updatedSettings = {
-      ...this.settings,
-      bgColor: this.settingsFieldBgColor,
-    };
+    if (this.settingsFieldBgColor) {
+      const updatedSettings = {
+        ...this.settings,
+        bgColor: this.settingsFieldBgColor,
+      };
 
-    fetch(config.settingsUrl, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(updatedSettings),
-    })
-      .then(res => res.json())
-      .then(settings => {
-        this.settings = settings;
-      });
+      fetch(config.settingsUrl, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(updatedSettings),
+      })
+        .then(res => res.json())
+        .then(settings => {
+          this.settings = settings;
+        });
+    }
+
     this.settingsMode = false;
   }
 
@@ -118,6 +121,7 @@ export class MfeThree extends LitElement {
           type="text"
           @input="${this.__setBgColor}"
         ></sp-input-text>
+        <small>Current: ${this.settings.bgColor}</small>
       </div>
       <p>
         <sp-button type="primary" @click=${this.__saveSettings}>Done</sp-button>
