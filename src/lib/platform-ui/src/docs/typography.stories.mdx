@@ -1,0 +1,113 @@
+import { html } from 'lit-html'
+import { Meta, Story, Canvas } from '@storybook/addon-docs/blocks'
+import '../components/heading'
+import '../layout/flex'
+
+<Meta title="Styling/Typography" />
+
+# Typography
+
+## Headings
+
+The `sp-heading` should be used for headings with a `size` property set to `3xl`, `2xl`, `xl`, `lg`, `base`, or `sm`.
+The `level` property can optionally be set to 1-6 to choose which of the h1-h6 tags are used.
+Note: no padding or margin is included on this component so that it can be used in as many places as possible.
+
+<Canvas>
+  <Story name="Heading 3xl">${html`<sp-heading size="3xl">Heading 3xl</sp-heading>`}</Story>
+  <Story name="Heading 2xl">${html`<sp-heading size="2xl">Heading 2xl</sp-heading>`}</Story>
+  <Story name="Heading xl">${html`<sp-heading size="xl">Heading xl</sp-heading>`}</Story>
+  <Story name="Heading lg">${html`<sp-heading size=lgl">Heading lg</sp-heading>`}</Story>
+  <Story name="Heading base">${html`<sp-heading size="base">Heading base</sp-heading>`}</Story>
+  <Story name="Heading sm">${html`<sp-heading size="sm">Heading sm</sp-heading>`}</Story>
+  <Story name="Heading sm level 2">${html`<sp-heading size="sm" level="2">Heading sm level 2</sp-heading>`}</Story>
+</Canvas>
+
+## Body sizes
+
+Body text size is set using CSS variables. Actual sizes are provided here to help translate from designs.
+
+| Size        | CSS Variables                               | Actual size |
+| :---------- | :------------------------------------------ | :---------- |
+| Default     | `--sp-font-size` / `--sp-line-height`       | 14px / 20px |
+| Small       | `--sp-font-size-sm` / `--sp-line-height-sm` | 13px / 16px |
+| Extra Small | `--sp-font-size-xs` / `--sp-line-height-xs` | 12px / 15px |
+
+<Canvas>
+  <Story name="Body sizes">
+    $
+    {html`
+      <div
+        style="font-size: var(--sp-font-size); line-height: var(--sp-line-height); margin-bottom: var(--sp-spacing-4);"
+      >
+        <sp-heading style="margin-bottom: var(--sp-spacing-2)" size="base">Body default</sp-heading>
+        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore
+        magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+        consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+        pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est
+        laborum.
+      </div>
+      <div style="font-size: var(--sp-font-size-sm); line-height: var(--sp-line-height-sm);">
+        <sp-heading style="margin-bottom: var(--sp-spacing-2)" size="base">Body small</sp-heading>
+        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore
+        magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+        consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+        pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est
+        laborum.
+      </div>
+    `}
+  </Story>
+</Canvas>
+
+## Font weights
+
+Font weights are set using CSS variables. Actual weights are provided here to help translate from designs.
+
+| Weight    | CSS Variable                | Actual weight |
+| :-------- | :-------------------------- | :------------ |
+| Bold      | `--sp-font-weight-bold`     | 700           |
+| Semi-bold | `--sp-font-weight-semibold` | 600           |
+| Medium    | `--sp-font-weight-medium`   | 500           |
+| Normal    | `--sp-font-weight-normal`   | 400           |
+
+<Canvas>
+  <Story name="Font weights">
+    $
+    {html`
+      <div style="font-weight: var(--sp-font-weight-bold); margin-bottom: var(--sp-spacing-4);">bold</div>
+      <div style="font-weight: var(--sp-font-weight-semibold); margin-bottom: var(--sp-spacing-4);">semibold</div>
+      <div style="font-weight: var(--sp-font-weight-medium); margin-bottom: var(--sp-spacing-4);">medium</div>
+      <div style="font-weight: var(--sp-font-weight-normal);">normal</div>
+    `}
+  </Story>
+</Canvas>
+
+## Type color
+
+Type color is generally defined using the following CSS variables. Actual colors are provided here to help translate from designs.
+
+<Canvas>
+  <Story name="Type color">
+    $
+    {html`
+      <sp-row>
+        <sp-row style="color: var(--sp-color-text);">
+          <div style="background-color: var(--sp-color-text); width: 40px; height: 40px; border-radius: 20px;"></div>
+          <div>Default<br />(Neutral-850, <code>#223049</code>)</div>
+        </sp-row>
+        <sp-row style="color: var(--sp-color-text-light);">
+          <div
+            style="background-color: var(--sp-color-text-light); width: 40px; height: 40px; border-radius: 20px;"
+          ></div>
+          <div>Light<br />(Neutral-700, <code>#5e687a</code>)</div>
+        </sp-row>
+        <sp-row style="color: var(--sp-color-text-placeholder);">
+          <div
+            style="background-color: var(--sp-color-text-placeholder); width: 40px; height: 40px; border-radius: 20px;"
+          ></div>
+          <div>Placeholder<br />(Neutral-600, <code>#7a8291</code>)</div>
+        </sp-row>
+      </sp-row>
+    `}
+  </Story>
+</Canvas>

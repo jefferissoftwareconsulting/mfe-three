@@ -1,0 +1,40 @@
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+    "rootDir": ".",
+    "sourceMap": true,
+    "declaration": false,
+    "moduleResolution": "node",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "importHelpers": true,
+    "target": "es2015",
+    "module": "esnext",
+    "lib": ["es2020", "dom"],
+    "skipLibCheck": true,
+    "skipDefaultLibCheck": true,
+    "baseUrl": ".",
+    "paths": {
+      "@skedulo/platform-adapter": ["libs/platform-adapter/src/index.ts"],
+      "@skedulo/platform-core": ["libs/platform-core/src/index.ts"],
+      "@skedulo/platform-dev": ["libs/platform-dev/src/index.ts"],
+      "@skedulo/platform-errors": ["libs/platform-errors/src/index.ts"],
+      "@skedulo/platform-listview": ["libs/platform-listview/src/index.ts"],
+      "@skedulo/platform-nav": ["libs/platform-nav/src/index.ts"],
+      "@skedulo/platform-react": ["libs/platform-react/src/index.ts"],
+      "@skedulo/platform-react-webcomponents": ["libs/platform-react-webcomponents/src/index.ts"],
+      "@skedulo/platform-recordpage": ["libs/platform-recordpage/src/index.ts"],
+      "@skedulo/platform-ui": ["libs/platform-ui/src/index.ts"],
+      "@skedulo/platform-ui-react": ["libs/platform-ui-react/src/index.ts"],
+      "@skedulo/platform-web-core": ["libs/platform-web-core/src/index.ts"],
+      "@skedulo/platform-web-ui": ["libs/platform-web-ui/src/index.ts"],
+      "@skedulo/platform-webcomponents": ["libs/platform-webcomponents/src/index.ts"],
+      "@skedulo/skedulo-permissions": ["libs/skedulo-permissions/src/index.ts"],
+      "@skedulo/skedulo-record-access-policies": ["libs/skedulo-record-access-policies/src/index.ts"],
+      "@skedulo/skedulo-teams": ["libs/skedulo-teams/src/index.ts"],
+      "@skedulo/skedulo-web-extension": ["libs/skedulo-web-extension/src/index.ts"]
+    },
+    "strict": true
+  },
+  "exclude": ["node_modules", "tmp"]
+}

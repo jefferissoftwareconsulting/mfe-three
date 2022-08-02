@@ -1,0 +1,78 @@
+import { html } from 'lit-html'
+import { Meta, Story, Canvas, Source } from '@storybook/addon-docs'
+import dedent from "ts-dedent"
+import { tooltip } from './tooltip';
+
+<Meta title="Components/Tooltip" component={tooltip} />
+
+# Tooltips
+The Tooltip component `<sp-tooltip>` is used to provide more context for actions, or show full content which may have been truncated on the reference element.
+
+Tooltips are convenience wrappers of the [Popover](./?path=/docs/components-popover--trigger-hover-focus-default) utility component, and as such it shares many of the same options. Unlike Popovers, Tooltips *do* apply styling to their content since they are designed around a specific purpose.
+
+## Content
+Tooltips are typically used for short-form string content. They should not be interactive and cannot contain rich formatting or HTML. If that's something you need, use a [Popover](./?path=/docs/components-popover--trigger-hover-focus-default) instead.
+
+Set Tooltip content using the `content` prop. There is no character limit, but bulky tooltips are considered to be an anti-pattern. Tooltips do have a maximum width, so content length will expand the width up to its maximum before wrapping onto a new line.
+
+<Canvas>
+  <Story name="Short content">
+    ${html`
+      <sp-tooltip content="Tooltip content" is-fixed>
+        <sp-button>Short content</sp-button>
+      </sp-tooltip>
+    `}
+  </Story>
+  <Story name="Long content">
+    ${html`
+      <sp-tooltip content="Very long tooltip content will expand the container to a maximum width before wrapping onto a new line" is-fixed>
+        <sp-button>Long content</sp-button>
+      </sp-tooltip>
+    `}
+  </Story>
+</Canvas>
+
+## Theme
+Tooltips have a `dark` or `light` theme which can be set with the `theme` prop. Defaults to `dark`.
+
+<Canvas>
+  <Story name="Theme: Dark">
+    ${html`
+      <sp-tooltip content="Tooltip content" is-fixed>
+        <sp-button>Dark</sp-button>
+      </sp-tooltip>
+    `}
+  </Story>
+  <Story name="Theme: Light">
+    ${html`
+      <sp-tooltip content="Tooltip content" theme="light" is-fixed>
+        <sp-button>Light</sp-button>
+      </sp-tooltip>
+    `}
+  </Story>
+</Canvas>
+
+## Popover Options
+Not all Popover options are available for Tooltips. The following options are available and documented:
+- [`delay-on-close`](./?path=/docs/components-popover--delay-open#delay) - Defaults to `100`
+- [`delay-on-open`](./?path=/docs/components-popover--delay-open#delay) - Defaults to `100`
+- [`is-fixed`](./?path=/docs/components-popover--fixed-position#positioning-strategy)  - Defaults to `false`
+- [`placement`](./?path=/docs/components-popover--placement#placement) - Defaults to `top`
+- [`trigger`](./?path=/docs/components-popover--trigger-hover-focus-default#trigger-events) - Defaults to `hover focus`
+
+## React
+To consume the `Tooltip` in a React app, simply import it from the `@skedulo/platform-ui-react` package and use it as you would a normal React component.
+All properties are mapped to camelCase.
+
+<Source
+  code={dedent`
+    import { Tooltip } from '@skedulo/platform-ui-react'
+    <Tooltip content="Tooltip content" isFixed>
+      <Button>Reference element</Button>
+    </Tooltip>
+  `}
+/>
+
+## Roadmap
+- Support light formatting, or allow full HTML with guidance to avoid interactive content?
+- Different or additional animation options, e.g. scaling

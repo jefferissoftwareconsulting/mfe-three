@@ -1,0 +1,27 @@
+import { html } from 'lit-html'
+import { Meta, Story, Canvas, ArgsTable } from '@storybook/addon-docs/blocks'
+import './responsive-columns'
+
+<Meta title="Layout/Responsive Columns" component="sp-responsive-columns" />
+
+# Responsive Columns
+
+Component that lays out children as columns until the `x-small` breakpoint (`60rem`) when the columns are stacked. Padding can be configured with the `--sp-padding` CSS variable.
+
+<Canvas>
+  <Story name="Responsive Columns">
+    $
+    {html`
+      <sp-responsive-columns style="background-color: var(--sp-color-neutral-300)">
+        <div style="padding: var(--sp-spacing-4); background-color: var(--sp-color-purple-300)">Column 1</div>
+        <div style="padding: var(--sp-spacing-4); background-color: var(--sp-color-green-300)">Column 2</div>
+      </sp-responsive-columns>
+    `}
+  </Story>
+</Canvas>
+
+# Roadmap
+
+- Responsive based on component size, not the window size
+- Different responsive levels depending on the number of columns
+- Find a way to use a variable for the break point - it's currently hard coded to `60rem`

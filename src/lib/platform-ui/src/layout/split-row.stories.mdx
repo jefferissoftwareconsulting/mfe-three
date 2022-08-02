@@ -1,0 +1,65 @@
+import { html } from 'lit-html'
+import { Meta, Story, Canvas, ArgsTable } from '@storybook/addon-docs/blocks'
+import './split-row'
+import '../components/buttons'
+import '../components/heading'
+
+<Meta title="Layout/Split Row and Action Bar" component="sp-split-row" />
+
+# Split Row and Action Bar
+
+## Split Row
+
+`sp-split-row` provides `left` and `right` slots with space between. The `vertical-align` property works in the same way as `sp-row`. `left-expand` and `right-expand` properties can be used to expand the left or right slots to fill remaining space. Gap, by default is set to the gap of `sp-row` elements, gap can be collapsed via the `no-gap` attribute.
+
+<Canvas>
+  <Story name="Split Row">
+    $
+    {html`
+      <sp-split-row style="background-color: #ffcccc;">
+        <div slot="left" style="background-color: #ccccff;">Left!</div>
+        <div slot="right" style="background-color: #ccccff;">Right!</div>
+      </sp-split-row>
+    `}
+  </Story>
+</Canvas>
+
+the `sp-split-row` can expand to fill all vertical space via the `expand-y` attribute.
+
+<Canvas>
+  <Story name="Split Row: Expand y">
+    $
+    {html`
+      <div style="width: 300px; height: 300px;">
+      <sp-split-row style="background-color: #ffcccc;" expand-y>
+        <div slot="left" style="background-color: #ccccff;">Left!</div>
+        <div slot="right" style="background-color: #ccccff;">Right!</div>
+      </sp-split-row>
+      </div>
+    `}
+  </Story>
+</Canvas>
+
+
+
+## Action Bar
+
+`sp-action-bar` provides `left` and `right` slots and the appropriate border and padding for an action bar. The `no-border` property removes the border (e.g. if you have an element below that has a border). `left-expand` and `right-expand` properties can be used to expand the left or right slots to fill remaining space.
+
+<Canvas>
+  <Story name="Action Bar">
+    $
+    {html`
+      <sp-action-bar>
+        <sp-heading slot="left" size="sm">Action bar title</sp-heading>
+        <div slot="right">
+          <sp-button-group>
+            <sp-button button-type="secondary">One</sp-button>
+            <sp-button button-type="secondary">Two</sp-button>
+            <sp-button button-type="primary">Action</sp-button>
+          </sp-button-group>
+        </div>
+      </sp-action-bar>
+    `}
+  </Story>
+</Canvas>

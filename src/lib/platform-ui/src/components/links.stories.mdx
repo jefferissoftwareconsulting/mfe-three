@@ -1,0 +1,64 @@
+import { html } from 'lit-html'
+import { Meta, Story, Canvas } from '@storybook/addon-docs/blocks'
+import { dedent } from 'ts-dedent'
+
+import './links'
+
+<Meta title="Components/Links" />
+
+# Links
+
+Links (anchors) can be rendered with the `sp-link` component. Links support standard anchor attributes `href`, `target`, `rel`.
+
+## Types
+
+There are two types of links, `primary` and `secondary`. Changed via the `link-type` property.
+
+<Canvas>
+  <Story name="Primary">${html`<sp-link href="#"> Primary Link</sp-link>`}</Story>
+  <Story name="Secondary">${html`<sp-link href="#" link-type="secondary"> Secondary Link</sp-link>`}</Story>
+</Canvas>
+
+## External
+
+External links can be set by adding the `is-external` property.
+
+<Canvas>
+  <Story name="External">
+    $
+    {html`<sp-link href="https://developer.skedulo.com/" link-type="secondary" is-external
+      >Skedulo help centre</sp-link
+    >`}
+  </Story>
+</Canvas>
+
+## Virtual Links
+
+Links can be virtual, virtual links will prevent the default nav behaviour on click and allow the event to propogate up to an on click callback, allowing custom handling of a click event. This is commonly used when you need to offset link behaviour to an external framework.
+
+<Canvas>
+  <Story name="Virtual Link">${html`<sp-link href="https://www.skeudlo.com" virtual> Virtual Link</sp-link>`}</Story>
+</Canvas>
+
+## Link Buttons
+
+Sometimes you want something that looks like a link, but has the semantics of a button. For this you can use a `sp-link-button` component. The link button supports the two `link-types` but does not support any of the other link props.
+
+<Canvas>
+  <Story name="Link Button">${html`<sp-link-button> Primary Link</sp-link-button>`}</Story>
+</Canvas>
+
+## React
+
+To consume the `Link`/`LinkButton` components in a React app, import it from the `@skedulo/platform-ui-react` package and use it as you would a normal react component.
+All hyphenated properties will be mapped to camel case i.e. `link-type` -> `linkType`.
+
+```tsx
+import { Link, LinkButton } from '@skedulo/platform-ui-react'
+
+<Link link-type="primary | secondary" href="https://skedulo.com" rel="some rel" target="_blank">
+  Link!
+</Link>
+
+<LinkButton link-type="primary | secondary">Link!</LinkButton>
+```

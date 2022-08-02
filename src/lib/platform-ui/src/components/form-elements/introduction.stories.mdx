@@ -1,0 +1,33 @@
+<Meta title="Form Elements/Introduction" />
+
+# Form Elements
+
+All of our form controls are implemented with the shadow DOM. This gives us some great benefits like style and scope encapsulation. But it does make some native form functionality difficult to achieve.
+
+## Serialization
+
+The shadow DOM isolates the scope of anything below each new shadow root. This means that it's not possible to auto serialize form data via a `form` element. We workaround this by rendering a hidden input field outside of the shadow root for each form control. This makes the data accessible to the browser. The hidden form field will be updated automatically whenever the input is re-rendered, this means it will always be up to date with the latest `value`/`name`. This workaround means that you can use a `form` element and it will be able to understand the values on a submit handler or via implicit submission.
+
+## Labels
+
+Another design decision we made was to package the `label` inside of the form elements. The problem above also applies to the `for`/`id` relationship between fields and labels. Including the label within the form element allows for correct label input association, as we can add it without a new shadow root. To reduce duplication we have a common class that inputs can extend from to apply labelling `LabeledInput`. All of the fields that support the label slot, also support alternate label positioning with the `label-position` attribute (`top`/`side`).
+
+```html
+<sp-input-x name="forename" value="">
+  <slot name="label">Forename</slot>
+</sp-input-x>
+```
+
+## Errors
+
+Errors can be rendered via the `error` slot, or as a standalone component, depending on your requirements. Error styling on the field is achieved via the `invalid` attribute.
+
+```html
+<sp-input-x name="forename" value="" invalid>
+  <slot name="error">Please enter a forename</slot>
+</sp-input-x>
+```
+
+## Events
+
+All inputs emit a `sp-input-change` event, when the fields value changes.

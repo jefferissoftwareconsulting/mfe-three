@@ -1,0 +1,136 @@
+import { html } from 'lit-html'
+import dedent from 'ts-dedent'
+import { Meta, Story, Canvas, Source } from '@storybook/addon-docs/blocks'
+
+import './input-textarea'
+import './input-error'
+
+<Meta title="Form Elements/Input Textarea" component="sp-input-textarea" />
+
+# Input Textarea
+
+Use `sp-input-textarea` for collecting long form text content. Value is set via the `value` attribute. Placeholder, via the `placeholder` attribute, readonly via the `readonly`attribute.
+
+<Canvas>
+  <Story name="Populated">${html`<sp-input-textarea value="Populated"></sp-input-textarea>`}</Story>
+  <Story name="Placeholder">${html`<sp-input-textarea placeholder="Placeholder"></sp-input-textarea>`}</Story>
+  <Story name="Invalid">${html`<sp-input-textarea value="Error" invalid></sp-input-textarea>`}</Story>
+  <Story name="Readonly Empty (Disabled)">
+    ${html`<sp-input-textarea placeholder="Empty read only (disabled)" readonly></sp-input-textarea>`}
+  </Story>
+  <Story name="Readonly With Value (Locked)">
+    ${html`<sp-input-textarea value="Read only with value (locked)" readonly></sp-input-textarea>`}
+  </Story>
+</Canvas>
+
+## Labels
+
+Labels are added via the `label` slot. Labels can be positioned above, or to the side using the `label-position` (`top`, `side`) attribute.
+
+<Canvas>
+  <Story width="100%" name="WithLabel">
+    $
+    {html`
+      <sp-input-textarea name="label">
+        <span slot="label">Label</span>
+      </sp-input-textarea>
+    `}
+  </Story>
+</Canvas>
+
+<Canvas>
+  <Story name="WithSideLabel">
+    $
+    {html`
+      <sp-input-textarea name="label" label-position="side">
+        <span slot="label">Label</span>
+      </sp-input-textarea>
+    `}
+  </Story>
+</Canvas>
+
+## Prompt
+A prompt can be added via the `prompt` slot.
+<Canvas>
+  <Story name="Prompt">
+    ${html`
+    <sp-input-textarea mode="nunjucks" placeholder="I am a placeholder!">
+      <span slot="label">With a prompt</span>
+      <span slot="prompt"><sp-link>Prompt</sp-link></span>
+    </sp-input-textarea>`}
+  </Story>
+  <Story name="Prompt Side Label">
+    ${html`
+    <sp-input-textarea mode="nunjucks" placeholder="I am a placeholder!" label-position="side">
+      <span slot="label">I have a prompt</span>
+      <span slot="prompt">prompt</span>
+    </sp-input-textarea>`}
+  </Story>
+</Canvas>
+
+
+## Errors
+
+Error state is achieved with the `invalid` attribute and the `error` slot.
+
+<Canvas>
+  <Story name="WithError">
+    $
+    {html`
+      <sp-input-textarea invalid>
+        <span slot="error">Enter a valid value</span>
+      </sp-input-textarea>
+    `}
+  </Story>
+</Canvas>
+
+## Hidden Labels
+
+For when there is no label element, but the field still needs to be labeled for assistive technology
+
+<Canvas>
+  <Story name="hidden label">
+    ${html`<sp-input-textarea hidden-label="sneaky label" placeholder="x-large"></sp-input-textarea>`}
+  </Story>
+</Canvas>
+
+## Max Length
+
+<Canvas>
+  <Story name="Max Length">
+    ${html`<sp-input-textarea maxlength="10" placeholder="restricted to 10 chars"></sp-input-textarea>`}
+  </Story>
+  <Story name="Max Length and Error">
+    $
+    {html`<sp-input-textarea invalid value="iam10chars" maxlength="10" placeholder="restricted to 10 chars">
+        <span slot="error">Enter a valid value</slot>
+      </sp-input-textarea>`}
+  </Story>
+</Canvas>
+
+## React
+
+To consume the `InputTextarea` component in a React app, import it from the `@skedulo/platform-ui-react` package and use it as you would a normal react component. Kebab cased properties will be mapped to camelcase. The `label` slot is reached via the `label` prop, and the `error` slot is reached via the `error` prop.
+
+<Source
+  language="tsx"
+  code={dedent`
+import { InputTextarea } from '@skedulo/platform-ui-react'
+<InputTextarea
+  name="longTextField"
+  value="lorem ipsum..."
+  onChange={event => {}}
+  readonly iconPosition="left"
+  placeholder="placeholder"
+  invalid
+  error="enter something valid"
+  maxlength={100}
+  label="Field Label"
+/>
+`}
+/>
+
+# Roadmap
+
+- expand vertically to match content
+- scroll when >2000 chars

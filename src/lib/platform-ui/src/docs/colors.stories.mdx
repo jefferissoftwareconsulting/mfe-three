@@ -1,0 +1,328 @@
+import { html } from 'lit-html'
+import { Meta, Story, Canvas, ColorPalette, ColorItem } from '@storybook/addon-docs/blocks'
+
+import './colors.stories'
+
+<Meta title="Styling/Colors" />
+
+# Colors
+
+Design system colors are made available via css custom properties. They are all namespaced under `--sp-color-...`. The suffixed number i.e. `-900` represents the shade, higher being darker. To use reference `var(--sp-color...)` in the css of your element.
+
+If a given color doesn't match your brand palette it can be overriden by redefining the css custom property on the `sp-global-styles` element.
+
+```css
+sp-global-styles {
+  --sp-color-primary-600: #ffcc00;
+}
+```
+
+## Primary
+
+Primary colors are used to convey a primary state or action.
+
+<Canvas>
+  <Story name="Primary">
+    $
+    {html`
+      <sp-sb-color-swatch-group>
+        <sp-sb-color-swatch colorVar="--sp-color-primary-900" light-text></sp-sb-color-swatch>
+        <sp-sb-color-swatch colorVar="--sp-color-primary-800" light-text></sp-sb-color-swatch>
+        <sp-sb-color-swatch colorVar="--sp-color-primary-700" light-text></sp-sb-color-swatch>
+        <sp-sb-color-swatch colorVar="--sp-color-primary-600" light-text></sp-sb-color-swatch>
+        <sp-sb-color-swatch colorVar="--sp-color-primary-500" light-text></sp-sb-color-swatch>
+        <sp-sb-color-swatch colorVar="--sp-color-primary-400"></sp-sb-color-swatch>
+        <sp-sb-color-swatch colorVar="--sp-color-primary-300"></sp-sb-color-swatch>
+        <sp-sb-color-swatch colorVar="--sp-color-primary-200"></sp-sb-color-swatch>
+        <sp-sb-color-swatch colorVar="--sp-color-primary-100"></sp-sb-color-swatch>
+      </sp-sb-color-swatch-group>
+    `}
+  </Story>
+</Canvas>
+
+## Neutrals
+
+<Canvas>
+  <Story name="Neutrals">
+    $
+    {html`
+      <sp-sb-color-swatch-group>
+        <sp-sb-color-swatch colorVar="--sp-color-neutral-900" light-text></sp-sb-color-swatch>
+        <sp-sb-color-swatch colorVar="--sp-color-neutral-850" light-text></sp-sb-color-swatch>
+        <sp-sb-color-swatch colorVar="--sp-color-neutral-800" light-text></sp-sb-color-swatch>
+        <sp-sb-color-swatch colorVar="--sp-color-neutral-750" light-text></sp-sb-color-swatch>
+        <sp-sb-color-swatch colorVar="--sp-color-neutral-700" light-text></sp-sb-color-swatch>
+        <sp-sb-color-swatch colorVar="--sp-color-neutral-650" light-text></sp-sb-color-swatch>
+        <sp-sb-color-swatch colorVar="--sp-color-neutral-600" light-text></sp-sb-color-swatch>
+        <sp-sb-color-swatch colorVar="--sp-color-neutral-550" light-text></sp-sb-color-swatch>
+        <sp-sb-color-swatch colorVar="--sp-color-neutral-500" light-text></sp-sb-color-swatch>
+        <sp-sb-color-swatch colorVar="--sp-color-neutral-450"></sp-sb-color-swatch>
+        <sp-sb-color-swatch colorVar="--sp-color-neutral-400"></sp-sb-color-swatch>
+        <sp-sb-color-swatch colorVar="--sp-color-neutral-350"></sp-sb-color-swatch>
+        <sp-sb-color-swatch colorVar="--sp-color-neutral-300"></sp-sb-color-swatch>
+        <sp-sb-color-swatch colorVar="--sp-color-neutral-250"></sp-sb-color-swatch>
+        <sp-sb-color-swatch colorVar="--sp-color-neutral-200"></sp-sb-color-swatch>
+        <sp-sb-color-swatch colorVar="--sp-color-neutral-0"></sp-sb-color-swatch>
+      </sp-sb-color-swatch-group>
+    `}
+  </Story>
+</Canvas>
+
+## Utility
+
+<Canvas>
+  <Story name="Utility">
+    $
+    {html`
+      <sp-sb-color-swatch-group>
+        <sp-sb-color-swatch colorVar="--sp-color-overlay"></sp-sb-color-swatch>
+        <sp-sb-color-swatch colorVar="--sp-color-shadow-150"></sp-sb-color-swatch>
+        <sp-sb-color-swatch colorVar="--sp-color-shadow-100"></sp-sb-color-swatch>
+        <sp-sb-color-swatch colorVar="--sp-color-text-on-color"></sp-sb-color-swatch>
+      </sp-sb-color-swatch-group>
+    `}
+  </Story>
+</Canvas>
+
+## Extended Palette
+
+<Canvas>
+  <Story name="Green">
+    $
+    {html`
+      <sp-sb-color-swatch-group stacked>
+        <sp-sb-color-swatch colorVar="--sp-color-green-900" light-text></sp-sb-color-swatch>
+        <sp-sb-color-swatch colorVar="--sp-color-green-800" light-text></sp-sb-color-swatch>
+        <sp-sb-color-swatch colorVar="--sp-color-green-700" light-text></sp-sb-color-swatch>
+        <sp-sb-color-swatch colorVar="--sp-color-green-600" light-text></sp-sb-color-swatch>
+        <sp-sb-color-swatch colorVar="--sp-color-green-500" light-text></sp-sb-color-swatch>
+        <sp-sb-color-swatch colorVar="--sp-color-green-400"></sp-sb-color-swatch>
+        <sp-sb-color-swatch colorVar="--sp-color-green-300"></sp-sb-color-swatch>
+        <sp-sb-color-swatch colorVar="--sp-color-green-200"></sp-sb-color-swatch>
+        <sp-sb-color-swatch colorVar="--sp-color-green-100"></sp-sb-color-swatch>
+      </sp-sb-color-swatch-group>
+    `}
+  </Story>
+  <Story name="Orange">
+    $
+    {html` <sp-sb-color-swatch-group stacked>
+      <sp-sb-color-swatch colorVar="--sp-color-orange-900" light-text></sp-sb-color-swatch>
+      <sp-sb-color-swatch colorVar="--sp-color-orange-800" light-text></sp-sb-color-swatch>
+      <sp-sb-color-swatch colorVar="--sp-color-orange-700" light-text></sp-sb-color-swatch>
+      <sp-sb-color-swatch colorVar="--sp-color-orange-600" light-text></sp-sb-color-swatch>
+      <sp-sb-color-swatch colorVar="--sp-color-orange-500" light-text></sp-sb-color-swatch>
+      <sp-sb-color-swatch colorVar="--sp-color-orange-400"></sp-sb-color-swatch>
+      <sp-sb-color-swatch colorVar="--sp-color-orange-300"></sp-sb-color-swatch>
+      <sp-sb-color-swatch colorVar="--sp-color-orange-200"></sp-sb-color-swatch>
+      <sp-sb-color-swatch colorVar="--sp-color-orange-100"></sp-sb-color-swatch>
+    </sp-sb-color-swatch-group>`}
+  </Story>
+  <Story name="Red">
+    $
+    {html`
+      <sp-sb-color-swatch-group stacked>
+        <sp-sb-color-swatch colorVar="--sp-color-red-900" light-text></sp-sb-color-swatch>
+        <sp-sb-color-swatch colorVar="--sp-color-red-800" light-text></sp-sb-color-swatch>
+        <sp-sb-color-swatch colorVar="--sp-color-red-700" light-text></sp-sb-color-swatch>
+        <sp-sb-color-swatch colorVar="--sp-color-red-600" light-text></sp-sb-color-swatch>
+        <sp-sb-color-swatch colorVar="--sp-color-red-500" light-text></sp-sb-color-swatch>
+        <sp-sb-color-swatch colorVar="--sp-color-red-400"></sp-sb-color-swatch>
+        <sp-sb-color-swatch colorVar="--sp-color-red-300"></sp-sb-color-swatch>
+        <sp-sb-color-swatch colorVar="--sp-color-red-200"></sp-sb-color-swatch>
+        <sp-sb-color-swatch colorVar="--sp-color-red-100"></sp-sb-color-swatch>
+      </sp-sb-color-swatch-group>
+    `}
+  </Story>
+  <Story name="Purple">
+    $
+    {html`
+      <sp-sb-color-swatch-group stacked>
+        <sp-sb-color-swatch colorVar="--sp-color-purple-900" light-text></sp-sb-color-swatch>
+        <sp-sb-color-swatch colorVar="--sp-color-purple-800" light-text></sp-sb-color-swatch>
+        <sp-sb-color-swatch colorVar="--sp-color-purple-700" light-text></sp-sb-color-swatch>
+        <sp-sb-color-swatch colorVar="--sp-color-purple-600" light-text></sp-sb-color-swatch>
+        <sp-sb-color-swatch colorVar="--sp-color-purple-500" light-text></sp-sb-color-swatch>
+        <sp-sb-color-swatch colorVar="--sp-color-purple-400"></sp-sb-color-swatch>
+        <sp-sb-color-swatch colorVar="--sp-color-purple-300"></sp-sb-color-swatch>
+        <sp-sb-color-swatch colorVar="--sp-color-purple-200"></sp-sb-color-swatch>
+        <sp-sb-color-swatch colorVar="--sp-color-purple-100"></sp-sb-color-swatch>
+      </sp-sb-color-swatch-group>
+    `}
+  </Story>
+  <Story name="Cyan">
+    $
+    {html`
+      <sp-sb-color-swatch-group stacked>
+        <sp-sb-color-swatch colorVar="--sp-color-cyan-900" light-text></sp-sb-color-swatch>
+        <sp-sb-color-swatch colorVar="--sp-color-cyan-800" light-text></sp-sb-color-swatch>
+        <sp-sb-color-swatch colorVar="--sp-color-cyan-700" light-text></sp-sb-color-swatch>
+        <sp-sb-color-swatch colorVar="--sp-color-cyan-600" light-text></sp-sb-color-swatch>
+        <sp-sb-color-swatch colorVar="--sp-color-cyan-500" light-text></sp-sb-color-swatch>
+        <sp-sb-color-swatch colorVar="--sp-color-cyan-400"></sp-sb-color-swatch>
+        <sp-sb-color-swatch colorVar="--sp-color-cyan-300"></sp-sb-color-swatch>
+        <sp-sb-color-swatch colorVar="--sp-color-cyan-200"></sp-sb-color-swatch>
+        <sp-sb-color-swatch colorVar="--sp-color-cyan-100"></sp-sb-color-swatch>
+      </sp-sb-color-swatch-group>
+    `}
+  </Story>
+  <Story name="Yellow">
+    $
+    {html`
+      <sp-sb-color-swatch-group stacked>
+        <sp-sb-color-swatch colorVar="--sp-color-yellow-900" light-text></sp-sb-color-swatch>
+        <sp-sb-color-swatch colorVar="--sp-color-yellow-800" light-text></sp-sb-color-swatch>
+        <sp-sb-color-swatch colorVar="--sp-color-yellow-700" light-text></sp-sb-color-swatch>
+        <sp-sb-color-swatch colorVar="--sp-color-yellow-600" light-text></sp-sb-color-swatch>
+        <sp-sb-color-swatch colorVar="--sp-color-yellow-500" light-text></sp-sb-color-swatch>
+        <sp-sb-color-swatch colorVar="--sp-color-yellow-400"></sp-sb-color-swatch>
+        <sp-sb-color-swatch colorVar="--sp-color-yellow-300"></sp-sb-color-swatch>
+        <sp-sb-color-swatch colorVar="--sp-color-yellow-200"></sp-sb-color-swatch>
+        <sp-sb-color-swatch colorVar="--sp-color-yellow-100"></sp-sb-color-swatch>
+      </sp-sb-color-swatch-group>
+    `}
+  </Story>
+  <Story name="Blue">
+    $
+    {html`
+      <sp-sb-color-swatch-group stacked>
+        <sp-sb-color-swatch colorVar="--sp-color-blue-900" light-text></sp-sb-color-swatch>
+        <sp-sb-color-swatch colorVar="--sp-color-blue-800" light-text></sp-sb-color-swatch>
+        <sp-sb-color-swatch colorVar="--sp-color-blue-700" light-text></sp-sb-color-swatch>
+        <sp-sb-color-swatch colorVar="--sp-color-blue-600" light-text></sp-sb-color-swatch>
+        <sp-sb-color-swatch colorVar="--sp-color-blue-500" light-text></sp-sb-color-swatch>
+        <sp-sb-color-swatch colorVar="--sp-color-blue-400"></sp-sb-color-swatch>
+        <sp-sb-color-swatch colorVar="--sp-color-blue-300"></sp-sb-color-swatch>
+        <sp-sb-color-swatch colorVar="--sp-color-blue-200"></sp-sb-color-swatch>
+        <sp-sb-color-swatch colorVar="--sp-color-blue-100"></sp-sb-color-swatch>
+      </sp-sb-color-swatch-group>
+    `}
+  </Story>
+  <Story name="Teal">
+    $
+    {html`
+      <sp-sb-color-swatch-group stacked>
+        <sp-sb-color-swatch colorVar="--sp-color-teal-900" light-text></sp-sb-color-swatch>
+        <sp-sb-color-swatch colorVar="--sp-color-teal-800" light-text></sp-sb-color-swatch>
+        <sp-sb-color-swatch colorVar="--sp-color-teal-700" light-text></sp-sb-color-swatch>
+        <sp-sb-color-swatch colorVar="--sp-color-teal-600" light-text></sp-sb-color-swatch>
+        <sp-sb-color-swatch colorVar="--sp-color-teal-500" light-text></sp-sb-color-swatch>
+        <sp-sb-color-swatch colorVar="--sp-color-teal-400"></sp-sb-color-swatch>
+        <sp-sb-color-swatch colorVar="--sp-color-teal-300"></sp-sb-color-swatch>
+        <sp-sb-color-swatch colorVar="--sp-color-teal-200"></sp-sb-color-swatch>
+        <sp-sb-color-swatch colorVar="--sp-color-teal-100"></sp-sb-color-swatch>
+      </sp-sb-color-swatch-group>
+    `}
+  </Story>
+  <Story name="Pink">
+    $
+    {html`
+      <sp-sb-color-swatch-group stacked>
+        <sp-sb-color-swatch colorVar="--sp-color-pink-900" light-text></sp-sb-color-swatch>
+        <sp-sb-color-swatch colorVar="--sp-color-pink-800" light-text></sp-sb-color-swatch>
+        <sp-sb-color-swatch colorVar="--sp-color-pink-700" light-text></sp-sb-color-swatch>
+        <sp-sb-color-swatch colorVar="--sp-color-pink-600" light-text></sp-sb-color-swatch>
+        <sp-sb-color-swatch colorVar="--sp-color-pink-500" light-text></sp-sb-color-swatch>
+        <sp-sb-color-swatch colorVar="--sp-color-pink-400"></sp-sb-color-swatch>
+        <sp-sb-color-swatch colorVar="--sp-color-pink-300"></sp-sb-color-swatch>
+        <sp-sb-color-swatch colorVar="--sp-color-pink-200"></sp-sb-color-swatch>
+        <sp-sb-color-swatch colorVar="--sp-color-pink-100"></sp-sb-color-swatch>
+      </sp-sb-color-swatch-group>
+    `}
+  </Story>
+  <Story name="Sapphire">
+    $
+    {html`
+      <sp-sb-color-swatch-group stacked>
+        <sp-sb-color-swatch colorVar="--sp-color-sapphire-900" light-text></sp-sb-color-swatch>
+        <sp-sb-color-swatch colorVar="--sp-color-sapphire-800" light-text></sp-sb-color-swatch>
+        <sp-sb-color-swatch colorVar="--sp-color-sapphire-700" light-text></sp-sb-color-swatch>
+        <sp-sb-color-swatch colorVar="--sp-color-sapphire-600" light-text></sp-sb-color-swatch>
+        <sp-sb-color-swatch colorVar="--sp-color-sapphire-500" light-text></sp-sb-color-swatch>
+        <sp-sb-color-swatch colorVar="--sp-color-sapphire-400"></sp-sb-color-swatch>
+        <sp-sb-color-swatch colorVar="--sp-color-sapphire-300"></sp-sb-color-swatch>
+        <sp-sb-color-swatch colorVar="--sp-color-sapphire-200"></sp-sb-color-swatch>
+        <sp-sb-color-swatch colorVar="--sp-color-sapphire-100"></sp-sb-color-swatch>
+      </sp-sb-color-swatch-group>
+    `}
+  </Story>
+  <Story name="Limes">
+    $
+    {html`
+      <sp-sb-color-swatch-group stacked>
+        <sp-sb-color-swatch colorVar="--sp-color-lime-900" light-text></sp-sb-color-swatch>
+        <sp-sb-color-swatch colorVar="--sp-color-lime-800" light-text></sp-sb-color-swatch>
+        <sp-sb-color-swatch colorVar="--sp-color-lime-700" light-text></sp-sb-color-swatch>
+        <sp-sb-color-swatch colorVar="--sp-color-lime-600" light-text></sp-sb-color-swatch>
+        <sp-sb-color-swatch colorVar="--sp-color-lime-500" light-text></sp-sb-color-swatch>
+        <sp-sb-color-swatch colorVar="--sp-color-lime-400"></sp-sb-color-swatch>
+        <sp-sb-color-swatch colorVar="--sp-color-lime-300"></sp-sb-color-swatch>
+        <sp-sb-color-swatch colorVar="--sp-color-lime-200"></sp-sb-color-swatch>
+        <sp-sb-color-swatch colorVar="--sp-color-lime-100"></sp-sb-color-swatch>
+      </sp-sb-color-swatch-group>
+    `}
+  </Story>
+  <Story name="Indigo">
+    $
+    {html`
+      <sp-sb-color-swatch-group stacked>
+        <sp-sb-color-swatch colorVar="--sp-color-indigo-900" light-text></sp-sb-color-swatch>
+        <sp-sb-color-swatch colorVar="--sp-color-indigo-800" light-text></sp-sb-color-swatch>
+        <sp-sb-color-swatch colorVar="--sp-color-indigo-700" light-text></sp-sb-color-swatch>
+        <sp-sb-color-swatch colorVar="--sp-color-indigo-600" light-text></sp-sb-color-swatch>
+        <sp-sb-color-swatch colorVar="--sp-color-indigo-500" light-text></sp-sb-color-swatch>
+        <sp-sb-color-swatch colorVar="--sp-color-indigo-400"></sp-sb-color-swatch>
+        <sp-sb-color-swatch colorVar="--sp-color-indigo-300"></sp-sb-color-swatch>
+        <sp-sb-color-swatch colorVar="--sp-color-indigo-200"></sp-sb-color-swatch>
+        <sp-sb-color-swatch colorVar="--sp-color-indigo-100"></sp-sb-color-swatch>
+      </sp-sb-color-swatch-group>
+    `}
+  </Story>
+  <Story name="Brown">
+    $
+    {html`
+      <sp-sb-color-swatch-group stacked>
+        <sp-sb-color-swatch colorVar="--sp-color-brown-900" light-text></sp-sb-color-swatch>
+        <sp-sb-color-swatch colorVar="--sp-color-brown-800" light-text></sp-sb-color-swatch>
+        <sp-sb-color-swatch colorVar="--sp-color-brown-700" light-text></sp-sb-color-swatch>
+        <sp-sb-color-swatch colorVar="--sp-color-brown-600" light-text></sp-sb-color-swatch>
+        <sp-sb-color-swatch colorVar="--sp-color-brown-500" light-text></sp-sb-color-swatch>
+        <sp-sb-color-swatch colorVar="--sp-color-brown-400"></sp-sb-color-swatch>
+        <sp-sb-color-swatch colorVar="--sp-color-brown-300"></sp-sb-color-swatch>
+        <sp-sb-color-swatch colorVar="--sp-color-brown-200"></sp-sb-color-swatch>
+        <sp-sb-color-swatch colorVar="--sp-color-brown-100"></sp-sb-color-swatch>
+      </sp-sb-color-swatch-group>
+    `}
+  </Story>
+  <Story name="Maroon">
+    $
+    {html`
+      <sp-sb-color-swatch-group stacked>
+        <sp-sb-color-swatch colorVar="--sp-color-maroon-900" light-text></sp-sb-color-swatch>
+        <sp-sb-color-swatch colorVar="--sp-color-maroon-800" light-text></sp-sb-color-swatch>
+        <sp-sb-color-swatch colorVar="--sp-color-maroon-700" light-text></sp-sb-color-swatch>
+        <sp-sb-color-swatch colorVar="--sp-color-maroon-600" light-text></sp-sb-color-swatch>
+        <sp-sb-color-swatch colorVar="--sp-color-maroon-500" light-text></sp-sb-color-swatch>
+        <sp-sb-color-swatch colorVar="--sp-color-maroon-400"></sp-sb-color-swatch>
+        <sp-sb-color-swatch colorVar="--sp-color-maroon-300"></sp-sb-color-swatch>
+        <sp-sb-color-swatch colorVar="--sp-color-maroon-200"></sp-sb-color-swatch>
+        <sp-sb-color-swatch colorVar="--sp-color-maroon-100"></sp-sb-color-swatch>
+      </sp-sb-color-swatch-group>
+    `}
+  </Story>
+  <Story name="Rose">
+    $
+    {html`
+      <sp-sb-color-swatch-group stacked>
+        <sp-sb-color-swatch colorVar="--sp-color-rose-900" light-text></sp-sb-color-swatch>
+        <sp-sb-color-swatch colorVar="--sp-color-rose-800" light-text></sp-sb-color-swatch>
+        <sp-sb-color-swatch colorVar="--sp-color-rose-700" light-text></sp-sb-color-swatch>
+        <sp-sb-color-swatch colorVar="--sp-color-rose-600" light-text></sp-sb-color-swatch>
+        <sp-sb-color-swatch colorVar="--sp-color-rose-500" light-text></sp-sb-color-swatch>
+        <sp-sb-color-swatch colorVar="--sp-color-rose-400"></sp-sb-color-swatch>
+        <sp-sb-color-swatch colorVar="--sp-color-rose-300"></sp-sb-color-swatch>
+        <sp-sb-color-swatch colorVar="--sp-color-rose-200"></sp-sb-color-swatch>
+        <sp-sb-color-swatch colorVar="--sp-color-rose-100"></sp-sb-color-swatch>
+      </sp-sb-color-swatch-group>
+    `}
+  </Story>
+</Canvas>

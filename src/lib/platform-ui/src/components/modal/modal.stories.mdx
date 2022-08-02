@@ -1,0 +1,173 @@
+import { html } from 'lit-html'
+import dedent from 'ts-dedent'
+import { Meta, Story, Canvas, Source, ArgsTable } from '@storybook/addon-docs/blocks'
+import './'
+import '../buttons'
+
+<Meta title="Components/Modal" component="sp-modal" />
+
+# Modals
+
+The `sp-modal` component can be used to display a modal. The size property can be set to `small`, `medium`, `large`, or `x-large`.
+The `open` property defines if the modal is open.
+
+## Sizes
+
+<ArgsTable story="Sizes" />
+
+<Canvas>
+  <Story
+    name="Sizes"
+    height="600px"
+    args={{ size: 'medium' }}
+    argTypes={{
+      size: {
+        control: { type: 'select', options: ['small', 'medium', 'large', 'x-large'] },
+        defaultValue: 'medium'
+      }
+    }}
+  >
+    $
+    {({ size }) => html`
+      <sp-modal size="${size}" open>
+        ${size === 'small' ? html`` : html`<sp-modal-header>Title</sp-modal-header>`}
+        <sp-modal-body>
+          <div style="min-height: ${size === 'small' ? 0 : 100}px">A ${size} modal</div>
+        </sp-modal-body>
+        <sp-modal-footer>
+          <sp-button-group slot="right">
+            <sp-button button-type="transparent">Cancel</sp-button>
+            <sp-button button-type="primary">Confirm</sp-button>
+          </sp-button-group>
+        </sp-modal-footer>
+      </sp-modal>
+    `}
+  </Story>
+</Canvas>
+
+## Closing
+
+Clicking the overlay or pressing the `Escape` key will trigger a `sp-modal-close` event.
+
+<Source
+  name="Closing"
+  code={`
+  <sp-modal id="mymodal" size="large" open>
+    Contents
+  </sp-modal>
+  <script>
+    const mymodal = document.getElementById('mymodal')
+    mymodal.addEventListener('sp-modal-close', () => {
+      mymodal.open = false
+    })
+    ...
+  </script>
+  `}
+/>
+
+Add the `no-close` property to disable clicking the overlay to close. Using the `Escape` key to close is an expected accessibility feature for modal content, so cannot be disabled.
+
+# Modal Layout
+
+The `sp-modal-header`, `sp-modal-body`, and `sp-modal-footer` components can be used to lay modals out with the correct spacing and padding.
+`sp-modal-footer` has two slots: `left` and `right`.
+
+<Canvas>
+  <Story name="Modal Layout" parameters={{ docs: { inlineStories: false } }} height="400px">
+    $
+    {html`
+      <sp-modal size="large" open>
+        <sp-modal-header>Title</sp-modal-header>
+        <sp-modal-body>
+          <div style="min-height: 100px">Body</div>
+        </sp-modal-body>
+        <sp-modal-footer>
+          <div slot="left">Footer Left</div>
+          <div slot="right">Footer Right</div>
+        </sp-modal-footer>
+      </sp-modal>
+    `}
+  </Story>
+</Canvas>
+
+## Close button
+
+`sp-modal-header` includes a close button, unless the modal has the `no-close` property set.
+
+<Canvas>
+  <Story name="Modal No Close Button" parameters={{ docs: { inlineStories: false } }} height="400px">
+    $
+    {html`
+      <sp-modal size="large" open no-close>
+        <sp-modal-header>Title</sp-modal-header>
+        <sp-modal-body>
+          <div style="min-height: 100px">Body</div>
+        </sp-modal-body>
+      </sp-modal>
+    `}
+  </Story>
+</Canvas>
+
+## Scrollable body
+
+`sp-modal-body` becomes scrollable and a border is added to the bottom if its contents would not allow the modal to fit on screen.
+
+<Canvas>
+  <Story name="Scrollable body" parameters={{ docs: { inlineStories: false } }} height="400px">
+    $
+    {html`
+      <sp-modal size="large" open>
+        <sp-modal-header>Title</sp-modal-header>
+        <sp-modal-body>
+          <p>Lots of content</p>
+          <p>Lots of content</p>
+          <p>Lots of content</p>
+          <p>Lots of content</p>
+          <p>Lots of content</p>
+          <p>Lots of content</p>
+          <p>Lots of content</p>
+          <p>Lots of content</p>
+          <p>Lots of content</p>
+          <p>Lots of content</p>
+          <p>Lots of content</p>
+          <p>Lots of content</p>
+          <p>Lots of content</p>
+          <p>Lots of content</p>
+          <p>Lots of content</p>
+          <p>Lots of content</p>
+          <p>Lots of content</p>
+          <p>Lots of content</p>
+          <p>Lots of content</p>
+          <p>Lots of content</p>
+        </sp-modal-body>
+        <sp-modal-footer>
+          <div slot="right">Footer Right</div>
+        </sp-modal-footer>
+      </sp-modal>
+    `}
+  </Story>
+</Canvas>
+
+## React
+
+To consume the `Modal`/Modal layout components (`ModalHeader`, `ModalBody`, `ModalFooter`) in a React app, simply import it from the `@skedulo/platform-ui-react` package and use it as you would a normal react component.
+Special properties, i.e. anything that is not a string will be mapped to camelcase.
+
+<Source
+  code={dedent`
+  import {Modal, ModalHeader, ModalBody, ModalFooter} from '@skedulo/platform-ui-react'
+  <Modal open onModalClose={() => {}} noClose size="small|medium|large|X-large">
+    <ModalHeader>Modal Header</ModalHeader>
+    <ModalBody>Modal Content</ModalBody>
+    <ModalFooter hasBorder>
+      <div slot="left">Footer Left</div>
+      <div slot="right">Footer Right</div>
+    </ModalFooter>
+  </Modal>
+`}
+/>
+
+# Roadmap
+
+- Focus trapping
+- ✅ ~~Hotkeys (escape to close, if closable)~~

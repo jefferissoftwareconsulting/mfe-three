@@ -1,0 +1,57 @@
+import { html } from 'lit-html'
+import { Meta, Story, Canvas, ArgsTable } from '@storybook/addon-docs/blocks'
+import './header-footer-page'
+
+<Meta title="Layout/Header Footer Page" component="sp-header-footer-page" />
+
+# Header Footer Page
+
+Component to lay out a full page with an optional header and footer, and scrollable body.
+
+Use `sp-header-footer-page` to lay out the page with the `header` and `footer` slots, and the body in the main slot.
+
+<Canvas>
+  <Story name="Header Footer Page">
+    $
+    {html`
+      <div style="height: 400px">
+        <sp-header-footer-page>
+          <div
+            slot="header"
+            style="padding: var(--sp-spacing-8); text-align: center; background-color: var(--sp-color-purple-300)"
+          >
+            Header
+          </div>
+          <div style="padding: var(--sp-spacing-6); background-color: var(--sp-color-blue-300)">
+            <div>Body</div>
+            <div>Body</div>
+            <div>Body</div>
+            <div>Body</div>
+            <div>Body</div>
+            <div>Body</div>
+            <div>Body</div>
+            <div>Body</div>
+            <div>Body</div>
+            <div>Body</div>
+            <div>Body</div>
+            <div>Body</div>
+            <div>Body</div>
+            <div>Body</div>
+            <div>Body</div>
+            <div>Body</div>
+            <div>Body</div>
+            <div>Body</div>
+            <div>Body</div>
+            <div>Body</div>
+          </div>
+          <div
+            slot="footer"
+            style="padding: var(--sp-spacing-6); text-align: center; background-color: var(--sp-color-green-300)"
+          >
+            Footer
+          </div>
+        </sp-header-footer-page>
+      </div>
+    `}
+  </Story>
+</Canvas>

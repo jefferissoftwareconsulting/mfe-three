@@ -1,0 +1,175 @@
+import { html } from 'lit-html'
+import { Meta, Story, Canvas, ArgsTable } from '@storybook/addon-docs/blocks'
+import './flex'
+
+<Meta title="Layout/Flex" component="sp-row" />
+
+# Flex Layout
+
+Components to help you quickly build layouts based on flex box.
+
+## Row
+
+Use `sp-row` to lay children out in a row with spacing.
+
+<Canvas>
+  <Story name="Row">
+    $
+    {html`
+      <sp-row>
+        <div style="width: 100px; height: 50px; background-color: red;"></div>
+        <div style="width: 50px; height: 70px; background-color: red;"></div>
+        <div style="width: 100px; height: 40px; background-color: red;"></div>
+      </sp-row>
+    `}
+  </Story>
+</Canvas>
+
+### Vertical Alignment
+
+The `vertical-align` prop defines alignment as `top`, `middle`, or `bottom`.
+
+<Canvas>
+  <Story name="Row Vertical Alignment">
+    $
+    {html`
+      <sp-column>
+        <sp-row vertical-align="top" style="background-color: #ffcccc;">
+          <div style="width: 100px; height: 50px; background-color: red;"></div>
+          <div style="width: 50px; height: 70px; background-color: red;"></div>
+          <div style="width: 100px; height: 40px; background-color: red;"></div>
+        </sp-row>
+        <sp-row vertical-align="middle" style="background-color: #ffcccc;">
+          <div style="width: 100px; height: 50px; background-color: red;"></div>
+          <div style="width: 50px; height: 70px; background-color: red;"></div>
+          <div style="width: 100px; height: 40px; background-color: red;"></div>
+        </sp-row>
+        <sp-row vertical-align="bottom" style="background-color: #ffcccc;">
+          <div style="width: 100px; height: 50px; background-color: red;"></div>
+          <div style="width: 50px; height: 70px; background-color: red;"></div>
+          <div style="width: 100px; height: 40px; background-color: red;"></div>
+        </sp-row>
+      </sp-column>
+    `}
+  </Story>
+</Canvas>
+
+### Spacing
+
+Spacing can be changed by overriding the `--sp-row-spacing` CSS variable.
+
+<Canvas>
+  <Story name="Row Spacing">
+    $
+    {html`
+      <style>
+        .extra-spacing {
+          --sp-row-spacing: var(--sp-spacing-12);
+        }
+        .no-spacing {
+          --sp-row-spacing: 0;
+        }
+        .extra-spacing div,
+        .no-spacing div {
+          border: 2px solid #aa0000;
+          border-radius: 3px;
+        }
+      </style>
+      <sp-column>
+        <sp-row style="background-color: #ffcccc;" class="extra-spacing">
+          <div style="width: 50px; height: 50px; background-color: red;"></div>
+          <div style="width: 50px; height: 50px; background-color: red;"></div>
+          <div style="width: 50px; height: 50px; background-color: red;"></div>
+        </sp-row>
+        <sp-row style="background-color: #ffcccc;" class="no-spacing">
+          <div style="width: 50px; height: 50px; background-color: red;"></div>
+          <div style="width: 50px; height: 50px; background-color: red;"></div>
+          <div style="width: 50px; height: 50px; background-color: red;"></div>
+        </sp-row>
+      </sp-column>
+    `}
+  </Story>
+</Canvas>
+
+## Column
+
+Use `sp-column` to lay children out in a row with spacing.
+
+<Canvas>
+  <Story name="Column">
+    $
+    {html`
+      <sp-column>
+        <div style="width: 70px; height: 50px; background-color: red;"></div>
+        <div style="width: 50px; height: 100px; background-color: red;"></div>
+        <div style="width: 40px; height: 50px; background-color: red;"></div>
+      </sp-column>
+    `}
+  </Story>
+</Canvas>
+
+### Alignment
+
+The `align` prop defines alignment as `left`, `center`, or `right`.
+
+<Canvas>
+  <Story name="Column Alignment">
+    $
+    {html`
+      <sp-row>
+        <sp-column align="left" style="background-color: #ffcccc;">
+          <div style="width: 70px; height: 50px; background-color: red;"></div>
+          <div style="width: 50px; height: 100px; background-color: red;"></div>
+          <div style="width: 40px; height: 50px; background-color: red;"></div>
+        </sp-column>
+        <sp-column align="center" style="background-color: #ffcccc;">
+          <div style="width: 70px; height: 50px; background-color: red;"></div>
+          <div style="width: 50px; height: 100px; background-color: red;"></div>
+          <div style="width: 40px; height: 50px; background-color: red;"></div>
+        </sp-column>
+        <sp-column align="right" style="background-color: #ffcccc;">
+          <div style="width: 70px; height: 50px; background-color: red;"></div>
+          <div style="width: 50px; height: 100px; background-color: red;"></div>
+          <div style="width: 40px; height: 50px; background-color: red;"></div>
+        </sp-column>
+      </sp-row>
+    `}
+  </Story>
+</Canvas>
+
+### Spacing
+
+Spacing can be changed by overriding the `--sp-column-spacing` CSS variable.
+
+<Canvas>
+  <Story name="Column Spacing">
+    $
+    {html`
+      <style>
+        .extra-spacing {
+          --sp-column-spacing: var(--sp-spacing-12);
+        }
+        .no-spacing {
+          --sp-column-spacing: 0;
+        }
+        .extra-spacing div,
+        .no-spacing div {
+          border: 2px solid #aa0000;
+          border-radius: 3px;
+        }
+      </style>
+      <sp-row>
+        <sp-column style="background-color: #ffcccc;" class="extra-spacing">
+          <div style="width: 50px; height: 50px; background-color: red;"></div>
+          <div style="width: 50px; height: 50px; background-color: red;"></div>
+          <div style="width: 50px; height: 50px; background-color: red;"></div>
+        </sp-column>
+        <sp-column style="background-color: #ffcccc;" class="no-spacing">
+          <div style="width: 50px; height: 50px; background-color: red;"></div>
+          <div style="width: 50px; height: 50px; background-color: red;"></div>
+          <div style="width: 50px; height: 50px; background-color: red;"></div>
+        </sp-column>
+      </sp-row>
+    `}
+  </Story>
+</Canvas>

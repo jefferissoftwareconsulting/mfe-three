@@ -1,0 +1,70 @@
+import { html } from 'lit-html'
+import { Meta, Story, Canvas, ArgsTable } from '@storybook/addon-docs/blocks'
+import './icon'
+import { iconNames } from './icons'
+
+<Meta title="Components/Icon" component="sp-icon" />
+
+# Icons
+
+Icons can be rendered with the `sp-icon` component that takes an `icon` property (see available icons below) and a `size` property (default is 18px)
+
+<Canvas>
+  <Story name="Icon">${html`<sp-icon icon="close" size="40"></sp-icon>`}</Story>
+</Canvas>
+
+## Color
+
+Icons use the current color.
+
+<Canvas>
+  <Story name="Color">
+    $
+    {html`
+      <div style="color: var(--sp-color-primary-600);">
+        <sp-icon icon="infoFill"></sp-icon>
+        Information!
+      </div>
+    `}
+  </Story>
+</Canvas>
+
+## Available icons
+
+<Canvas>
+  <Story name="Available icons">
+    $
+    {html`
+      <style>
+        .icons-container {
+          display: flex;
+          flex-wrap: wrap;
+          flex-direction: row;
+        }
+        .icon-cell {
+          display: flex;
+          flex-direction: column;
+          width: 150px;
+          height: 150px;
+          align-items: center;
+          justify-content: center;
+          border: 1px solid var(--sp-color-neutral-300);
+          font-family: monospace;
+          margin-right: 10px;
+          margin-bottom: 10px;
+        }
+        .icon-cell sp-icon {
+          margin-bottom: 10px;
+        }
+      </style>
+      <div class="icons-container">
+        ${iconNames.sort().map(
+          name => html`<div class="icon-cell">
+            <sp-icon icon="${name}" size="40"></sp-icon>
+            <span>${name}</span>
+          </div>`
+        )}
+      </div>
+    `}
+  </Story>
+</Canvas>

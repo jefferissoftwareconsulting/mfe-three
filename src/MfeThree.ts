@@ -1,80 +1,121 @@
-import { LitElement, html, css } from 'lit';
-import { property } from 'lit/decorators.js';
+import { html, css, LitElement } from "lit";
+import { property } from "lit/decorators.js";
+import eventBus from "./lib/event-bus.js";
+import config from "./config.js";
 
-const logo = new URL('../../assets/open-wc-logo.svg', import.meta.url).href;
+interface Settings {
+  bgColor?: string;
+}
 
 export class MfeThree extends LitElement {
-  @property({ type: String }) title = 'My app';
+  eventBus: any;
 
   static styles = css`
     :host {
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: flex-start;
-      font-size: calc(10px + 2vmin);
-      color: #1a2b42;
-      max-width: 960px;
-      margin: 0 auto;
-      text-align: center;
-      background-color: var(--mfe-three-background-color);
+      display: block;
+      font-family: sans-serif;
     }
-
-    main {
-      flex-grow: 1;
-    }
-
-    .logo {
-      margin-top: 36px;
-      animation: app-logo-spin infinite 20s linear;
-    }
-
-    @keyframes app-logo-spin {
-      from {
-        transform: rotate(0deg);
-      }
-      to {
-        transform: rotate(360deg);
-      }
-    }
-
-    .app-footer {
-      font-size: calc(12px + 0.5vmin);
-      align-items: center;
-    }
-
-    .app-footer a {
-      margin-left: 5px;
+    .container {
+      padding: 25px;
+      border: 1px solid cyan;
     }
   `;
 
+  constructor() {
+    super();
+    // @ts-ignore
+    this.settingsMode = false;
+    fetch(config.settingsUrl)
+      .then((res) => res.json())
+      .then((settings) => { this.settings = settings })
+      .catch((err) => console.error(err));
+  }
+
+  @property({ type: Object }) settings: Settings = {};
+
+  @property({ type: String }) settingsFieldBgColor = "";
+
+  @property({ type: Boolean }) settingsMode = false;
+
+  @property({ type: String }) title = "MFE-1";
+
+  @property({ type: Number }) counter = 0;
+
+  connectedCallback() {
+    super.connectedCallback();
+    this.eventBus = eventBus();
+
+    this.eventBus.addListener((event: any) => {
+      console.log("in MFE-1 event", event);
+      switch (event.topic) {
+        case "mfe1:increment":
+          this.counter += 1;
+      }
+    });
+  }
+
+  __increment() {
+    this.eventBus.emit({ topic: "mfe1:increment" });
+  }
+
+  __showSettings() {
+    this.settingsMode = true;
+  }
+
+  __setBgColor(e: { target: { value: string } }) {
+    this.settingsFieldBgColor = e.target.value;
+  }
+
+  __saveSettings() {
+    const updatedSettings = {
+      ...this.settings,
+      bgColor: this.settingsFieldBgColor,
+    };
+
+    fetch(config.settingsUrl, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(updatedSettings),
+    })
+      .then((res) => res.json())
+      .then((settings) => (this.settings = settings));
+    this.settingsMode = false;
+  }
+
   render() {
-    return html`
-      <main>
-        <div class="logo"><img alt="open-wc logo" src=${logo} /></div>
-        <h1>${this.title}</h1>
+    if (Object.keys(this.settings).length === 0)
+      return html` <div>Loading settings...</div> `;
 
-        <p>Edit <code>src/MfeThree.ts</code> and save to reload.</p>
-        <a
-          class="app-link"
-          href="https://open-wc.org/guides/developing-components/code-examples"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Code examples
-        </a>
-      </main>
-
-      <p class="app-footer">
-        🚽 Made with love by
-        <a
-          target="_blank"
-          rel="noopener noreferrer"
-          href="https://github.com/open-wc"
-          >open-wc</a
-        >.
-      </p>
-    `;
+    return this.settingsMode
+      ? html`
+          <div
+            class="container"
+            style="background-color: ${this.settings.bgColor}"
+          >
+            <h2>${this.title}</h2>
+            <div>
+              <label>Background colour</label>
+              <input type="text" @input="${this.__setBgColor}" />
+            </div>
+            <p><button @click=${this.__saveSettings}>Done</button></p>
+          </div>
+        `
+      : html`
+          <div
+            class="container"
+            style="background-color: ${this.settings.bgColor}"
+          >
+            <h2>${this.title}</h2>
+            <p>count: ${this.counter}</p>
+            <p>
+              <sp-button type="primary" @click=${this.__increment}
+                >Increment</sp-button
+              >
+            </p>
+            <p><button @click=${this.__showSettings}>Settings</button></p>
+          </div>
+        `;
   }
 }

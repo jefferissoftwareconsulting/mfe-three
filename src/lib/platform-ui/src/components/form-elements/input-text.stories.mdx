@@ -1,0 +1,126 @@
+import { html } from 'lit-html'
+import dedent from 'ts-dedent'
+import { Meta, Story, Canvas, Source } from '@storybook/addon-docs/blocks'
+
+import './input-text'
+
+<Meta title="Form Elements/Input Text" component="sp-input-text" />
+
+# Input Text
+
+Use `sp-input-text` for collecting short text values. Value is set via the `value` attribute. Placeholder, via the `placeholder` attribute, readonly via the `readonly`attribute.
+
+<Canvas>
+  <Story name="Populated">${html`<sp-input-text value="Populated" name="populated"></sp-input-text>`}</Story>
+  <Story name="Placeholder">${html`<sp-input-text placeholder="Placeholder"></sp-input-text>`}</Story>
+  <Story name="Invalid">${html`<sp-input-text value="Error" invalid></sp-input-text>`}</Story>
+  <Story name="Readonly Empty (Disabled)">
+    ${html`<sp-input-text placeholder="Empty read only (disabled)" readonly></sp-input-text>`}
+  </Story>
+  <Story name="Readonly With Value (Locked)">
+    ${html`<sp-input-text value="Read only with value (locked)" readonly></sp-input-text>`}
+  </Story>
+</Canvas>
+
+## Labels
+
+Labels are added via the `label` slot. Labels can be positioned above, or to the side using the `label-position` (`top`, `side`) attribute.
+
+<Canvas>
+  <Story width="100%" name="WithLabel">
+    $
+    {html`
+      <sp-input-text name="label">
+        <span slot="label">Label</span>
+      </sp-input-text>
+    `}
+  </Story>
+</Canvas>
+
+<Canvas>
+  <Story name="WithSideLabel">
+    $
+    {html`
+      <sp-input-text name="label" label-position="side">
+        <span slot="label">Label</span>
+      </sp-input-text>
+    `}
+  </Story>
+</Canvas>
+
+## Errors
+
+Error state is achieved with the `invalid` attribute and the `error` slot.
+
+<Canvas>
+  <Story name="WithError">
+    $
+    {html`
+      <sp-input-text invalid>
+        <span slot="error">Enter a valid value</span>
+      </sp-input-text>
+    `}
+  </Story>
+</Canvas>
+
+## Sizes
+
+The text input supports 5 different sizes, via the `size` attribute. (`x-small`, `small`, `medium`, `large` and `x-large`)
+
+<Canvas>
+  <Story name="x-small">${html`<sp-insput-text size="x-small" placeholder="x-small"></sp-insput-text>`}</Story>
+  <Story name="small">${html`<sp-input-text size="small" placeholder="small"></sp-input-text>`}</Story>
+  <Story name="medium">${html`<sp-input-text size="medium" placeholder="medium"></sp-input-text>`}</Story>
+  <Story name="large">${html`<sp-input-text size="large" placeholder="large"></sp-input-text>`}</Story>
+  <Story name="x-large">${html`<sp-input-text size="x-large" placeholder="x-large"></sp-input-text>`}</Story>
+</Canvas>
+
+## Max Length
+
+<Canvas>
+  <Story name="Max Length">
+    ${html`<sp-input-text maxlength="10" size="large" placeholder="restricted to 10 chars"></sp-input-text>`}
+  </Story>
+</Canvas>
+
+## Icons
+
+Optionally set a decorative icon on the left, right, or both sides of the input using `leading-icon` and `trailing-icon`. This is available to all text-based inputs that extend this component, including `sp-input-select`.
+
+Supports all of the [platform-ui icons](./?path=/docs/components-icon--available-icons).
+
+<Canvas>
+  <Story name="Icon: Leading">
+    ${html`<sp-input-text leading-icon="search" placeholder="Search"></sp-input-text>`}
+  </Story>
+  <Story name="Icon: Trailing">
+    ${html`<sp-input-text trailing-icon="time" placeholder="About time!"></sp-input-text>`}
+  </Story>
+  <Story name="Icon: Both">
+    ${html`<sp-input-text leading-icon="emoji" trailing-icon="emoji" placeholder="Surrounded"></sp-input-text>`}
+  </Story>
+</Canvas>
+
+## React
+
+To consume the `InputText` component in a React app, import it from the `@skedulo/platform-ui-react` package and use it as you would a normal react component. Kebab cased properties will be mapped to camelcase. The `label` slot is reached via the `label` prop, and the `error` slot is reached via the `error` prop.
+
+<Source
+  language="tsx"
+  code={dedent`
+import { InputText } from '@skedulo/platform-ui-react'
+<InputText
+  name="shorterText"
+  value="lorem.."
+  size="small"
+  onChange={event => {}}
+  readonly
+  iconPosition="left"
+  placeholder="placeholder"
+  invalid
+  error="enter something valid"
+  maxlength={100}
+  label="Field Label"
+/>
+`}
+/>

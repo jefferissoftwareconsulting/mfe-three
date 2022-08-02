@@ -1,0 +1,14 @@
+import { html } from 'lit-html'
+import { Meta, Story, Canvas, ArgsTable } from '@storybook/addon-docs/blocks'
+import './header'
+import '../components/heading'
+
+<Meta title="Layout/Header" component="sp-header" />
+
+# Header
+
+The `sp-header` component provides a page header.
+
+<Canvas>
+  <Story name="Page Header">${html`<sp-header><sp-heading size="3xl">My Page</sp-heading></sp-header>`}</Story>
+</Canvas>

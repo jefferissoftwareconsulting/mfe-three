@@ -1,0 +1,47 @@
+import { html } from 'lit-html'
+import dedent from 'ts-dedent'
+import { Meta, Story, Canvas, Source, ArgsTable } from '@storybook/addon-docs/blocks'
+import './confirmation-dialog'
+
+<Meta title="Components/Confirmation Dialog" component="sp-confirmation-dialog" />
+
+# Confirmation Dialog
+
+Dialog for confirming an action.
+`body` slot contains the body of the dialog
+`confirmLabel` slot contains the contents of the confirm button
+
+<Canvas>
+  <Story name="Default" height="600px">
+    $
+    {html`
+      <sp-confirmation-dialog open>
+        <p slot="body">Are you sure you want to do this thing?</p>
+        <span slot="confirmLabel">Yes</span>
+      </sp-confirmation-dialog>
+    `}
+  </Story>
+</Canvas>
+
+## Events
+
+`sp-dialog-confirm` - when the user confirms the action and `sp-dialog-cancel` when the user cancels the action.
+
+## React
+
+To consume the `ConfirmationDialog` component in a React app, import it from the `@skedulo/platform-ui-react` package and use it as you would a normal react component.
+Kebab cased properties will be mapped to camelcase. The `body` slot is accessed via `children`, the `confirmLabel` slot is accessed via the `confirmLabel` prop.
+
+### Events
+
+`sp-dialog-confirm` -> `onConfirm`
+
+`sp-dialog-cancel` -> `onCancel`
+
+<Source language="tsx" code={dedent`
+import { ConfirmationDialog } from '@skedulo/platform-ui-react'
+
+<ConfirmationDialog confirmLabel="Yes" onConfirm={() => {}} onCancel={() => {}}>
+  Are you really sure you want to do this?
+</ConfirmationDialog>
+`}/>

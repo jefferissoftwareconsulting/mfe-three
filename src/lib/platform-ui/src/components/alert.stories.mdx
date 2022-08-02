@@ -1,0 +1,73 @@
+import { html } from 'lit-html'
+import { Meta, Story, Canvas, Source } from '@storybook/addon-docs'
+import dedent from 'ts-dedent'
+
+import './alert'
+
+<Meta title="Components/Alert" component="sp-alert" />
+
+# Alert
+
+An Alert (`sp-alert`) provides urgent contextual feedback in response to user action or system activity. Usually sits at the top of the page or section the alert applies to.
+
+# Types
+
+<Canvas>
+  <Story name="Info">${html`<sp-alert type="info">Info</sp-alert>`}</Story>
+</Canvas>
+
+<Canvas>
+  <Story name="Success">${html`<sp-alert type="success">Success</sp-alert>`}</Story>
+</Canvas>
+
+<Canvas>
+  <Story name="Warning">${html`<sp-alert type="warning">Warning</sp-alert>`}</Story>
+</Canvas>
+
+<Canvas>
+  <Story name="Error">${html`<sp-alert type="error">Error</sp-alert>`}</Story>
+</Canvas>
+
+# Title
+
+An optional title can be included via the `title` property.
+
+<Canvas>
+  <Story name="Title">${html`<sp-alert type="info" title="I am the title">and i am the body</sp-alert>`}</Story>
+</Canvas>
+
+# Clearable
+
+Alerts can be made to be clearable by addings the `clearable` property to them. When clearing an alert the component will emit the `sp-alert-cleared` event.
+
+<Canvas>
+  <Story name="Clearable">${html`<sp-alert type="info" clearable>Clearable</sp-alert>`}</Story>
+</Canvas>
+
+<Canvas>
+  <Story name="Clearable more content">
+    $
+    {html`<sp-alert type="info" clearable title="I am also clearable"
+      >I am also a clearable alert, but i have a loat more content.. Lorem ipsum dolor sit amet, consectetur adipiscing
+      elit. Fusce consequat vestibulum tortor, id sagittis nunc molestie sit amet. Duis convallis, orci sit amet
+      efficitur posuere, leo metus elementum orci, id sagittis orci magna at lacus. Morbi eu enim tincidunt, consequat
+      nisi in, ullamcorper elit. Fusce pellentesque varius dolor, nec lacinia elit lobortis eu. Phasellus lacus ligula,
+      viverra ut dolor ac, fermentum hendrerit sapien. Quisque consectetur semper sem non molestie. Nam mattis eros vel
+      libero placerat, a blandit lectus auctor. Etiam finibus lobortis erat, sed ornare ligula ornare et. Quisque
+      porttitor, mi sit amet tempor vulputate, felis augue sodales diam, id rhoncus lacus leo id felis. In malesuada
+      metus non ultrices pulvinar. Sed tincidunt congue vehicula. Donec vel lacus egestas, malesuada felis a, ultrices
+      risus.</sp-alert
+    >`}
+  </Story>
+</Canvas>
+
+# React
+
+To consume the `Alert` in a React app, simply import it from the `@skedulo/platform-ui-react` package and use it as you would a normal React component.
+
+<Source
+  code={dedent`
+    import { Alert } from '@skedulo/platform-ui-react'
+    <Alert title="title content" clearable>Alert body!</Alert>
+  `}
+/>

@@ -1,0 +1,88 @@
+import { html } from 'lit-html'
+import { Meta, Story, Canvas, Source } from '@storybook/addon-docs'
+import dedent from 'ts-dedent'
+
+import './badge'
+
+<Meta title="Components/Badge" component="sp-badge" />
+
+# Badge
+
+The Badge component `<sp-badge>`.
+
+Badges can contain numeric values which can indicate a count, such as the number of unread notifications.
+Badges can also contain letters/words, such as `alpha`, `beta`, or `new`.
+When containing numbers and the limit has been hit, the limit with a `+` sign will be shown.
+When containing a string and the limit has been hit, the string upto the limit with a `..` will be shown.
+
+## Theme
+
+There are four themes: `default`, `subtle`, `primary` and `important`. Changed via the `theme` property.
+
+## Content
+
+Takes `content` property which can be a number or string
+
+## Limit
+
+Takes `limit` property which defaults to `99` for numbers and `5` for strings
+
+## Default
+
+<Canvas>
+  <Story name="Default">
+    $
+    {html`<sp-badge content="9"></sp-badge> <sp-badge content="100"></sp-badge>
+      <sp-badge content="100" limit="101"></sp-badge> <sp-badge content="beta"></sp-badge>
+      <sp-badge content="beta" limit="2"></sp-badge>`}
+  </Story>
+</Canvas>
+
+## Subtle
+
+<Canvas>
+  <Story name="Subtle">
+    $
+    {html`<sp-badge theme="subtle" content="9"></sp-badge> <sp-badge theme="subtle" content="100"></sp-badge>
+      <sp-badge theme="subtle" content="100" limit="101"></sp-badge>
+      <sp-badge theme="subtle" content="beta"></sp-badge>
+      <sp-badge theme="subtle" content="beta" limit="2"></sp-badge>`}
+  </Story>
+</Canvas>
+
+## Primary
+
+<Canvas>
+  <Story name="Primary">
+    $
+    {html`<sp-badge theme="primary" content="9"></sp-badge>
+      <sp-badge theme="primary" content="100"></sp-badge>
+      <sp-badge theme="primary" content="100" limit="101"></sp-badge>
+      <sp-badge theme="primary" content="beta"></sp-badge>
+      <sp-badge theme="primary" content="beta" limit="2"></sp-badge>`}
+  </Story>
+</Canvas>
+
+## Important
+
+<Canvas>
+  <Story name="Important">
+    $
+    {html`<sp-badge theme="important" content="9"></sp-badge>
+      <sp-badge theme="important" content="100"></sp-badge>
+      <sp-badge theme="important" content="100" limit="101"></sp-badge>
+      <sp-badge theme="important" content="beta"></sp-badge>
+      <sp-badge theme="important" content="beta" limit="2"></sp-badge>`}
+  </Story>
+</Canvas>
+
+## React
+
+To consume the `Badge` in a React app, simply import it from the `@skedulo/platform-ui-react` package and use it as you would a normal React component.
+
+<Source
+  code={dedent`
+    import { Badge } from '@skedulo/platform-ui-react'
+    <Badge content="11" limit="9" theme="primary"  />
+  `}
+/>

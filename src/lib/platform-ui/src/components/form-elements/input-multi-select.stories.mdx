@@ -1,0 +1,281 @@
+import { html } from 'lit-html'
+import dedent from 'ts-dedent'
+import { Meta, Story, Canvas, Source } from '@storybook/addon-docs/blocks'
+
+import './input-multiselect'
+import './input-select-base'
+
+<Meta title="Form Elements/Input Multi Select" component="sp-input-multiselect" />
+
+# Input Multi Select
+
+Use `sp-input-multiselect` for selecting multiple items from lists of enumerated values. Value is set via the `value` attribute. Placeholder, via the `placeholder` attribute, readonly via the `readonly`attribute. Options need to be defined in the main slot as `<sp-menu-item>` elements.
+
+<Canvas>
+  <Story name="Default">
+    $
+    {html`
+      <sp-input-multiselect>
+        <sp-menu-item value="option-1">Option 1</sp-menu-item>
+        <sp-menu-item value="option-2">Option 2</sp-menu-item>
+        <sp-menu-item value="option-3">I've got <i>rich</i> text in my <b>label</b></sp-menu-item>
+        <sp-menu-item value="option-4">
+          i am a very long option that spans across several lines lorem, i am a very long option that spans across
+          several lines lorem, i am a very long option that spans across several lines lorem, i am a very long option
+          that spans across several lines lorem
+        </sp-menu-item>
+        <sp-menu-item value="option-5" disabled>disabled</sp-menu-item>
+      </sp-input-multiselect>
+    `}
+  </Story>
+  <Story name="Populated">
+    $
+    {html`
+      <sp-input-multiselect value='["option-1", "option-2"]'>
+        <sp-menu-item value="option-1">Option 1</sp-menu-item>
+        <sp-menu-item value="option-2">Option 2</sp-menu-item>
+        <sp-menu-item value="option-3">I've got <i>rich</i> text in my <b>label</b></sp-menu-item>
+        <sp-menu-item value="option-4">
+          i am a very long option that spans across several lines lorem, i am a very long option that spans across
+          several lines lorem, i am a very long option that spans across several lines lorem, i am a very long option
+          that spans across several lines lorem
+        </sp-menu-item>
+        <sp-menu-item value="option-5" disabled>disabled</sp-menu-item>
+      </sp-input-multiselect>
+    `}
+  </Story>
+  <Story name="Placeholder">
+    $
+    {html`
+      <sp-input-multiselect placeholder="select an option..">
+        <sp-menu-item value="option-1">Option 1</sp-menu-item>
+        <sp-menu-item value="option-2">Option 2</sp-menu-item>
+        <sp-menu-item value="option-3">I've got <i>rich</i> text in my <b>label</b></sp-menu-item>
+        <sp-menu-item value="option-4">
+          i am a very long option that spans across several lines lorem, i am a very long option that spans across
+          several lines lorem, i am a very long option that spans across several lines lorem, i am a very long option
+          that spans across several lines lorem
+        </sp-menu-item>
+        <sp-menu-item value="option-5" disabled>disabled</sp-menu-item>
+      </sp-input-multiselect>
+    `}
+  </Story>
+  <Story name="Readonly empty">
+    $
+    {html`
+      <sp-input-multiselect readonly>
+        <sp-menu-item value="option-1">aaaa</sp-menu-item>
+        <sp-menu-item value="option-2">bbbb</sp-menu-item>
+        <sp-menu-item value="option-3">I've got <i>rich</i> text in my <b>label</b></sp-menu-item>
+        <sp-menu-item value="option-4">
+          i am a very long option that spans across several lines lorem, i am a very long option that spans across
+          several lines lorem, i am a very long option that spans across several lines lorem, i am a very long option
+          that spans across several lines lorem
+        </sp-menu-item>
+        <sp-menu-item value="option-5" disabled>disabled</sp-menu-item>
+      </sp-input-multiselect>
+    `}
+  </Story>
+  <Story name="Readonly with value">
+    $
+    {html`
+      <sp-input-multiselect readonly value='["option-1", "option-2"]'>
+        <sp-menu-item value="option-1">Option 1</sp-menu-item>
+        <sp-menu-item value="option-2">Option 2</sp-menu-item>
+        <sp-menu-item value="option-3">I've got <i>rich</i> text in my <b>label</b></sp-menu-item>
+        <sp-menu-item value="option-4">
+          i am a very long option that spans across several lines lorem, i am a very long option that spans across
+          several lines lorem, i am a very long option that spans across several lines lorem, i am a very long option
+          that spans across several lines lorem
+        </sp-menu-item>
+        <sp-menu-item value="option-5" disabled>disabled</sp-menu-item>
+      </sp-input-multiselect>
+    `}
+  </Story>
+</Canvas>
+
+## Searching
+
+Multi select inputs can be made searchable by providing the `can-search` attribute
+
+<Canvas>
+  <Story name="Searchable">
+    $
+    {html`
+      <sp-input-multiselect placeholder="Search..." can-search value='["option-1", "option-2"]'>
+        <sp-menu-item value="option-1">Option 1</sp-menu-item>
+        <sp-menu-item value="option-2">Option 2</sp-menu-item>
+        <sp-menu-item value="option-3">I've got <i>rich</i> text in my <b>label</b></sp-menu-item>
+        <sp-menu-item value="option-4">
+          i am a very long option that spans across several lines lorem, i am a very long option that spans across
+          several lines lorem, i am a very long option that spans across several lines lorem, i am a very long option
+          that spans across several lines lorem
+        </sp-menu-item>
+        <sp-menu-item value="option-5" disabled>disabled</sp-menu-item>
+      </sp-input-multiselect>
+    `}
+  </Story>
+</Canvas>
+
+## Labels
+
+Labels are added via the `label` slot. Labels can be positioned above, or to the side using the `label-position` (`top`, `side`) attribute.
+
+<Canvas>
+  <Story name="Labeled">
+    $
+    {html`
+      <sp-input-multiselect>
+        <sp-menu-item value="option-1">aaaa</sp-menu-item>
+        <sp-menu-item value="option-2">bbbb</sp-menu-item>
+        <sp-menu-item value="option-3">I've got <i>rich</i> text in my <b>label</b></sp-menu-item>
+        <sp-menu-item value="option-4" disabled>disabled</sp-menu-item>
+        <div slot="label">Labeled field</div>
+      </sp-input-multiselect>
+    `}
+  </Story>
+</Canvas>
+
+<Canvas>
+  <Story name="Labeled: Side">
+    $
+    {html`
+      <sp-input-multiselect label-position="side">
+        <sp-menu-item value="option-1">aaaa</sp-menu-item>
+        <sp-menu-item value="option-2">bbbb</sp-menu-item>
+        <sp-menu-item value="option-3">I've got <i>rich</i> text in my <b>label</b></sp-menu-item>
+        <sp-menu-item value="option-4" disabled>disabled</sp-menu-item>
+        <div slot="label">Labeled field</div>
+      </sp-input-multiselect>
+    `}
+  </Story>
+</Canvas>
+
+## Errors
+
+Error state is achieved with the `invalid` attribute and the `error` slot.
+
+<Canvas>
+  <Story name="Error">
+    $
+    {html`
+      <sp-input-multiselect invalid>
+        <sp-menu-item value="option-1">aaaa</sp-menu-item>
+        <sp-menu-item value="option-2">bbbb</sp-menu-item>
+        <sp-menu-item value="option-3">I've got <i>rich</i> text in my <b>label</b></sp-menu-item>
+        <sp-menu-item value="option-4" disabled>disabled</sp-menu-item>
+        <div slot="error">Error</div>
+      </sp-input-multiselect>
+    `}
+  </Story>
+</Canvas>
+
+## Sizes
+
+The select input supports 3 different sizes, via the `size` attribute. (`medium`, `large` and `x-large`)
+
+<Canvas>
+  <Story name="Size: medium">
+    $
+    {html`
+      <sp-input-multiselect size="medium">
+        <sp-menu-item value="option-1">aaaa</sp-menu-item>
+        <sp-menu-item value="option-2">bbbb</sp-menu-item>
+        <sp-menu-item value="option-3">I've got <i>rich</i> text in my <b>label</b></sp-menu-item>
+        <sp-menu-item value="option-4">
+          i am a very long option that spans across several lines lorem, i am a very long option that spans across
+          several lines lorem, i am a very long option that spans across several lines lorem, i am a very long option
+          that spans across several lines lorem
+        </sp-menu-item>
+        <sp-menu-item value="option-5" disabled>disabled</sp-menu-item>
+      </sp-input-multiselect>
+    `}
+  </Story>
+  <Story name="Size: large">
+    $
+    {html`
+      <sp-input-multiselect size="large">
+        <sp-menu-item value="option-1">aaaa</sp-menu-item>
+        <sp-menu-item value="option-2">bbbb</sp-menu-item>
+        <sp-menu-item value="option-3">I've got <i>rich</i> text in my <b>label</b></sp-menu-item>
+        <sp-menu-item value="option-4">
+          i am a very long option that spans across several lines lorem, i am a very long option that spans across
+          several lines lorem, i am a very long option that spans across several lines lorem, i am a very long option
+          that spans across several lines lorem
+        </sp-menu-item>
+        <sp-menu-item value="option-5" disabled>disabled</sp-menu-item>
+      </sp-input-multiselect>
+    `}
+  </Story>
+  <Story name="Size: x-large">
+    $
+    {html`
+      <sp-input-multiselect size="x-large">
+        <sp-menu-item value="option-1">aaaa</sp-menu-item>
+        <sp-menu-item value="option-2">bbbb</sp-menu-item>
+        <sp-menu-item value="option-3">I've got <i>rich</i> text in my <b>label</b></sp-menu-item>
+        <sp-menu-item value="option-4">
+          i am a very long option that spans across several lines lorem, i am a very long option that spans across
+          several lines lorem, i am a very long option that spans across several lines lorem, i am a very long option
+          that spans across several lines lorem
+        </sp-menu-item>
+        <sp-menu-item value="option-5" disabled>disabled</sp-menu-item>
+      </sp-input-multiselect>
+    `}
+  </Story>
+</Canvas>
+
+## Data-driven Options
+
+Sometimes it's more convenient to supply a data list and have the component handle layout automatically, especially with large datasets.
+
+The `options` prop accepts an array of data to populate the list. This <b>cannot be used alongside the default slot</b>. Named slots for labels and errors work as normal.
+
+Each option must be an object containing a `label` and `value`. Currently these are restricted to `string` type only.
+
+<Canvas>
+  <Story name="Data-driven">
+    $
+    {html`
+      <sp-input-multiselect
+        .options=${[
+          { label: 'Option 1', value: 'option-1' },
+          { label: 'Option 2', value: 'option-2' },
+          { label: 'Option 3', value: 'option-3' },
+          { label: 'Option 4', value: 'option-4' },
+          { label: 'Option 5', value: 'option-5' },
+          { label: 'Option 6', value: 'option-6' },
+          { label: 'Option 7', value: 'option-7' },
+          { label: 'Option 8', value: 'option-8' },
+          { label: 'Option 9', value: 'option-9' },
+          { label: 'Option 10', value: 'option-10' }
+        ]}
+      >
+        <div slot="label">Data-driven</div>
+      </sp-input-multiselect>
+    `}
+  </Story>
+</Canvas>
+
+## React
+
+To consume the `InputMultiSelect` component in a React app, import it from the `@skedulo/platform-ui-react` package and use it as you would a normal react component. Kebab cased properties will be mapped to camelcase. The `label` slot is reached via the `label` prop, and the `error` slot is reached via the `error` prop.
+
+<Source
+  language="tsx"
+  code={dedent`
+import { InputMultiSelect, MenuItem } from '@skedulo/platform-ui-react'
+  <InputMultiSelect value={['selectedValue']}>
+    <MenuItem value="selectedValue">Option</MenuItem>
+    <MenuItem disabled={true} value="otherThing">Other Option</MenuItem>
+  </InputSelect>
+`}
+/>
+
+## Roadmap
+
+- 🐛: High volume lists perform poorly in chrome
+- Configurable drawer widths
+- Min/Max selections
+- Max width on individual options (truncate text after)
+- Max height on input of 100px (scroll input after)

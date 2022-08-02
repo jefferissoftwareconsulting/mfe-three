@@ -1,0 +1,84 @@
+<Meta title="Introduction/React" />
+
+# React
+
+The `platform-ui-react` package is a wrapper around this package that provides React component versions of all of the Web Components. If you are using the components from React this means you don't have to add repetitive boilerplate.
+
+## Why?
+
+React doesn't work particularly well with Web Components for reasons including:
+
+- attributes can only be strings - complex objects cannot be passed as props using JSX
+- boolean attributes set using `attr={false}` will still be set on the Web Component as `attr=""` and be interpreted as `true`
+- custom events do not have nice props like `onClick` or `onMouseDown` so it's necessary to use a `ref`, `useEffect`, and `add/removeEventListener`
+
+See [Custom Elements Everywhere](https://custom-elements-everywhere.com/#react) for more details.
+
+## Wrappers
+
+The following wrappers can be used to make it easier to interact with Web Components from React. They work by setting properties directly on a reference to the Web Component instance rather than setting the attributes. This allows non-string prop types to be used and is why LitElement properties should use the `reflect` option as described in Conventions.
+
+### wrapCustomComponent
+
+The simplest way to create a React wrapper for a Web Component is using `wrapCustomComponent`. Note that this wrapper relies on the convention of using `camelCase` for properties on Web Component classes, even if the attribute is `kebab-case`. `LitElement` has `attribute` and `reflect` options for properties to use different names for attributes and properties and keep them in sync.
+
+```tsx
+import { wrapCustomComponent } from '@skedulo/platform-ui-react'
+
+const Modal = wrapCustomComponent(
+  // The tag name - note: for types to work this tag must have a type definition as described in the Conventions
+  'sp-modal',
+  // List any props that need to be handled by the wrapper - this should include:
+  // - props that are kebab-case on the Web Component
+  // - props that are not strings
+  ['noClose', 'open'],
+  {
+    // eventProps can optionally be provided to add a prop that listens for the provided event name
+    // NOTE: these props won't be using React's synthetic event system
+    eventProps: { onModalClose: 'sp-modal-close' }
+  }
+)
+// Props are automatically generated from the types on JSX.IntrinsicElements and provided eventProps
+// they can be extracted like this:
+type ModalProps = React.ComponentProps<typeof Modal>
+
+const modal = (
+  <Modal
+    open={isOpen}
+    noClose
+    onModalClose={event => {
+      // ...
+    }}
+  />
+)
+```
+
+WARNING: The TypeScript types for `wrapCustomComponent` are pretty complicated so TypeScript can get confused or slow down. For example, it can hang indefinitely on a build if you include a typo on a property name. Temporarily adding explicit type parameters can sometimes enable TypeScript to show the errors - e.g.
+
+```tsx
+const Modal = wrapCustomComponent<'sp-modal', ['noClose', 'open'], { onModalClose: 'sp-modal-close' }>('sp-modal', ...)
+```
+
+### useCustomElementRef
+
+`useCustomElementRef` is a lower level tool (that is used by `wrapCustomComponent`) for working with Web Components.
+
+```tsx
+import { useCustomElementRef } from '@skedulo/platform-ui-react'
+
+const MyComponent: React.FC = () => {
+  const ref = useCustomElementRef(
+    {
+      noClose: true,
+      open: true,
+      onModalClose: useCallback(() => {
+        // ...
+      }, [])
+    },
+    { onModalClose: 'sp-modal-close' }
+  )
+  return <sp-modal ref={ref} />
+}
+```
+
+`useCustomElementRef` reacts to prop changes and updates the proprties (and adds and removes event listeners) on the Web Component instance.

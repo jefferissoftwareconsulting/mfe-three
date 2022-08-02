@@ -1,0 +1,317 @@
+import { html } from 'lit-html'
+import { Meta, Story, Canvas, Source } from '@storybook/addon-docs'
+import dedent from "ts-dedent"
+import { popover } from "./popover";
+
+<Meta title="Components/Popover" component={popover} />
+
+# Popovers
+The Popover component `<sp-popover>` is a utility component. Popovers are non-modal dialogs intended to lift optional controls or details off the main document and conceal them behind an interactive element, allowing the user to focus on the primary context and make a conscious decision to access additional context/tools.
+
+Popovers exist to expose functionality and do not attempt to style the content they are supplied.
+
+[Tooltips](./?path=/docs/components-tooltip--short-content) are a type of Popover specifically for short-form, non-interactive string content. Use the right component for your needs.
+
+## Reference Element
+Every Popover needs a reference element to "pop" from. Usually this should be an interactive element such as a `button` or `input`, and the Popover content will show when certain trigger events are fired.
+
+Use the default slot to set a reference element.
+
+## Content
+Popovers can show rich content and often contain interactive elements like form fields or menus. Use the `content` slot to set Popover content.
+
+Remember that the Popover component is a utility. The content element supplied should handle all of its own styling, including `box-shadow` where appropriate.
+
+## Trigger Events
+Popover content will show/hide when the user interacts with a trigger element (usually the reference element). The component will register listeners when you set the `trigger` prop to one or more event types from `hover`, `focus` or `click`.
+
+The `trigger` prop defaults to `hover focus` and accepts a space-cased string or an array, i.e. `['hover', 'focus']` and `hover focus` will have the same result.
+
+<Canvas>
+  <Story name="Trigger: Hover/Focus (default)">
+    ${html`
+      <sp-popover>
+        <sp-button>Hover or Focus</sp-button>
+        <div slot="content">Popover content</div>
+      </sp-popover>
+    `}
+  </Story>
+  <Story name="Trigger: Hover">
+    ${html`
+      <sp-popover trigger="hover">
+        <sp-button>Hover</sp-button>
+        <div slot="content">Popover content</div>
+      </sp-popover>
+    `}
+  </Story>
+  <Story name="Trigger: Focus">
+    ${html`
+      <sp-popover trigger="focus">
+        <sp-button>Focus</sp-button>
+        <div slot="content">Popover content</div>
+      </sp-popover>
+    `}
+  </Story>
+  <Story name="Trigger: Click">
+    ${html`
+      <sp-popover trigger="click">
+        <sp-button>Click</sp-button>
+        <div slot="content">Popover content</div>
+      </sp-popover>
+    `}
+  </Story>
+</Canvas>
+
+Regardless of the `trigger` value, Popover always registers event listeners to handle closing an open Popover when:
+- The `Escape` key is pressed
+- Clicking anywhere outside the Popover
+
+## Placement
+Set the **desired placement** of Popover content - relative to the reference element - with the `placement` prop. Defaults to `top`.
+
+<Canvas>
+  <Story name="Placement">
+    ${html`
+      <div style='
+        width: fit-content;
+        padding: 1rem 5rem;
+        display: grid;
+        gap: 1rem;
+        justify-items: center;
+        grid-template-rows: repeat(5, 1fr);
+        grid-template-columns: repeat(5, 1fr);
+        grid-template-areas:
+          ". a b c ."
+          "j . . . d"
+          "k . . . e"
+          "l . . . f"
+          ". g h i .";
+      '>
+        <sp-popover placement="top-start" style="display: block; grid-area: a;">
+          <sp-button button-type="secondary">&nbsp;</sp-button>
+          <sp-lozenge color="purple" size="small" slot="content">top-start</sp-lozenge>
+        </sp-popover>
+        <sp-popover placement="top" style="display: block; grid-area: b;">
+          <sp-button button-type="secondary">&nbsp;</sp-button>
+          <sp-lozenge color="purple" size="small" slot="content">top</sp-lozenge>
+        </sp-popover>
+        <sp-popover placement="top-end" style="display: block; grid-area: c;">
+          <sp-button button-type="secondary">&nbsp;</sp-button>
+          <sp-lozenge color="purple" size="small" slot="content">top-end</sp-lozenge>
+        </sp-popover>
+        <sp-popover placement="right-start" style="display: block; grid-area: d;">
+          <sp-button button-type="secondary">&nbsp;</sp-button>
+          <sp-lozenge color="purple" size="small" slot="content">right-start</sp-lozenge>
+        </sp-popover>
+        <sp-popover placement="right" style="display: block; grid-area: e;">
+          <sp-button button-type="secondary">&nbsp;</sp-button>
+          <sp-lozenge color="purple" size="small" slot="content">right</sp-lozenge>
+        </sp-popover>
+        <sp-popover placement="right-end" style="display: block; grid-area: f;">
+          <sp-button button-type="secondary">&nbsp;</sp-button>
+          <sp-lozenge color="purple" size="small" slot="content">right-end</sp-lozenge>
+        </sp-popover>
+        <sp-popover placement="bottom-start" style="display: block; grid-area: g;">
+          <sp-button button-type="secondary">&nbsp;</sp-button>
+          <sp-lozenge color="purple" size="small" slot="content">bottom-start</sp-lozenge>
+        </sp-popover>
+        <sp-popover placement="bottom" style="display: block; grid-area: h;">
+          <sp-button button-type="secondary">&nbsp;</sp-button>
+          <sp-lozenge color="purple" size="small" slot="content">bottom</sp-lozenge>
+        </sp-popover>
+        <sp-popover placement="bottom-end" style="display: block; grid-area: i;">
+          <sp-button button-type="secondary">&nbsp;</sp-button>
+          <sp-lozenge color="purple" size="small" slot="content">bottom-end</sp-lozenge>
+        </sp-popover>
+        <sp-popover placement="left-start" style="display: block; grid-area: j;">
+          <sp-button button-type="secondary">&nbsp;</sp-button>
+          <sp-lozenge color="purple" size="small" slot="content">left-start</sp-lozenge>
+        </sp-popover>
+        <sp-popover placement="left" style="display: block; grid-area: k;">
+          <sp-button button-type="secondary">&nbsp;</sp-button>
+          <sp-lozenge color="purple" size="small" slot="content">left</sp-lozenge>
+        </sp-popover>
+        <sp-popover placement="left-end" style="display: block; grid-area: l;">
+          <sp-button button-type="secondary">&nbsp;</sp-button>
+          <sp-lozenge color="purple" size="small" slot="content">left-end</sp-lozenge>
+        </sp-popover>
+      </div>
+    `}
+  </Story>
+</Canvas>
+
+Popover uses [Popper.js](https://popper.js.org/) under the hood to manage its placement. When the desired placement would result in the Popover being partially or fully obscured from view, it is flipped to the opposite side.
+
+<Canvas>
+  <Story name="Placement: Flipped">
+    ${html`
+      <sp-popover placement="left">
+        <sp-button>Flipping burgers</sp-button>
+        <div slot="content">left placement flipped to right</div>
+      </sp-popover>
+    `}
+  </Story>
+</Canvas>
+
+## Positioning Strategy
+Sometimes a Popover placement will be clipped in any direction when the reference element is tightly bound by a parent. Use the `is-fixed` flag to switch Popper's positioning strategy to bust out of the parent container. It does this by using `position: fixed` to pull the Popover out of the document flow and recalculate the position.
+
+<Canvas>
+  <Story name="Fixed position">
+    ${html`
+      <sp-popover placement="left" is-fixed>
+        <sp-button>Breaking boundaries</sp-button>
+        <div slot="content">fixed position</div>
+      </sp-popover>
+    `}
+  </Story>
+</Canvas>
+
+## Offset
+A positive or negative Popover offset - relative to the closest edge of the reference element based on its `placement` - can be set using these props:
+- `distance`: Number of pixels between the reference element and the Popover. Defaults to `4`.
+- `skidding`: Number of pixels to offset the Popover parallel to the closest edge of the reference element. Defaults to `0`.
+
+<Canvas>
+  <Story name="Offset: Distance">
+    ${html`
+      <sp-popover distance="-5">
+        <sp-button>Distance</sp-button>
+        <sp-lozenge slot="content">fixed position</sp-lozenge>
+      </sp-popover>
+    `}
+  </Story>
+  <Story name="Offset: Skidding">
+    ${html`
+      <sp-popover skidding="10">
+        <sp-button>Skidding</sp-button>
+        <sp-lozenge slot="content">fixed position</sp-lozenge>
+      </sp-popover>
+    `}
+  </Story>
+</Canvas>
+
+## Delay
+Use the `delay-on-open` and `delay-on-close` props to add a delay (in milliseconds) to the Popover opening and closing. Both default to `100` to soften interactions and prevent jittery behaviour.
+
+<Canvas>
+  <Story name="Delay: Open">
+    ${html`
+      <sp-popover delay-on-open="300">
+        <sp-button>Delay open</sp-button>
+        <div slot="content">Popover content</div>
+      </sp-popover>
+    `}
+  </Story>
+  <Story name="Delay: Close">
+    ${html`
+      <sp-popover delay-on-close="300">
+        <sp-button>Delay close</sp-button>
+        <div slot="content">Popover content</div>
+      </sp-popover>
+    `}
+  </Story>
+  <Story name="Delay: Both">
+    ${html`
+      <sp-popover delay-on-open="300" delay-on-close="500">
+        <sp-button>Delay both</sp-button>
+        <div slot="content">Popover content</div>
+      </sp-popover>
+    `}
+  </Story>
+</Canvas>
+
+## Popover Role
+Set a `role` for the main Popover element using the `popover-role` prop. Defaults to `dialog`. Available options include `toolip` and `menu`. Setting the correct role improves accessibility.
+
+## Controlling the Open State
+Sometimes a Popover will need to be controlled from a parent or sibling element. This is made possible with public properties/methods:
+- `isOpen` - Directly change the value to immediately open/close the Popover. Ignores any delay values that may be set.
+- `open()` - Open the Popover after a delay, if set
+- `close()` - Close the Popover after a delay, if set
+
+This can be combined with the `trigger` functionality where necessary.
+
+<Canvas>
+  <Story name="Close from within">
+    ${html`
+      <sp-popover trigger="click" id="custom1" popover-id="test-123">
+        <sp-button described-by-id="test-123">Close from within</sp-button>
+        <div slot="content">
+          <button
+            @click=${(event) => {
+              event.stopPropagation()
+              const popoverEl = document.querySelector('#custom1')
+              popoverEl.isOpen = false
+            }}
+          >
+            Close
+          </button>
+        </div>
+      </sp-popover>
+    `}
+  </Story>
+  <Story name="Open from outside">
+    ${html`
+      <sp-button
+        @click=${(event) => {
+          event.stopPropagation()
+          const popoverEl = document.querySelector('#custom2')
+          popoverEl.isOpen = !popoverEl.isOpen
+        }}
+      >
+        Open from outside
+      </sp-button>
+      <sp-popover trigger="click" id="custom2">
+        <sp-lozenge color="purple" size="small">Reference element</sp-lozenge>
+        <div slot="content">Popover content</div>
+      </sp-popover>
+    `}
+  </Story>
+</Canvas>
+
+## Updating the Popover's position
+In certain scenarios where the reference element changes size the popover might not reposition itself. You can manually
+trigger the popover to re-draw via the `updatePosition` public method.
+
+## Pure Popover
+`sp-popover` should cater to most use-cases, but if you need to implement a deeply customised Popover without all the
+trigger events, `sp-pure-popover` provides a stripped back component wrapper for Popper.js. It does not register any
+event listeners, this is left up to you to implement for your specific needs by using the public properties/methods.
+
+<Canvas>
+  <Story name="Pure Popover">
+    ${html`
+      <sp-pure-popover>
+        <sp-button
+          @click=${() => {
+            const popoverEl = document.querySelector('sp-pure-popover')
+            popoverEl.isOpen = !popoverEl.isOpen
+          }}
+        >
+          Custom click
+        </sp-button>
+        <div slot="content">Popover content</div>
+      </sp-pure-popover>
+    `}
+  </Story>
+</Canvas>
+
+## React
+To consume the `Popover` in a React app, simply import it from the `@skedulo/platform-ui-react` package and use it as you would a normal React component.
+All properties are mapped to camelCase.
+
+<Source
+  code={dedent`
+    import { Popover } from '@skedulo/platform-ui-react'
+    <Popover content={<p>Popover content</p>} isFixed>
+      <Button>Reference element</Button>
+    </Popover>
+  `}
+/>
+
+## Roadmap
+- Accessibility is not great on this component - We should really be using attributes like `aria-describedby` to relate trigger elements to popover content, but the Shadow DOM makes this impossible because it creates a separate DOM tree. Maybe explore other ways to achieve this?
+- Alternative open/close animation options
+- React Portal equivalent - [Render root](https://lit.dev/docs/components/shadow-dom/#renderroot) could work for this if needed
+- Expose more config/modifier options to pass through to Popper, such as a flip boundary element

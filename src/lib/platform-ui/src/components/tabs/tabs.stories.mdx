@@ -1,0 +1,195 @@
+import { html } from 'lit-html'
+import { Meta, Story, Canvas, Source } from '@storybook/addon-docs/blocks'
+import './'
+import dedent from 'ts-dedent'
+
+<Meta title="Components/Tabs" component="sp-tabs" />
+
+# Tab Bar
+
+The `sp-tab-bar` and `sp-tab` components can be used to render tabs - optionally as links. The `sp-tab-selected` event with `name` detail is fired when a tab is selected.
+
+<Canvas>
+  <Story name="Tab Bar">
+    $
+    {html`
+      <sp-tab-bar>
+        <sp-tab name="details">Details</sp-tab>
+        <sp-tab name="notes">Notes</sp-tab>
+        <sp-tab name="line-items">Line items</sp-tab>
+      </sp-tab-bar>
+    `}
+  </Story>
+</Canvas>
+
+## Links
+
+If the `link` attribute is provided to `sp-tab` it will be a link.
+
+<Canvas>
+  <Story name="Link Tab Bar">
+    $
+    {html`
+      <sp-tab-bar>
+        <sp-tab link="/details/" selected>Details</sp-tab>
+        <sp-tab link="/notes/">Notes</sp-tab>
+        <sp-tab link="/line-items/">Line items</sp-tab>
+      </sp-tab-bar>
+      <div style="padding: var(--sp-spacing-6) var(--sp-spacing-8);">
+        Page contents would depend on the page we're on
+      </div>
+    `}
+  </Story>
+</Canvas>
+
+## Initial Selection
+
+The initial selection can be set either using the `selected` attribute on `sp-tab-bar`:
+
+<Canvas>
+  <Story name="Tab Bar Selected">
+    $
+    {html`
+      <sp-tab-bar selected="notes">
+        <sp-tab name="details">Details</sp-tab>
+        <sp-tab name="notes">Notes</sp-tab>
+        <sp-tab name="line-items">Line items</sp-tab>
+      </sp-tab-bar>
+    `}
+  </Story>
+</Canvas>
+
+Or the `selected` attribute on an `sp-tab`:
+
+<Canvas>
+  <Story name="Tab Bar Selected Tab">
+    $
+    {html`
+      <sp-tab-bar>
+        <sp-tab name="details">Details</sp-tab>
+        <sp-tab name="notes">Notes</sp-tab>
+        <sp-tab name="line-items" selected>Line items</sp-tab>
+      </sp-tab-bar>
+    `}
+  </Story>
+</Canvas>
+
+## Controlled
+
+If the `controlled` attribute is set `sp-tab-bar` will only react to the `selected` attribute changing.
+
+<Canvas>
+  <Story name="Tab Bar Controlled">
+    $
+    {html`
+      <sp-tab-bar selected="notes" controlled>
+        <sp-tab name="details">Details</sp-tab>
+        <sp-tab name="notes">Notes</sp-tab>
+        <sp-tab name="line-items">Line items</sp-tab>
+      </sp-tab-bar>
+    `}
+  </Story>
+</Canvas>
+
+# Tabs
+
+The `sp-tabs` component can be used to display interactive tabs and panels. `sp-tab` components should be placed in the `tabs` slot and `sp-tab-panel` components in the main slot. Setting `shown` on an `sp-tab-panel` ensures that only that panel contents will be rendered, and is used to define the initial selection.
+
+<Canvas>
+  <Story name="Tabs">
+    $
+    {html`
+      <sp-tabs>
+        <sp-tab slot="tabs" name="details">Details</sp-tab>
+        <sp-tab slot="tabs" name="notes">Notes</sp-tab>
+        <sp-tab slot="tabs" name="line-items">Line items</sp-tab>
+        <sp-tab-panel name="details">
+          <div style="padding: var(--sp-spacing-6) var(--sp-spacing-8);">Details</div>
+        </sp-tab-panel>
+        <sp-tab-panel name="notes">
+          <div style="padding: var(--sp-spacing-6) var(--sp-spacing-8);">Notes</div>
+        </sp-tab-panel>
+        <sp-tab-panel name="line-items">
+          <div style="padding: var(--sp-spacing-6) var(--sp-spacing-8);">Line Items</div>
+        </sp-tab-panel>
+      </sp-tabs>
+    `}
+  </Story>
+</Canvas>
+
+Panels do not have to be unique, or top level children, so more complex functionality can be handled:
+
+<Canvas>
+  <Story name="Complex Tabs">
+    $
+    {html`
+      <sp-tabs>
+        <sp-tab slot="tabs" name="details">Details</sp-tab>
+        <sp-tab slot="tabs" name="notes">Notes</sp-tab>
+        <sp-tab slot="tabs" name="line-items">Line items</sp-tab>
+        <div style="padding: var(--sp-spacing-6) var(--sp-spacing-8); display: flex; flex-direction: row;">
+          <div style="margin-right: var(--sp-spacing-8); width: 300px">
+            <h2>Side Bar</h2>
+            <sp-tab-panel name="details">Details Side Bar Contents</sp-tab-panel>
+            <sp-tab-panel name="notes">Notes Side Bar Contents</sp-tab-panel>
+            <sp-tab-panel name="line-items">Line Items Side Bar Contents</sp-tab-panel>
+          </div>
+          <div>
+            <h2>Main Contents</h2>
+            <sp-tab-panel name="details">Details Main Contents</sp-tab-panel>
+            <sp-tab-panel name="notes">Notes Main Contents</sp-tab-panel>
+            <sp-tab-panel name="line-items">Line Items Main Contents</sp-tab-panel>
+          </div>
+        </div>
+      </sp-tabs>
+    `}
+  </Story>
+</Canvas>
+
+# React
+
+To consume the tabs components in a React app, simply import them from the `@skedulo/platform-ui-react` package and use them as you would a normal react component.
+
+<Source
+  code={dedent`
+    import { Tabs, TabBar, TabPanel, Tab } from '@skedulo/platform-ui-react'
+    // Tab Bar:
+    const TabBarControlled: React.FC = () => {
+      const [selected, setSelected] = useState('notes')
+      return (
+        <TabBar
+          controlled
+          selected={selected}
+          onTabSelected={event => setSelected(event.detail.name)}
+        >
+          <Tab name="details">Details</Tab>
+          <Tab name="notes">Notes</Tab>
+          <Tab name="line-items">Line items</Tab>
+        </TabBar>
+      )
+    }
+    // Tabs:
+    <Tabs
+      tabs={
+        <>
+          <Tab name="details">Details</Tab>
+          <Tab name="notes">Notes</Tab>
+          <Tab name="line-items">Line items</Tab>
+        </>
+      }
+    >
+      <TabPanel name="details">Details</TabPanel>
+      <TabPanel name="notes">Notes</TabPanel>
+      <TabPanel name="line-items">Line Items</TabPanel>
+    </Tabs>
+`}
+/>
+
+# Roadmap
+
+- Accessibility - keyboard control, etc
+- Handling long tab names gracefully
+- Handling lots of tabs gracefully and/or "More" dropdown
+- Disabled tabs
+- Tabs changed width when being selected because bold font is wider
+- It would be nice if it were possible to add a `lazy` attribute to a panel so it isn't mounted until it is shown - unfortunately, not mounting the slot isn't enough because the DOM tree is still created, it is just not added to the document

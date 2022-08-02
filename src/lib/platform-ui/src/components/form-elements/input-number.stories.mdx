@@ -1,0 +1,96 @@
+import { html } from 'lit-html'
+import dedent from 'ts-dedent'
+import { Meta, Story, Canvas, Source } from '@storybook/addon-docs/blocks'
+
+import './input-number'
+
+<Meta title="Form Elements/Input Number" component="sp-input-number" />
+
+# Input Number
+
+Use `sp-input-number` for collecting numeric values values. Value is set via the `value` attribute. Placeholder, via the `placeholder` attribute, readonly via the `readonly`attribute.
+
+<Canvas>
+  <Story name="Populated">${html`<sp-input-number value="123"></sp-input-number>`}</Story>
+  <Story name="Placeholder">${html`<sp-input-number placeholder="Placeholder"></sp-input-number>`}</Story>
+  <Story name="Invalid">${html`<sp-input-number value="333" invalid></sp-input-number>`}</Story>
+  <Story name="Readonly Empty (Disabled)">
+    ${html`<sp-input-number placeholder="Empty read only (disabled)" readonly></sp-input-number>`}
+  </Story>
+  <Story name="Readonly With Value (Locked)">${html`<sp-input-number value="444" readonly></sp-input-number>`}</Story>
+</Canvas>
+
+## Labels
+
+Labels are added via the `label` slot. Labels can be positioned above, or to the side using the `label-position` (`top`, `side`) attribute.
+
+<Canvas>
+  <Story name="WithLabel">
+    $
+    {html`
+      <sp-input-number>
+        <span slot="label">Label</span>
+      </sp-input-number>
+    `}
+  </Story>
+</Canvas>
+
+## Errors
+
+Error state is achieved with the `invalid` attribute and the `error` slot.
+
+<Canvas>
+  <Story name="WithError">
+    $
+    {html`
+      <sp-input-number invalid>
+        <span slot="error">Enter a valid value</span>
+      </sp-input-number>
+    `}
+  </Story>
+</Canvas>
+
+## Stepper
+
+Stepper controls are rendered by default. To remove them, set the `has-no-stepper` boolean attribute.
+
+<Canvas>
+  <Story name="No Stepper">${html`<sp-input-number placeholder="No stepper controls" has-no-stepper></sp-input-number>`}</Story>
+</Canvas>
+
+## Steps
+
+The step size can be adjusted with the `step` attribute. If the stepper controls have been removed, the `step` value is still used when pressing the up/down keys.
+
+<Canvas>
+  <Story name="Steps">${html`<sp-input-number placeholder="click +" step="100"></sp-input-number>`}</Story>
+</Canvas>
+
+## React
+
+To consume the `InputNumber` component in a React app, import it from the `@skedulo/platform-ui-react` package and use it as you would a normal react component. Kebab cased properties will be mapped to camelcase. The `label` slot is reached via the `label` prop, and the `error` slot is reached via the `error` prop.
+
+<Source
+  language="tsx"
+  code={dedent`
+import { InputNumber } from '@skedulo/platform-ui-react'
+<InputNumber
+  name="count"
+  value={1000}
+  onChange={event => {}}
+  readonly
+  iconPosition="left"
+  placeholder="placeholder"
+  invalid
+  error="enter something valid"
+  step={100}
+  label="Field Label"
+/>
+`}
+/>
+
+# Roadmap
+
+- Only allow usage of sm/md sizes
+- Limit to 18 digit numbers
+- Min/Max

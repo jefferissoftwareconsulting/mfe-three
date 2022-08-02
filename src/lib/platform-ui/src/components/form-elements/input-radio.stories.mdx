@@ -1,0 +1,103 @@
+import { html } from 'lit-html'
+import dedent from 'ts-dedent'
+import { Meta, Story, Canvas, Source } from '@storybook/addon-docs/blocks'
+
+import './input-radio'
+
+<Meta title="Form Elements/Input Radio" component="sp-input-radio" />
+
+# Input Radio Group / Input Radio Option
+
+Use radio groups `sp-input-radio-group` when you want the user to select a single option from a short list. To create a radio group, you need to use a combination of `sp-input-radio-group` and `sp-input-radio-option` elements. The `sp-input-radio-group` acts as the main input element, and recieves the name, current value and dispatches any relevent events. `sp-input-radio-option` denotes a radio option. These need to be used inside of the main slot.
+
+```html
+<sp-input-radio-group name="my-radio-group" value="the-selected-value">
+  <sp-input-radio-option value="an-option">This is an option</sp-input-radio-option>
+  <sp-input-radio-option value="the-selected-value">This is selected</sp-input-radio-option>
+</sp-input-radio-group>
+```
+
+<Canvas>
+  <Story name="Default">
+    $
+    {html`<sp-input-radio-group name="default" value="b">
+      <sp-input-radio-option value="a">This is an option</sp-input-radio-option>
+      <sp-input-radio-option value="b">This is selected</sp-input-radio-option>
+      <sp-input-radio-option value="d" disabled>This is disabled</sp-input-radio-option>
+    </sp-input-radio-group>`}
+  </Story>
+</Canvas>
+
+## Layout
+
+Radio groups can be either horizontal or vertically aligned via the `layout` attribute (`vertical`/`horizontal`). `vertical` is the default as it’s easier for the user to scan through options.
+
+<Canvas>
+  <Story name="Layout: Vertical (Default)">
+    $
+    {html`<sp-input-radio-group name="vertical" value="vertical-1" layout="vertical">
+      <span slot="label">Vertical Radios</span>
+      <sp-input-radio-option value="vertical-1">Vertical option 1</sp-input-radio-option>
+      <sp-input-radio-option value="vertical-2">Vertical option 2</sp-input-radio-option>
+      <sp-input-radio-option value="vertical-3">Vertical option 3</sp-input-radio-option>
+    </sp-input-radio-group>`}
+  </Story>
+</Canvas>
+
+<Canvas>
+  <Story name="Layout: Horizontal">
+    $
+    {html`<sp-input-radio-group name="horizontal" value="horiz-1" layout="horizontal">
+      <span slot="label">Horizontal Radios</span>
+      <sp-input-radio-option value="horiz-1">Horizontal option 1</sp-input-radio-option>
+      <sp-input-radio-option value="horiz-2">Horizontal option 2</sp-input-radio-option>
+      <sp-input-radio-option value="horiz-3">Horizontal option 3</sp-input-radio-option>
+    </sp-input-radio-group>`}
+  </Story>
+</Canvas>
+
+## Readonly
+
+Radios can be marked as readonly by applying the `readonly` attribute to the `sp-input-radio-group` element. Or if you want to disable a single radio option, `disabled` can be passed as an attribute to the `sp-input-radio-option` element.
+
+<Canvas>
+  <Story name="Readonly">
+    $
+    {html`<sp-input-radio-group value="readonly-1" layout="vertical" readonly>
+      <span slot="label">Readonly</span>
+      <sp-input-radio-option value="readonly-1">Readonly 1</sp-input-radio-option>
+      <sp-input-radio-option>Readonly 2</sp-input-radio-option>
+      <sp-input-radio-option>Readonly 1</sp-input-radio-option>
+    </sp-input-radio-group>`}
+  </Story>
+</Canvas>
+
+## React
+
+To consume the `InputRadioGroup`/`InputRadioOption` components in a React app, import it from the `@skedulo/platform-ui-react` package and use it as you would a normal react component. Kebab cased properties will be mapped to camelcase. The `label` slot is reached via the `label` prop, and the `error` slot is reached via the `error` prop. Options `InputRadioOptions` are given via the components `children`.
+
+<Source
+  language="tsx"
+  code={dedent`
+import { InputRadioGroup, InputRadioOption } from '@skedulo/platform-ui-react'
+
+<InputRadioGroup
+  name="my-radio"
+  value="option-a"
+  onChange={event => {}}
+  readonly
+  invalid
+  error="enter something valid"
+  label="Field Label"
+>
+  <InputRadioOption disabled value="option-a">
+    Option A
+  </InputRadioOption>
+  <InputRadioOption value="option-b">Option B</InputRadioOption>
+  <InputRadioOption value="option-c">Option C</InputRadioOption>
+</InputRadioGroup>
+`} />
+
+## Roadmap
+
+- Invalid state

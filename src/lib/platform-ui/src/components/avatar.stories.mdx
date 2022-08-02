@@ -1,0 +1,430 @@
+import { html } from 'lit-html'
+import { Meta, Story, Canvas, Source } from '@storybook/addon-docs'
+import dedent from "ts-dedent"
+import { avatar } from './avatar';
+import avatarImage1 from '../../assets/images/storybook/faces/M1.jpg'
+import avatarImage2 from '../../assets/images/storybook/faces/F1.jpg'
+import avatarImage3 from '../../assets/images/storybook/faces/M9.jpg'
+import avatarImage4 from '../../assets/images/storybook/faces/F2.jpg'
+
+<Meta title="Components/Avatar" component={avatar} />
+
+# Avatars
+The Avatar component `<sp-avatar>` is primarily used to identify people and organisations, but could be applied to various use cases.
+
+## Size
+Size used depends on its context and space allocated. Use the `size` prop to set `tiny`, `small`, `medium` or `large`. Defaults to `medium` if the prop is undefined.
+
+Avatar size also sets the length of abbreviated placeholder labels. `medium` up shows maximum two characters, while `small` down shows maximum one character.
+
+<Canvas>
+  <Story name="Size: Large">
+    ${html`
+      <sp-avatar size="large" label="Luke Skywalker"></sp-avatar>
+      <sp-avatar size="large" label="Luke Skywalker" theme="subtle"></sp-avatar>
+      <sp-avatar size="large" label="Luke Skywalker" theme="border"></sp-avatar>
+    `}
+  </Story>
+  <Story name="Size: Medium (default)">
+    ${html`
+      <sp-avatar label="Luke Skywalker"></sp-avatar>
+      <sp-avatar label="Luke Skywalker" theme="subtle"></sp-avatar>
+      <sp-avatar label="Luke Skywalker" theme="border"></sp-avatar>
+    `}
+  </Story>
+  <Story name="Size: Small">
+    ${html`
+      <sp-avatar size="small" label="Luke Skywalker"></sp-avatar>
+      <sp-avatar size="small" label="Luke Skywalker" theme="subtle"></sp-avatar>
+      <sp-avatar size="small" label="Luke Skywalker" theme="border"></sp-avatar>
+    `}
+  </Story>
+  <Story name="Size: Tiny">
+    ${html`
+      <sp-avatar size="tiny" label="Luke Skywalker"></sp-avatar>
+      <sp-avatar size="tiny" label="Luke Skywalker" theme="subtle"></sp-avatar>
+      <sp-avatar size="tiny" label="Luke Skywalker" theme="border"></sp-avatar>
+    `}
+  </Story>
+</Canvas>
+
+## Theme
+Avatar themes are useful when you need to show different states depending on the context. Use the `theme` prop to set `solid`, `subtle` or `border`. Defaults to `solid` if the prop is undefined.
+
+<Canvas>
+  <Story name="Theme: Solid (default)">
+    ${html`
+      <sp-row vertical-align="middle">
+        <sp-avatar size="large" label="Luke Skywalker"></sp-avatar>
+        <sp-avatar label="Luke Skywalker"></sp-avatar>
+        <sp-avatar size="small" label="Luke Skywalker"></sp-avatar>
+        <sp-avatar size="tiny" label="Luke Skywalker"></sp-avatar>
+      </sp-row>
+    `}
+  </Story>
+  <Story name="Theme: Subtle">
+    ${html`
+      <sp-row vertical-align="middle">
+        <sp-avatar theme="subtle" size="large" label="Luke Skywalker"></sp-avatar>
+        <sp-avatar theme="subtle" label="Luke Skywalker"></sp-avatar>
+        <sp-avatar theme="subtle" size="small" label="Luke Skywalker"></sp-avatar>
+        <sp-avatar theme="subtle" size="tiny" label="Luke Skywalker"></sp-avatar>
+      </sp-row>
+    `}
+  </Story>
+  <Story name="Theme: Border">
+    ${html`
+      <sp-row vertical-align="middle">
+        <sp-avatar theme="border" size="large" label="Luke Skywalker"></sp-avatar>
+        <sp-avatar theme="border" label="Luke Skywalker"></sp-avatar>
+        <sp-avatar theme="border" size="small" label="Luke Skywalker"></sp-avatar>
+        <sp-avatar theme="border" size="tiny" label="Luke Skywalker"></sp-avatar>
+      </sp-row>
+    `}
+  </Story>
+</Canvas>
+
+Within Skedulo, these Avatar themes highlight different Resource states:
+- `solid`: Allocated
+- `subtle`: Overflow with all allocated
+- `border`: Unallocated, or overflow with one or more unallocated
+
+## Label / Placeholder
+Always provide a label using the `label` prop. It should be a full name or other identifier for the person/account/object. Alternatively it could describe a state, such as "Unallocated".
+
+When an `image-src` is not set, the label is abbreviated to one or two characters depending on the number of words supplied and the avatar size. Only the first two words will be used for abbreviation (i.e. avoid middle names). A double-barrelled (hyphenated) name counts as one word.
+
+In any case, the full label text is used for accessibility and in tooltip hover text, so is important to include.
+
+<Canvas>
+  <Story name="Label">
+    ${html`
+      <sp-avatar label="Luke Skywalker"></sp-avatar>
+      <sp-avatar label="Catherine Zeta-Jones"></sp-avatar>
+      <sp-avatar label="Skedulo"></sp-avatar>
+      <sp-avatar label="First Middle Last"></sp-avatar>
+    `}
+  </Story>
+</Canvas>
+
+## Hide Placeholder
+Optionally hide the placeholder (abbreviated label) with the `is-placeholder-hidden` prop. For example, an unallocated resource should still have a `label` but should not show a placeholder.
+
+<Canvas>
+  <Story name="Hide Placeholder">
+    ${html`
+      <sp-avatar label="Unallocated" theme="border" is-placeholder-hidden></sp-avatar>
+    `}
+  </Story>
+</Canvas>
+
+## Image
+Optionally provide an `image-src` prop to put a face to a name!
+
+Must be a relative or absolute URL to an image file. For best results it should be an exact square - we recommend `130px` width and height. This component does not resize, crop or otherwise transform images.
+
+<Canvas>
+  <Story name="Image">
+    ${html`
+      <sp-row vertical-align="middle">
+        <sp-avatar image-src=${avatarImage1} size="large" label="Luke Skywalker"></sp-avatar>
+        <sp-avatar image-src=${avatarImage1} label="Luke Skywalker"></sp-avatar>
+        <sp-avatar image-src=${avatarImage1} size="small" label="Luke Skywalker"></sp-avatar>
+        <sp-avatar image-src=${avatarImage1} size="tiny" label="Luke Skywalker"></sp-avatar>
+      </sp-row>
+    `}
+  </Story>
+</Canvas>
+
+## Icon
+Optionally set the `icon` prop to replace the placeholder. Applies to all avatar themes and supports all of the [platform-ui icons](./?path=/docs/components-icon--available-icons), but only expected usage at this time is the `plus` icon with `border` theme.
+
+**Note:** `image-src` prop will always override icons.
+
+<Canvas>
+  <Story name="Icon: Plus">
+    ${html`
+      <sp-row vertical-align="middle">
+        <sp-avatar icon="plus" theme="border" size="large" label="Add"></sp-avatar>
+        <sp-avatar icon="plus" theme="border" label="Add"></sp-avatar>
+        <sp-avatar icon="plus" theme="border" size="small" label="Add"></sp-avatar>
+        <sp-avatar icon="plus" theme="border" size="tiny" label="Add"></sp-avatar>
+      </sp-row>
+    `}
+  </Story>
+  <Story name="Icon: Cancel">
+    ${html`
+      <sp-row vertical-align="middle">
+        <sp-avatar icon="cancel" size="large" label="Add"></sp-avatar>
+        <sp-avatar icon="cancel" label="Add"></sp-avatar>
+        <sp-avatar icon="cancel" size="small" label="Add"></sp-avatar>
+        <sp-avatar icon="cancel" size="tiny" label="Add"></sp-avatar>
+      </sp-row>
+    `}
+  </Story>
+</Canvas>
+
+## Outer Border
+Optionally set the `has-outer-border` prop to apply a white outer border on the avatar. This helps it to stand out on some background colours.
+
+<Canvas>
+  <Story name="Outer Border">
+    ${html`
+      <div style="background-color: var(--sp-color-neutral-800); padding: 1rem">
+        <sp-row vertical-align="middle">
+          <sp-avatar has-outer-border size="large" label="Add"></sp-avatar>
+          <sp-avatar has-outer-border label="Add"></sp-avatar>
+          <sp-avatar has-outer-border size="small" label="Add"></sp-avatar>
+          <sp-avatar has-outer-border size="tiny" label="Add"></sp-avatar>
+        </sp-row>
+      </div>
+    `}
+  </Story>
+</Canvas>
+
+## Overflow
+This feature should be used in avatar groups. Slotted children will be counted to replace the normal placeholder text.
+
+<Canvas>
+  <Story name="Overflow: Allocated">
+    ${html`
+      <sp-avatar size="large" label="More allocated" theme="subtle">
+        <div></div>
+        <div></div>
+      </sp-avatar>
+    `}
+  </Story>
+  <Story name="Overflow: Unallocated">
+    ${html`
+      <sp-avatar size="large" label="More unallocated" theme="border">
+        <div></div>
+        <div></div>
+        <div></div>
+      </sp-avatar>
+    `}
+  </Story>
+</Canvas>
+
+## Avatar Group
+Wrap multiple avatars in an `<sp-avatar-group>` to condense (overlap) them. A group should have no less than two - and no more than six - avatars before truncation (overflow).
+
+<Canvas>
+  <Story name="Group: Large with image">
+    ${html`
+      <sp-avatar-group>
+        <sp-avatar has-outer-border image-src=${avatarImage1} size="large" label="Luke Skywalker"></sp-avatar>
+        <sp-avatar has-outer-border image-src=${avatarImage2} size="large" label="Han Solo"></sp-avatar>
+        <sp-avatar has-outer-border image-src=${avatarImage3} size="large" label="Princess Leia"></sp-avatar>
+        <sp-avatar has-outer-border image-src=${avatarImage4} size="large" label="Darth Vader"></sp-avatar>
+      </sp-avatar-group>
+    `}
+  </Story>
+  <Story name="Group: Medium with image">
+    ${html`
+      <sp-avatar-group>
+        <sp-avatar has-outer-border image-src=${avatarImage1} size="medium" label="Luke Skywalker"></sp-avatar>
+        <sp-avatar has-outer-border image-src=${avatarImage2} size="medium" label="Han Solo"></sp-avatar>
+        <sp-avatar has-outer-border image-src=${avatarImage3} size="medium" label="Princess Leia"></sp-avatar>
+        <sp-avatar has-outer-border image-src=${avatarImage4} size="medium" label="Darth Vader"></sp-avatar>
+      </sp-avatar-group>
+    `}
+  </Story>
+  <Story name="Group: Small with image">
+    ${html`
+      <sp-avatar-group>
+        <sp-avatar has-outer-border image-src=${avatarImage1} size="small" label="Luke Skywalker"></sp-avatar>
+        <sp-avatar has-outer-border image-src=${avatarImage2} size="small" label="Han Solo"></sp-avatar>
+        <sp-avatar has-outer-border image-src=${avatarImage3} size="small" label="Princess Leia"></sp-avatar>
+        <sp-avatar has-outer-border image-src=${avatarImage4} size="small" label="Darth Vader"></sp-avatar>
+      </sp-avatar-group>
+    `}
+  </Story>
+  <Story name="Group: Tiny with image">
+    ${html`
+      <sp-avatar-group>
+        <sp-avatar has-outer-border image-src=${avatarImage1} size="tiny" label="Luke Skywalker"></sp-avatar>
+        <sp-avatar has-outer-border image-src=${avatarImage2} size="tiny" label="Han Solo"></sp-avatar>
+        <sp-avatar has-outer-border image-src=${avatarImage3} size="tiny" label="Princess Leia"></sp-avatar>
+        <sp-avatar has-outer-border image-src=${avatarImage4} size="tiny" label="Darth Vader"></sp-avatar>
+      </sp-avatar-group>
+    `}
+  </Story>
+</Canvas>
+
+<Canvas>
+  <Story name="Group: Large with placeholder">
+    ${html`
+      <sp-avatar-group>
+        <sp-avatar has-outer-border size="large" label="Luke Skywalker"></sp-avatar>
+        <sp-avatar has-outer-border size="large" label="Han Solo"></sp-avatar>
+        <sp-avatar has-outer-border size="large" label="Princess Leia"></sp-avatar>
+        <sp-avatar has-outer-border size="large" label="Darth Vader"></sp-avatar>
+      </sp-avatar-group>
+    `}
+  </Story>
+  <Story name="Group: Medium with placeholder">
+    ${html`
+      <sp-avatar-group>
+        <sp-avatar has-outer-border size="medium" label="Luke Skywalker"></sp-avatar>
+        <sp-avatar has-outer-border size="medium" label="Han Solo"></sp-avatar>
+        <sp-avatar has-outer-border size="medium" label="Princess Leia"></sp-avatar>
+        <sp-avatar has-outer-border size="medium" label="Darth Vader"></sp-avatar>
+      </sp-avatar-group>
+    `}
+  </Story>
+  <Story name="Group: Small with placeholder">
+    ${html`
+      <sp-avatar-group>
+        <sp-avatar has-outer-border size="small" label="Luke Skywalker"></sp-avatar>
+        <sp-avatar has-outer-border size="small" label="Han Solo"></sp-avatar>
+        <sp-avatar has-outer-border size="small" label="Princess Leia"></sp-avatar>
+        <sp-avatar has-outer-border size="small" label="Darth Vader"></sp-avatar>
+      </sp-avatar-group>
+    `}
+  </Story>
+  <Story name="Group: Tiny with placeholder">
+    ${html`
+      <sp-avatar-group>
+        <sp-avatar has-outer-border size="tiny" label="Luke Skywalker"></sp-avatar>
+        <sp-avatar has-outer-border size="tiny" label="Han Solo"></sp-avatar>
+        <sp-avatar has-outer-border size="tiny" label="Princess Leia"></sp-avatar>
+        <sp-avatar has-outer-border size="tiny" label="Darth Vader"></sp-avatar>
+      </sp-avatar-group>
+    `}
+  </Story>
+</Canvas>
+
+<Canvas>
+  <Story name="Group: Large empty">
+    ${html`
+      <sp-avatar-group>
+        <sp-avatar has-outer-border theme="border" size="large" label="Unallocated" is-placeholder-hidden></sp-avatar>
+        <sp-avatar has-outer-border theme="border" size="large" label="Unallocated" is-placeholder-hidden></sp-avatar>
+        <sp-avatar has-outer-border theme="border" size="large" label="Unallocated" is-placeholder-hidden></sp-avatar>
+        <sp-avatar has-outer-border theme="border" size="large" label="More unallocated">
+          <div></div>
+          <div></div>
+          <div></div>
+        </sp-avatar>
+      </sp-avatar-group>
+    `}
+  </Story>
+  <Story name="Group: Medium empty">
+    ${html`
+      <sp-avatar-group>
+        <sp-avatar has-outer-border theme="border" size="medium" label="Unallocated" is-placeholder-hidden></sp-avatar>
+        <sp-avatar has-outer-border theme="border" size="medium" label="Unallocated" is-placeholder-hidden></sp-avatar>
+        <sp-avatar has-outer-border theme="border" size="medium" label="Unallocated" is-placeholder-hidden></sp-avatar>
+        <sp-avatar has-outer-border theme="border" size="medium" label="More unallocated">
+          <div></div>
+          <div></div>
+          <div></div>
+        </sp-avatar>
+      </sp-avatar-group>
+    `}
+  </Story>
+  <Story name="Group: Small empty">
+    ${html`
+      <sp-avatar-group>
+        <sp-avatar has-outer-border theme="border" size="small" label="Unallocated" is-placeholder-hidden></sp-avatar>
+        <sp-avatar has-outer-border theme="border" size="small" label="Unallocated" is-placeholder-hidden></sp-avatar>
+        <sp-avatar has-outer-border theme="border" size="small" label="Unallocated" is-placeholder-hidden></sp-avatar>
+        <sp-avatar has-outer-border theme="border" size="small" label="More unallocated">
+          <div></div>
+          <div></div>
+          <div></div>
+        </sp-avatar>
+      </sp-avatar-group>
+    `}
+  </Story>
+  <Story name="Group: Tiny empty">
+    ${html`
+      <sp-avatar-group>
+        <sp-avatar has-outer-border theme="border" size="tiny" label="Unallocated" is-placeholder-hidden></sp-avatar>
+        <sp-avatar has-outer-border theme="border" size="tiny" label="Unallocated" is-placeholder-hidden></sp-avatar>
+        <sp-avatar has-outer-border theme="border" size="tiny" label="Unallocated" is-placeholder-hidden></sp-avatar>
+        <sp-avatar has-outer-border theme="border" size="tiny" label="More unallocated">
+          <div></div>
+          <div></div>
+          <div></div>
+        </sp-avatar>
+      </sp-avatar-group>
+    `}
+  </Story>
+</Canvas>
+
+<Canvas>
+  <Story name="Group: Large in mixed states">
+    ${html`
+      <sp-avatar-group>
+        <sp-avatar has-outer-border image-src=${avatarImage1} size="large" label="Luke Skywalker"></sp-avatar>
+        <sp-avatar has-outer-border image-src=${avatarImage2} size="large" label="Han Solo"></sp-avatar>
+        <sp-avatar has-outer-border size="large" label="Princess Leia"></sp-avatar>
+        <sp-avatar has-outer-border theme="border" size="large" label="More unallocated">
+          <div></div>
+          <div></div>
+          <div></div>
+        </sp-avatar>
+      </sp-avatar-group>
+    `}
+  </Story>
+  <Story name="Group: Medium in mixed states">
+    ${html`
+      <sp-avatar-group>
+        <sp-avatar has-outer-border image-src=${avatarImage1} size="medium" label="Luke Skywalker"></sp-avatar>
+        <sp-avatar has-outer-border image-src=${avatarImage2} size="medium" label="Han Solo"></sp-avatar>
+        <sp-avatar has-outer-border size="medium" label="Princess Leia"></sp-avatar>
+        <sp-avatar has-outer-border theme="subtle" size="medium" label="More allocated">
+          <div></div>
+          <div></div>
+          <div></div>
+        </sp-avatar>
+      </sp-avatar-group>
+    `}
+  </Story>
+  <Story name="Group: Small in mixed states">
+    ${html`
+      <sp-avatar-group>
+        <sp-avatar has-outer-border image-src=${avatarImage1} size="small" label="Luke Skywalker"></sp-avatar>
+        <sp-avatar has-outer-border image-src=${avatarImage2} size="small" label="Han Solo"></sp-avatar>
+        <sp-avatar has-outer-border size="small" label="Princess Leia"></sp-avatar>
+        <sp-avatar has-outer-border theme="border" size="small" label="More unallocated">
+          <div></div>
+          <div></div>
+          <div></div>
+        </sp-avatar>
+      </sp-avatar-group>
+    `}
+  </Story>
+  <Story name="Group: Tiny in mixed states">
+    ${html`
+      <sp-avatar-group>
+        <sp-avatar has-outer-border image-src=${avatarImage1} size="tiny" label="Luke Skywalker"></sp-avatar>
+        <sp-avatar has-outer-border image-src=${avatarImage2} size="tiny" label="Han Solo"></sp-avatar>
+        <sp-avatar has-outer-border size="tiny" label="Princess Leia"></sp-avatar>
+        <sp-avatar has-outer-border theme="subtle" size="tiny" label="More allocated">
+          <div></div>
+          <div></div>
+          <div></div>
+        </sp-avatar>
+      </sp-avatar-group>
+    `}
+  </Story>
+</Canvas>
+
+## React
+To consume the `Avatar` in a React app, simply import it from the `@skedulo/platform-ui-react` package and use it as you would a normal React component.
+All properties are mapped to camelCase.
+
+<Source
+  code={dedent`
+    import { Avatar } from '@skedulo/platform-ui-react'
+    <Avatar label="Jane Doe" hasOuterBorder />
+  `}
+/>
+
+## Roadmap
+- Tooltip on avatar hover
+- Popover for truncated avatar groups
+- Click-through URL/action (maybe this should also set the hover overlay?)
+- Single avatar, name and detail grouping

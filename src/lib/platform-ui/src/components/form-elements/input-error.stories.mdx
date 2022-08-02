@@ -1,0 +1,14 @@
+import { html } from 'lit-html'
+import { Meta, Story, Canvas } from '@storybook/addon-docs/blocks'
+
+import './input-error'
+
+<Meta title="Form Elements/Input Error" component="sp-input-error" />
+
+# Input Error
+
+Input errors are pre-packaged inside of the `sp-input-x` components via the `error` slot. But if you need to render one in isolation you can use the `sp-input-error` component.
+
+<Canvas>
+  <Story name="Default">${html`<sp-input-error>An example of an error message</sp-input-error>`}</Story>
+</Canvas>

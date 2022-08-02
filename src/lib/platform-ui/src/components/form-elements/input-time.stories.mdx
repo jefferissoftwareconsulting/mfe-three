@@ -1,0 +1,65 @@
+import { html } from 'lit-html'
+import dedent from 'ts-dedent'
+import { Meta, Story, Canvas, Source } from '@storybook/addon-docs'
+import { INPUT_TIME } from './input-time'
+
+<Meta title="Form Elements/Input Time" component={INPUT_TIME} />
+
+# Input Time
+
+`sp-input-time` is a select field with time-based preset options.
+
+It renders a list of incremental time options in 12-hour format starting at 12:00am. Optionally allows freeform entry of non-preset options, if valid.
+
+When searching, it also applies custom query matchers to handle fuzzy times, returning 12-hour formatted options for 24-hour (e.g. 2145, 21:45) and short times (e.g. 10am).
+
+This component is a convenience extension of [`sp-input-select`](./?path=/docs/form-elements-input-select--default-story) and therefore shares the same API, with some additional options and functionality.
+
+## Increment
+
+Optionally set the `increment` to the number of minutes between each option. Defaults to `15`. Stick to integers as seconds are not included in time options.
+
+<Canvas>
+  <Story name="Increment: 15">${html`<sp-input-time></sp-input-time>`}</Story>
+  <Story name="Increment: 5">${html`<sp-input-time increment="5"></sp-input-time>`}</Story>
+</Canvas>
+
+## Suffix
+
+Optionally set a timezone `suffix` to be appended to the time label. Accepts `UTC` or `AEST`.
+
+<Canvas>
+  <Story name="Suffix: UTC">${html`<sp-input-time suffix="UTC"></sp-input-time>`}</Story>
+  <Story name="Suffix: AEST">${html`<sp-input-time suffix="AEST"></sp-input-time>`}</Story>
+</Canvas>
+
+## Freeform
+
+Enable freeform entry with `is-freeform`. This hooks into the list search to allow setting non-preset options.
+
+<Canvas>
+  <Story name="Freeform">${html`<sp-input-time placeholder="Select or enter time" is-freeform></sp-input-time>`}</Story>
+</Canvas>
+
+## React
+
+To consume the `InputTime` component in a React app, import it from the `@skedulo/platform-ui-react` package and use it as you would a normal react component. Kebab cased properties will be mapped to camelcase. The `label` slot is reached via the `label` prop, and the `error` slot is reached via the `error` prop.
+
+<Source
+  language="tsx"
+  code={dedent`
+    import { InputTime } from '@skedulo/platform-ui-react'
+    <InputTime
+      name="time"
+      size="small"
+      onChange={event => {}}
+      invalid
+      label="Field Label"
+    />
+  `}
+/>
+
+## Roadmap
+
+- Consider leveraging 24hr format validator within freeform options constructor to make it more flexible
+- Freeform options created will persist whilst the dropdown is open, e.g. after searching a valid freeform time then hitting backspace a few times. Consider hiding freeform options when they are no longer relevant in the current session.

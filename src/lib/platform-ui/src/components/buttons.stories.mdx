@@ -1,0 +1,176 @@
+import { html } from 'lit-html'
+import dedent from 'ts-dedent'
+import { Meta, Story, Canvas, Source } from '@storybook/addon-docs/blocks'
+import './buttons'
+import './combo-box'
+
+<Meta title="Components/Button" component="sp-button" />
+
+# Buttons
+
+Use buttons to trigger actions.
+
+## Style
+
+There are four styles of button: `primary`, `secondary`, `transparent` and `transparent-primary` that are set with the `button-type` property.
+
+<Canvas>
+  <Story name="Style: Primary">${html`<sp-button button-type="primary">Primary</sp-button>`}</Story>
+  <Story name="Style: Secondary">${html`<sp-button button-type="secondary">Secondary</sp-button>`}</Story>
+  <Story name="Style: Transparent">${html`<sp-button button-type="transparent">Transparent</sp-button>`}</Story>
+  <Story name="Style: Transparent Primary">
+    ${html`<sp-button button-type="transparent-primary">Transparent Primary</sp-button>`}
+  </Story>
+</Canvas>
+
+## Disabled
+
+Buttons can be disabled using the `disabled` property.
+
+<Canvas>
+  <Story name="Disabled: Primary">${html`<sp-button button-type="primary" disabled>Primary</sp-button>`}</Story>
+  <Story name="Disabled: Secondary">${html`<sp-button button-type="secondary" disabled>Secondary</sp-button>`}</Story>
+  <Story name="Disabled: Icon">${html`<sp-button leading-icon="emoji" disabled></sp-icon>`}</Story>
+  <Story name="Disabled: Transparent">
+    ${html`<sp-button button-type="transparent" disabled>Transparent</sp-button>`}
+  </Story>
+  <Story name="Disabled: Transparent Primary">
+    ${html`<sp-button button-type="transparent-primary" disabled>Transparent Primary</sp-button>`}
+  </Story>
+</Canvas>
+
+## Size
+
+There are two sizes of button - normal and compact (using the `compact` property).
+
+<Canvas>
+  <Story name="Size: Normal">{html`<sp-button>Normal</sp-button>`}</Story>
+  <Story name="Size: Large">{html`<sp-button compact>Compact</sp-button>`}</Story>
+</Canvas>
+
+## Icons
+
+Buttons can have an icon either as a prefix or a suffix. Use `leading-icon`/`trailing-icon`. Icon size can be customised via the `icon-size` attribute.
+
+<Canvas>
+  <Story name="Leading-icon">
+    ${html`<sp-button leading-icon="jobs" button-type="transparent" compact>Leading Icon</sp-button>`}
+  </Story>
+  <Story name="Trailing-icon">
+    ${html`<sp-button trailing-icon="jobs" button-type="transparent" compact>Trailing Icon</sp-button>`}
+  </Story>
+  <Story name="Both Icons">
+    $
+    {html`<sp-button leading-icon="jobs" trailing-icon="jobs" button-type="transparent" compact>Both Icons</sp-button>`}
+  </Story>
+  <Story name="Icon Only">${html`<sp-button leading-icon="emoji" compact></sp-button>`}</Story>
+  <Story name="Icon Only Small">${html`<sp-button leading-icon="emoji" icon-size="6" compact></sp-button>`}</Story>
+</Canvas>
+
+## Loading
+
+Buttons can show a loading spinner using the `loading` property.
+
+<Canvas>
+  <Story name="Primary Button Loading">${html`<sp-button button-type="primary" loading>Primary</sp-button>`}</Story>
+  <Story name="Secondary Button Loading">
+    ${html`<sp-button button-type="secondary" loading>Secondary</sp-button>`}
+  </Story>
+  <Story name="Transparent Button Loading">
+    ${html`<sp-button button-type="transparent" loading>Transparent</sp-button>`}
+  </Story>
+</Canvas>
+
+## Button Groups
+
+Group buttons together - either spacer or compact (using the `compact` property).
+
+<Canvas>
+  <Story name="Button Group: Normal">
+    $
+    {html`
+      <sp-button-group>
+        <sp-button button-type="primary">Save</sp-button>
+        <sp-button button-type="secondary">Save As</sp-button>
+        <sp-button button-type="secondary">Clear</sp-button>
+        <sp-button button-type="transparent">Cancel</sp-button>
+      </sp-button-group>
+    `}
+  </Story>
+  <Story name="Button Group: Compact">
+    $
+    {html`
+      <sp-button-group compact>
+        <sp-button button-type="secondary">Option 1</sp-button>
+        <sp-button button-type="secondary">Option 2</sp-button>
+        <sp-button button-type="primary">Option 3</sp-button>
+        <sp-button button-type="secondary">Option 4</sp-button>
+      </sp-button-group>
+    `}
+  </Story>
+</Canvas>
+
+<Story name="Edge: Long text" parameters={{ docs: { disable: true } }}>
+  $
+  {html`<sp-button compact>
+    Labore ad commodo sit ad non sint commodo velit veniam adipisicing voluptate. Tempor aliqua ad ut laborum est mollit
+    anim aliquip proident cupidatat consequat non consectetur. Enim sint do nulla irure ea enim non sit veniam. Ipsum
+    est sint veniam cupidatat esse nisi irure. Do ex culpa ullamco aute qui aliquip in officia sit dolore velit in
+    cillum dolor. Excepteur quis pariatur labore quis dolore aliqua. Laborum consectetur fugiat magna laborum proident
+    laborum ut Lorem quis.
+  </sp-button>`}
+</Story>
+
+<Story name="Edge: Lots of buttons in a group" parameters={{ docs: { disable: true } }}>
+  $
+  {html` <sp-button-group compact>
+    <sp-button button-type="secondary">Option 1</sp-button>
+    <sp-button button-type="secondary">Option 1</sp-button>
+    <sp-button button-type="secondary">Option 1</sp-button>
+    <sp-button button-type="secondary">Option 1</sp-button>
+    <sp-button button-type="secondary">Option 1</sp-button>
+    <sp-button button-type="secondary">Option 1</sp-button>
+    <sp-button button-type="secondary">Option 1</sp-button>
+    <sp-button button-type="secondary">Option 1</sp-button>
+    <sp-button button-type="secondary">Option 1</sp-button>
+    <sp-button button-type="secondary">Option 1</sp-button>
+    <sp-button button-type="secondary">Option 1</sp-button>
+    <sp-button button-type="secondary">Option 1</sp-button>
+    <sp-button button-type="secondary">Option 1</sp-button>
+    <sp-button button-type="secondary">Option 1</sp-button>
+    <sp-button button-type="secondary">Option 1</sp-button>
+    <sp-button button-type="secondary">Option 1</sp-button>
+    <sp-button button-type="secondary">Option 1</sp-button>
+    <sp-button button-type="secondary">Option 1</sp-button>
+    <sp-button button-type="secondary">Option 1</sp-button>
+    <sp-button button-type="secondary">Option 1</sp-button>
+    <sp-button button-type="secondary">Option 1</sp-button>
+    <sp-button button-type="secondary">Option 1</sp-button>
+    <sp-button button-type="secondary">Option 1</sp-button>
+    <sp-button button-type="secondary">Option 1</sp-button>
+    <sp-button button-type="secondary">Option 1</sp-button>
+    <sp-button button-type="secondary">Option 1</sp-button>
+    <sp-button button-type="secondary">Option 1</sp-button>
+    <sp-button button-type="secondary">Option 1</sp-button>
+    <sp-button button-type="secondary">Option 1</sp-button>
+    <sp-button button-type="secondary">Option 1</sp-button>
+    <sp-button button-type="secondary">Option 1</sp-button>
+    <sp-button button-type="secondary">Option 1</sp-button>
+    <sp-button button-type="secondary">Option 1</sp-button>
+  </sp-button-group>`}
+</Story>
+
+## React
+
+To consume the `Button`/`Button Group` components in a React app, import it from the `@skedulo/platform-ui-react` package and use it as you would a normal react component.
+Kebab cased properties will be mapped to camelcase.
+
+<Source language="tsx" code={dedent`
+import { Button, ButtonGroup } from '@skedulo/platform-ui-react'
+
+<ButtonGroup compact>
+  <Button button-type="primary" onClick={event => {}} loading compact leadingIcon="icon" trailingIcon="icon">
+    I am a button!
+  </Button>
+</ButtonGroup>
+`}/>

@@ -1,0 +1,23 @@
+import { html } from 'lit-html'
+import { Meta, Story, Canvas, Source } from '@storybook/addon-docs/blocks'
+import './'
+
+<Meta title="Animation/Fade in and out" component="sp-fade-in-out" />
+
+# Fade in and out
+
+The `sp-fade-in-out` will display its slotted contents if the `shown` property is `true` and remove it from the DOM if it is `false`. Contents will fade in on show and out when removed.
+
+<Canvas>
+  <Story name="Fade in and out" />
+</Canvas>
+
+<Source
+  name="Example"
+  code={`
+<sp-button button-type="primary" @click=\${this.handleToggle}>Toggle!</sp-button>
+<sp-fade-in-out ?shown=\${this.shown}>
+  <div>Contents</div>
+</sp-fade-in-out>
+`}
+/>

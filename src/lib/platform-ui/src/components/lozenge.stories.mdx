@@ -1,0 +1,121 @@
+import dedent from 'ts-dedent'
+import { html } from 'lit-html'
+import { Meta, Story, Canvas, Source } from '@storybook/addon-docs/blocks'
+import './lozenge'
+
+<Meta title="Components/Lozenge (Pill & Tag)" component="sp-lozenge" />
+
+# Lozenge (Pill/Tag)
+
+The lozenge component `sp-lozenge` is used to highlight the state or status of something. The Lozenge component replaces the Pill component in the old component library. Lozenges are sometimes refered to as Tags in the design system.
+
+## Sizes
+
+Lozenges support different sizes via the `size` prop. `small`, `medium` and `large`. They will default to `medium` if no size is specified.
+
+<Canvas>
+  <Story name="Small">${html`<sp-lozenge size="small">I've got enough content to be truncated</sp-lozenge>`}</Story>
+  <Story name="Medium">${html`<sp-lozenge size="medium">I've got enough content to be truncated</sp-lozenge>`}</Story>
+  <Story name="Large">${html`<sp-lozenge size="large">I've got enough content to be truncated</sp-lozenge>`}</Story>
+</Canvas>
+
+## Supporting Icons
+
+Lozenges can be renered with an icon to support the content. This is achieved with the `loading-icon` attribute which takes the key of the desired icon. `loading-icon` supports all of the [platform-ui icons](./?path=/docs/components-icon--available-icons).
+
+<Canvas>
+  <Story name="Leading Icon: Small">
+    ${html`<sp-lozenge size="small" leading-icon="infoFill">I have an icon!</sp-lozenge>`}
+  </Story>
+  <Story name="Leading Icon: Medium">${html`<sp-lozenge leading-icon="infoFill">I have an icon!</sp-lozenge>`}</Story>
+  <Story name="Leading Icon: Large">
+    ${html`<sp-lozenge size="large" leading-icon="infoFill">I have an icon!</sp-lozenge>`}
+  </Story>
+</Canvas>
+
+## Colors/Themes
+
+Lozenges support different colors and themes for different use cases. Colors, changed via the `color` prop. Color options are `neutral`(default), `green`, `orange`, `red`, `cyan`, `purple`. Theme, changed via the the `theme` prop. Theme options are `solid` (default), `subtle` and `border`.
+
+<Canvas>
+  <Story name="Neutral: Solid">${html`<sp-lozenge color="neutral">Neutral Solid</sp-lozenge>`}</Story>
+  <Story name="Neutral: Subtle">
+    ${html`<sp-lozenge theme="subtle" color="neutral"> Neutral Subtle </sp-lozenge>`}
+  </Story>
+  <Story name="Neutral: Border">${html`<sp-lozenge theme="border" color="neutral">Neutral Border</sp-lozenge>`}</Story>
+</Canvas>
+
+<Canvas>
+  <Story name="Green: Solid">${html`<sp-lozenge color="green">Green</sp-lozenge>`}</Story>
+  <Story name="Green: Subtle">${html`<sp-lozenge theme="subtle" color="green">Green Subtle</sp-lozenge>`}</Story>
+  <Story name="Green: Border">${html`<sp-lozenge theme="border" color="green">Green Border</sp-lozenge>`}</Story>
+</Canvas>
+
+<Canvas>
+  <Story name="Orange: Solid">${html`<sp-lozenge color="orange">Orange</sp-lozenge>`}</Story>
+  <Story name="Orange: Subtle">${html`<sp-lozenge theme="subtle" color="orange">Orange Subtle</sp-lozenge>`}</Story>
+  <Story name="Orange: Border">${html`<sp-lozenge theme="border" color="orange">Orange Border</sp-lozenge>`}</Story>
+</Canvas>
+
+<Canvas>
+  <Story name="Red: Solid">${html`<sp-lozenge color="red">Red</sp-lozenge>`}</Story>
+  <Story name="Red: Subtle">${html`<sp-lozenge theme="subtle" color="red">Red Subtle</sp-lozenge>`}</Story>
+  <Story name="Red: Border">${html`<sp-lozenge theme="border" color="red">Red Border</sp-lozenge>`}</Story>
+</Canvas>
+
+<Canvas>
+  <Story name="Cyan: Solid">${html`<sp-lozenge color="cyan">Cyan</sp-lozenge>`}</Story>
+  <Story name="Cyan: Subtle">${html`<sp-lozenge theme="subtle" color="cyan">Cyan Subtle</sp-lozenge>`}</Story>
+  <Story name="Cyan: Border">${html`<sp-lozenge theme="border" color="cyan">Cyan Border</sp-lozenge>`}</Story>
+</Canvas>
+
+<Canvas>
+  <Story name="Purple: Solid">${html`<sp-lozenge color="purple">Purple</sp-lozenge>`}</Story>
+  <Story name="Purple: Subtle">${html`<sp-lozenge theme="subtle" color="purple">Purple Subtle</sp-lozenge>`}</Story>
+  <Story name="Purple: Border">${html`<sp-lozenge theme="border" color="purple">Purple Border</sp-lozenge>`}</Story>
+</Canvas>
+
+<Canvas>
+  <Story name="Sapphire: Solid">${html`<sp-lozenge color="sapphire">Sapphire</sp-lozenge>`}</Story>
+  <Story name="Sapphire: Subtle">${html`<sp-lozenge theme="subtle" color="sapphire">Sapphire Subtle</sp-lozenge>`}</Story>
+  <Story name="Sapphire: Border">${html`<sp-lozenge theme="border" color="sapphire">Sapphire Border</sp-lozenge>`}</Story>
+</Canvas>
+
+## Delete
+
+> ℹ️ This functionality removes the need for the `Pill` component in the previous design system.
+
+Lozenges can be configured to be deleteable. To achieve this add the `can-delete` attribute, when this is present the lozenge will render a close button. When this is clicked the a `sp-lozenge-delete` event will be dispatched.
+
+> **Note:** when in deleteable mode, the lozenge is locked to the neutral theme.
+
+<Canvas>
+  <Story name="Delete">${html`<sp-lozenge can-delete>I can be deleted</sp-lozenge>`}</Story>
+  <Story name="Delete and Leading Icon">
+    ${html`<sp-lozenge leading-icon="infoFill" can-delete>I can be deleted and i have a leading icon!</sp-lozenge>`}
+  </Story>
+  <Story name="Delete neutral subtle">
+    ${html`<sp-lozenge theme="subtle" can-delete>I can be deleted and i am in the neutral subtle colourway</sp-lozenge>`}
+  </Story>
+  <Story name="Delete and Disabled">
+    ${html`<sp-lozenge leading-icon="infoFill" can-delete disabled>I'm deletable but disabled</sp-lozenge>`}
+  </Story>
+</Canvas>
+
+## React
+
+To consume the `Lozenge` in a React app, simply import it from the `@skedulo/platform-ui-react` package and use it as you would a normal react component.
+All properties are mapped to camelcase.
+
+<Source
+  code={dedent`
+  import {Lozenge} from '@skedulo/platform-ui-react'
+  <Lozenge color="neutral" theme="solid" size="small" leadingIcon="info" disabled canDelete onDelete={() => {}}>
+    Lozenge Content
+  </Lozenge>
+`}
+/>
+
+## Roadmap
+
+- Hiding content over 190px and replacing with a tooltip and some ellipsis

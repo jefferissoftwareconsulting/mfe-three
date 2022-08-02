@@ -1,0 +1,54 @@
+import { html } from 'lit-html'
+import { Meta, Story, Canvas, ArgsTable, Source } from '@storybook/addon-docs/blocks'
+import './record-row'
+import './lozenge'
+import dedent from 'ts-dedent'
+
+<Meta title="Components/Record Row" component="sp-record-row" />
+
+# Record Row
+
+`sp-record-row` provides a layout appropriate for record values with a label (using the `label` slot) and value (in the main slot).
+
+<Canvas>
+  <Story name="Record Row">
+    $
+    {html`
+      <sp-record-row>
+        <span slot="label">Test Label</span>
+        Value
+      </sp-record-row>
+      <sp-record-row>
+        <span slot="label">Test Label</span>
+        <sp-lozenge color="orange">Overdue</sp-lozenge>
+      </sp-record-row>
+      <sp-record-row>
+        <span slot="label">Longer label that goes onto multiple lines</span>
+        Value
+      </sp-record-row>
+      <sp-record-row>
+        <span slot="label">Label</span>
+        Value that goes onto<br />Multiple Lines
+      </sp-record-row>
+      <sp-record-row>
+        <span slot="label">Empty</span>
+        <span style="color: var(--sp-color-neutral-500)">Not available</span>
+      </sp-record-row>
+    `}
+  </Story>
+</Canvas>
+
+# Record Row Label
+
+`sp-record-row-label` can also be used on its own.
+
+# React
+
+To consume the `RecordRow` in a React app import it from the `@skedulo/platform-ui-react` package.
+
+<Source
+  code={dedent`
+  import { RecordRow, RecordRowLabel } from '@skedulo/platform-ui-react'
+  <RecordRow label={<span>Test Label</span>}>Value</RecordRow>
+`}
+/>

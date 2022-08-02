@@ -1,0 +1,71 @@
+<Meta title="Introduction/Conventions" />
+
+# Conventions
+
+## Types
+
+Types should be added for every component in the following way:
+
+```javascript
+import { JSXProps } from '../types'
+
+declare global {
+  namespace JSX {
+    interface IntrinsicElements {
+      'my-component': JSXProps<MyComponent, { 'my-property'?: 'red' | 'blue' }>
+    }
+  }
+
+  interface HTMLElementTagNameMap {
+    'my-component': MyComponent
+  }
+}
+
+@customElement('my-component')
+export class MyComponent extends LitElement {
+  static properties = {
+    myProperty: { attribute: 'my-property', reflect: true, type: String }
+  }
+
+  // ...
+}
+```
+
+This ensures that types are set when using APIs such as `document.createElement('my-component')` or `<my-component my-property="red"></mycomponent>` in JSX. The JSX type definitions are also used by the React wrappers.
+
+### Decorator Support
+
+The Lit docs suggest using the `@property()` decorator for defining props. Currently, support for decorators is patchy due to several diverging standards. Because of our Babel configuration set via nx/storybook, we can not polyfill the decorators authored by Lit and therefor it is likely you will to run into problems when using them. Some example issues we've seen with the `@property` decorator include: no reflection of properties and re-renders not being triggered.
+
+For now we advise against using decorators. This issue is on the Lit roadmap, and more details can be found [here](https://github.com/lit/lit-element/issues/205)
+
+## Naming
+
+Components should always be named with the prefix `sp-` ("Skedulo Platform"). If a component is intented only to be used in Storybook it should have the prefix `sp-sb-`. This allows us to clearly see what a component is doing, and what it's intended use-case is.
+
+## Events
+
+Event names should always be kebab-cased, and should be prefixes with `sp-`. Try to be as descriptive as possible with events, so as to avoid conflicts with other events.
+
+## Property casing
+
+Web component properties should use the following convention:
+
+```javascript
+class MyComponent extends LitElement {
+  static properties = {
+    myProperty: { attribute: 'my-property', reflect: true, type: String }
+  }
+  myProperty: string
+
+  // ...
+}
+```
+
+i.e.
+
+- On the class the property should use `camelCase`
+- The attribute should use `kebab-case`
+- `reflect: true` should be used to ensure that properties that are changed directly are updated in the attributes - for example if an attribute is used for styling `[my-property="blue"] { color: blue; }`
+
+This convention creates consistency across the components and is assumed by the React wrappers and in templates where HTML is parsed and all attributes become lower case.

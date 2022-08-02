@@ -1,0 +1,72 @@
+import dedent from 'ts-dedent'
+import { html } from 'lit-html'
+import { Meta, Story, Canvas, Source } from '@storybook/addon-docs'
+
+import './pagination'
+
+<Meta title="Components/Pagination" component="sp-basic-pagination" />
+
+# Pagination
+
+There are two different types of database structures that can effect the type of pagination presented to a user.
+
+The main pagination component `<sp-pagination>` can be used for offset pagination.
+For cursor based pagination we can use `<sp-basic-pagination>`
+
+## Pagination
+
+The pagination component takes the following props which are numbers: `total-items`, `page-size` and `current-page`.
+It also emit this event: `sp-pagination-page-change` on button clicks. This event returns the selected page number in the detail object.
+
+<Canvas>
+  <Story name="Pagination">
+    ${html`<sp-pagination total-items=${3000} page-size=${10} current-page=${1}></sp-pagination>`}
+  </Story>
+</Canvas>
+
+<Canvas>
+  <Story name="Pagination halfway through">
+    ${html`<sp-pagination total-items=${3000} page-size=${10} current-page=${150}></sp-pagination>`}
+  </Story>
+</Canvas>
+
+<Canvas>
+  <Story name="Pagination at the end">
+    ${html`<sp-pagination total-items=${3000} page-size=${10} current-page=${300}></sp-pagination>`}
+  </Story>
+</Canvas>
+
+## Basic Pagination
+
+The basic pagination component `sp-basic-pagination` can be used for the cursor style pagination.
+
+Basic pagination takes these properties: `has-next-page` and `has-previous-page` these are booleans and by default are set to `false`, these properties determine if the buttons are disabled. It also emits these events
+`sp-basic-pagination-next-page` and `sp-basic-pagination-previous-page` on the corresponding button clicks.
+
+<Canvas>
+  <Story name="Basic Pagination">${html`<sp-basic-pagination has-next-page></sp-basic-pagination>`}</Story>
+</Canvas>
+
+## Basic Pagination slot
+
+Basic pagination also support a slot between the arrow buttons
+
+<Canvas>
+  <Story name="Basic Pagination slot">
+    ${html`<sp-basic-pagination has-next-page><sp-button leading-icon="emoji"></sp-button></sp-basic-pagination>`}
+  </Story>
+</Canvas>
+
+## React
+
+To consume both `Pagination` and `BasicPagination` in a React app, simply import it from the `@skedulo/platform-ui-react` package and use it as you would a normal react component.
+All properties are mapped to camelcase.
+
+<Source
+  code={dedent`
+  import {BasicPagination, Pagination} from '@skedulo/platform-ui-react'
+  
+  <Pagination totalItems={100} pageSize={10} currentPage={1} onPageChange={event => {}} />
+  <BasicPagination hasNextPage hasPreviousPage onNextPage={() => {}} onPreviousPage={() => {}} />
+`}
+/>

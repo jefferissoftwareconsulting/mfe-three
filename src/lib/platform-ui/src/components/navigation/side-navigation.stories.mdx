@@ -1,0 +1,57 @@
+import { html } from 'lit-html'
+import { Meta, Story, Canvas, Source } from '@storybook/addon-docs/blocks'
+import './side-navigation-item'
+import './side-navigation'
+import '../../layout/responsive-columns'
+import dedent from 'ts-dedent'
+
+<Meta title="Components/Navigation/SideNavigation" component="sp-side-navigation-item" />
+
+# Side Navigation
+
+Side navigation is comprised of two components, `side-navigation-menu` and `side-navigation-item` is used for the individual side navigation links.
+
+<Canvas>
+  <Story name="Side Navigation">
+    ${html`
+      <sp-side-navigation>
+        <sp-side-navigation-item url="http://www.test.com">
+          1st item
+        </sp-side-navigation-item>
+        <sp-side-navigation-item url="http://www.test.com">
+          2nd item
+        </sp-side-navigation-item>
+      </sp-side-navigation>
+    `}
+  </Story>
+</Canvas>
+
+<Canvas>
+  <Story name="Side Navigation: In page">
+    ${html`<sp-responsive-columns style="height: 400px; --sp-padding: 0;">
+<sp-side-navigation style="min-width: 230px; max-width: 230px; align-self: stretch;">
+        <sp-side-navigation-item url="http://www.test.com">
+          1st item
+        </sp-side-navigation-item>
+        <sp-side-navigation-item url="http://www.test.com">
+          2nd item
+        </sp-side-navigation-item>
+      </sp-side-navigation>
+      <div>Other content Lorem ipsum dolor sit amet, consectetur adipisicing elit. Culpa inventore quasi quibusdam ratione! Alias aliquid ea earum illum incidunt, iste iure iusto maiores nemo optio perferendis praesentium quo rem ullam!l Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad commodi consectetur consequuntur dignissimos dolor eligendi, hic, iste, laudantium maxime Lorem ipsum dolor sit amet, consectetur adipisicing elit. Animi asperiores, cupiditate debitis deleniti dicta illum itaque laudantium minima natus quisquam, vel veritatis voluptate voluptatum. A aperiam nesciunt perspiciatis quo veniam! molestiae neque nihil perspiciatis quam reprehenderit sed ullam ut voluptate voluptatibus.</div>
+</sp-responsive-columns>`}
+  </Story>
+</Canvas>
+
+
+
+
+# React
+
+To consume `sp-side-navigation-item` in a React app import it from the `@skedulo/platform-ui-react` package.
+
+<Source
+  code={dedent`
+  import { SideNavigationItem } from '@skedulo/platform-ui-react'
+  <SideNavigationItem url="https://www.test.com">Label</RecordRow>
+`}
+/>

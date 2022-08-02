@@ -1,0 +1,36 @@
+import { html } from 'lit-html'
+import dedent from 'ts-dedent'
+import { Meta, Story, Canvas, Source } from '@storybook/addon-docs/blocks'
+import './buttons'
+import './combo-box'
+
+<Meta title="Components/Combo-Box" component="sp-combo-box" />
+
+## Dropdown Button
+
+`sp-combo-box` allows you to create a dropdown and takes a `sp-button` as it's first slot.
+
+<Canvas>
+  <Story height="290px" name="Default">
+    $
+    {html`
+      <sp-combo-box>
+        <sp-button button-type="primary" trailing-icon="chevronDown">Primary</sp-button>
+        <div slot="options">
+          <sp-combo-box-option>Option 1</sp-combo-box-option>
+          <sp-combo-box-option>Option 2</sp-combo-box-option>
+          <sp-combo-box-option>Option 3</sp-combo-box-option>
+          <sp-combo-box-option>Option 4</sp-combo-box-option>
+          <sp-combo-box-option>Option 5</sp-combo-box-option>
+          <sp-combo-box-option>Option 6</sp-combo-box-option>
+          <sp-combo-box-option>Option 7</sp-combo-box-option>
+          <sp-combo-box-option>Option 8</sp-combo-box-option>
+        </div>
+      </sp-combo-box>
+    `}
+  </Story>
+</Canvas>
+
+## Dropdown options
+
+The dropdown can have a custom amount of options set by using `sp-combo-box-option` and can be binded with the `@click` property.

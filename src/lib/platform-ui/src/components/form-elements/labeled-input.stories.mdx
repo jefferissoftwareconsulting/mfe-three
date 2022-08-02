@@ -1,0 +1,142 @@
+import { html } from 'lit-html'
+import dedent from 'ts-dedent'
+import { Meta, Story, Canvas, Source } from '@storybook/addon-docs/blocks'
+import { labeledInput } from "./labeled-input";
+
+<Meta title="Form Elements/Labeled Input" component={labeledInput} />
+
+# Labeled Input
+`LabeledInput` is primarily used as a base class, extended by other Breeze inputs. If you're using a Breeze input, you don't need to use this component since it's already inherited by them.
+
+However, this is also made available as a custom element `sp-labeled-input` to handle consistent layout and stying of labels and error messages around custom (non-Breeze) inputs, helping them fit more naturally within the same form.
+
+## Input
+Always provide an input to the main slot. It can be any input type.
+
+<Canvas>
+  <Story name="Wrap any input">
+    ${html`
+      <sp-labeled-input name="color">
+        <span slot="label">My favourite colour</span>
+        <input type="color" name="color" />
+      </sp-labeled-input>
+    `}
+  </Story>
+</Canvas>
+
+## Label
+Provide a label to the `label` slot.
+
+<Canvas>
+  <Story name="Label">
+    ${html`
+      <sp-labeled-input name="label">
+        <span slot="label">This is a label</span>
+        <input type="text" name="label" style="width: 100%" />
+      </sp-labeled-input>
+    `}
+  </Story>
+</Canvas>
+
+## Size
+Optionally set the available width for a nested input with the `size` prop. Available options are `x-small`, `small`, `medium`, `large`, `x-large`, `auto` and `full`. Defaults to `medium`.
+
+Note that this does not control the size of the input itself, only its container. You'll probably want to change the CSS of your nested input to allow it to fill the available space.
+
+<Canvas>
+  <Story name="Size: Extra Small">
+    ${html`
+      <sp-labeled-input name="x-small" size="x-small">
+        <span slot="label">Extra Small</span>
+        <input type="text" name="x-small" style="width: 100%" />
+      </sp-labeled-input>
+    `}
+  </Story>
+  <Story name="Size: Small">
+    ${html`
+      <sp-labeled-input name="small" size="small">
+        <span slot="label">Small</span>
+        <input type="text" name="small" style="width: 100%" />
+      </sp-labeled-input>
+    `}
+  </Story>
+  <Story name="Size: Medium (default)">
+    ${html`
+      <sp-labeled-input name="medium">
+        <span slot="label">Medium size is default</span>
+        <input type="text" name="medium" style="width: 100%" />
+      </sp-labeled-input>
+    `}
+  </Story>
+  <Story name="Size: Large">
+    ${html`
+      <sp-labeled-input name="large" size="large">
+        <span slot="label">Large</span>
+        <input type="text" name="large" style="width: 100%" />
+      </sp-labeled-input>
+    `}
+  </Story>
+  <Story name="Size: Extra Large">
+    ${html`
+      <sp-labeled-input name="x-large" size="x-large">
+        <span slot="label">Extra Large</span>
+        <input type="text" name="x-large" style="width: 100%" />
+      </sp-labeled-input>
+    `}
+  </Story>
+</Canvas>
+
+## Label position
+Optionally set the position of the label with the `label-position` prop. Available options are `top` and `side`. Defaults to `top`.
+
+<Canvas>
+  <Story name="Label Position: Top (default)">
+    ${html`
+      <sp-labeled-input name="labelTop">
+        <span slot="label">Label top</span>
+        <input type="text" name="labelTop" style="width: 100%" />
+      </sp-labeled-input>
+    `}
+  </Story>
+  <Story name="Label Position: Side">
+    ${html`
+      <sp-labeled-input name="labelSide" label-position="side">
+        <span slot="label">Label side</span>
+        <input type="text" name="labelSide" style="width: 100%" />
+      </sp-labeled-input>
+    `}
+  </Story>
+</Canvas>
+
+## Required
+Optionally set the field to required using the `required` flag. This appends an asterisk to the label.
+
+Note this does not set any required validation on the input.
+
+<Canvas>
+  <Story name="Required">
+    ${html`
+      <sp-labeled-input name="required" required>
+        <span slot="label">Required field</span>
+        <input type="text" name="required" style="width: 100%" />
+      </sp-labeled-input>
+    `}
+  </Story>
+</Canvas>
+
+## Error
+Optionally provide error text using the `error` slot.
+
+Note this does not set an invalid state on the input, it just shows error-styled text.
+
+<Canvas>
+  <Story name="Error">
+    ${html`
+      <sp-labeled-input name="error">
+        <span slot="label">Field with error</span>
+        <input type="text" name="error" style="width: 100%" />
+        <span slot="error">Something went wrong, send help</span>
+      </sp-labeled-input>
+    `}
+  </Story>
+</Canvas>

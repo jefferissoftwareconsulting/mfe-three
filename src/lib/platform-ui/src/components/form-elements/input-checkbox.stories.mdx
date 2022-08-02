@@ -1,0 +1,75 @@
+import { html } from 'lit-html'
+import dedent from 'ts-dedent'
+import { Meta, Story, Canvas, Source } from '@storybook/addon-docs/blocks'
+
+import './input-checkbox'
+import './input-error'
+
+<Meta title="Form Elements/Input Checkbox" component="sp-input-checkbox" />
+
+# Input Checkbox
+
+`sp-input-checkbox` is used for binary choices. The checkbox can be in three different states: unchecked, indeterminate and checked.
+
+This component also emit this event: sp-input-change. This event returns the indeterminate and checked states in the detail object.
+
+<Canvas>
+  <Story name="Unchecked">
+    ${html`<sp-input-checkbox name="acceptLicense" value="license-accept">Unchecked</sp-input-checkbox>`}
+  </Story>
+  <Story name="Checked">
+    ${html`<sp-input-checkbox name="acceptLicense" value="license-accept" checked>Checked</sp-input-checkbox>`}
+  </Story>
+</Canvas>
+
+## Indeterminate
+
+The indeterminate state normaly represents a state where it is neither fully checked nor unchecked. It is useful in nested checkboxes.
+This is set by the `indeterminate` prop.
+
+<Canvas>
+  <Story name="Indeterminate">
+    ${html`<sp-input-checkbox name="contact" value="contact" indeterminate>Indeterminate</sp-input-checkbox>`}
+  </Story>
+</Canvas>
+
+## Disabled
+
+All checkboxes states can be disabled by applying the `disabled` prop.
+
+<Canvas>
+  <Story name="Disabled unchecked">
+    ${html`<sp-input-checkbox name="contact" value="contact" disabled>Unchecked disabled</sp-input-checkbox>`}
+  </Story>
+  <Story name="Disabled indeterminate">
+    $
+    {html`<sp-input-checkbox name="contact" value="contact" indeterminate disabled
+      >Indeterminate disabled</sp-input-checkbox
+    >`}
+  </Story>
+  <Story name="Disabled checked">
+    $
+    {html`<sp-input-checkbox name="acceptLicense" value="license-accept" checked disabled
+      >Checked disabled</sp-input-checkbox
+    >`}
+  </Story>
+</Canvas>
+
+## React
+
+To consume the `InputCheckbox` component in a React app, import it from the `@skedulo/platform-ui-react` package and use it as you would a normal react component. Kebab cased properties will be mapped to camelcase. The `label` slot is reached via the React components children.
+
+<Source
+  language="tsx"
+  code={dedent`
+import { InputCheckbox } from '@skedulo/platform-ui-react'
+<InputCheckbox name="accept" value="accepted" onChange={event => {}} checked>
+  Field Label
+</InputCheckbox>
+`}
+/>
+
+# Roadmap
+
+- Left positioned label
+- Invalid checkbox
