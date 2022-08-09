@@ -106,7 +106,7 @@ export class MfeThree extends LitElement {
       </p>
       <p>
         <sp-button type="transparent" @click=${this.__showSettings}
-          >Settings</sp-button
+          >Configure</sp-button
         >
       </p>
     `;
