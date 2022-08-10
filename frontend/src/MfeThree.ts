@@ -4,6 +4,8 @@ import eventBus from './lib/event-bus.js';
 import config from './config.js';
 
 const configSchema = {
+  componentId: 'mfe-three',
+  componentName: 'MFE-THREE',
   fields: [
     {
       label: 'Background color',
@@ -68,7 +70,8 @@ export class MfeThree extends LitElement {
           break;
 
         case 'configChanged':
-          if (!event.payload) break;
+          if (!event.payload || event.payload.componentId !== 'mfe-three')
+            break;
           saveConfig(event.payload).then(updatedConfig => {
             this.config = updatedConfig;
           });
