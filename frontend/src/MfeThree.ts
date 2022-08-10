@@ -38,13 +38,13 @@ export class MfeThree extends LitElement {
     super();
     fetch(config.configUrl)
       .then(res => res.json())
-      .then(settings => {
-        this.settings = settings;
+      .then(config => {
+        this.config = config;
       })
       .catch(err => console.error(err));
   }
 
-  @property({ type: Object }) settings: Config = {};
+  @property({ type: Object }) config: Config = {};
 
   @property({ type: String }) title = 'MFE-THREE';
 
@@ -64,7 +64,7 @@ export class MfeThree extends LitElement {
         case 'configChanged':
           if (!event.payload) break;
           saveConfig(event.payload).then(updatedConfig => {
-            console.log('configChanged', updatedConfig);
+            this.config = updatedConfig;
           });
           break;
 
@@ -100,15 +100,12 @@ export class MfeThree extends LitElement {
   }
 
   render() {
-    if (Object.keys(this.settings).length === 0)
-      return html` <div>Loading settings...</div> `;
+    if (Object.keys(this.config).length === 0)
+      return html` <div>Loading config...</div> `;
 
     return html`
       <sp-global-styles>
-        <div
-          class="container"
-          style="background-color: ${this.settings.bgColor}"
-        >
+        <div class="container" style="background-color: ${this.config.bgColor}">
           ${this.mainTemplate()}
         </div>
       </sp-global-styles>
