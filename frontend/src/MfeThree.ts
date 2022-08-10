@@ -3,8 +3,12 @@ import { property } from 'lit/decorators.js';
 import eventBus from './lib/event-bus.js';
 import config from './config.js';
 
-const configSchema = {
-  componentId: 'mfe-three',
+interface ConfigSchemaParams {
+  id: string;
+}
+
+const configSchema = ({ id }: ConfigSchemaParams) => ({
+  componentId: id,
   componentName: 'MFE-THREE',
   fields: [
     {
@@ -13,14 +17,14 @@ const configSchema = {
       placeholder: 'Enter hex, rgba, color name etc',
     },
   ],
-};
+});
 
 interface Config {
   bgColor?: string;
 }
 
-const saveConfig = (componentConfig: Config) =>
-  fetch(config.configUrl, {
+const saveConfig = (id: string, componentConfig: Config) =>
+  fetch(`${config.configUrl}/${id}`, {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json',
@@ -42,17 +46,9 @@ export class MfeThree extends LitElement {
     }
   `;
 
-  constructor() {
-    super();
-    const params = new URLSearchParams(location.search);
-    this.configEnabled = params.get('config') === 'true';
-    fetch(config.configUrl)
-      .then(res => res.json())
-      .then(config => {
-        this.config = config;
-      })
-      .catch(err => console.error(err));
-  }
+  static properties = {
+    id: {},
+  };
 
   @property({ type: Boolean }) configEnabled = false;
 
@@ -66,6 +62,17 @@ export class MfeThree extends LitElement {
     super.connectedCallback();
     this.eventBus = eventBus();
 
+    console.log('init', this.id);
+    const params = new URLSearchParams(location.search);
+    this.configEnabled = params.get('config') === 'true';
+
+    fetch(`${config.configUrl}/${this.id}`)
+      .then(res => res.json())
+      .then(config => {
+        this.config = config;
+      })
+      .catch(err => console.error(err));
+
     this.eventBus.addListener((event: any) => {
       console.log('in MFE-THREE event', event);
       switch (event.topic) {
@@ -74,9 +81,8 @@ export class MfeThree extends LitElement {
           break;
 
         case 'configChanged':
-          if (!event.payload || event.payload.componentId !== 'mfe-three')
-            break;
-          saveConfig(event.payload).then(updatedConfig => {
+          if (!event.payload || event.payload.componentId !== this.id) break;
+          saveConfig(this.id, event.payload).then(updatedConfig => {
             this.config = updatedConfig;
           });
           break;
@@ -92,7 +98,7 @@ export class MfeThree extends LitElement {
   }
 
   __configure() {
-    this.eventBus.emit({ topic: 'config', payload: configSchema });
+    this.eventBus.emit({ topic: 'config', payload: configSchema(this) });
   }
 
   render() {
