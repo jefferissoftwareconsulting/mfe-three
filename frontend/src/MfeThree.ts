@@ -4,7 +4,13 @@ import eventBus from './lib/event-bus.js';
 import config from './config.js';
 
 const configSchema = {
-  fields: [{ label: 'Background color', name: 'bgColor' }],
+  fields: [
+    {
+      label: 'Background color',
+      name: 'bgColor',
+      placeholder: 'Enter hex, rgba, color name etc',
+    },
+  ],
 };
 
 interface Config {
