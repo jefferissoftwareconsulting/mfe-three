@@ -38,7 +38,7 @@ router
     if (!bgColor) ctx.throw(400);
 
     const db = getDatabase();
-    set(ref(db, `config/${ctx.params.id}`), {
+    await set(ref(db, `config/${ctx.params.id}`), {
       bgColor,
     });
 
