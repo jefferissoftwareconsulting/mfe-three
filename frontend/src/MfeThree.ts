@@ -91,23 +91,6 @@ export class MfeThree extends LitElement {
     this.eventBus.emit({ topic: 'config', payload: configSchema });
   }
 
-  mainTemplate() {
-    return html`
-      <h2>${this.title}</h2>
-      <p>count: ${this.counter}</p>
-      <p>
-        <sp-button type="primary" @click=${this.__increment}
-          >Increment</sp-button
-        >
-      </p>
-      <p>
-        <sp-button type="transparent" @click=${this.__configure}
-          >Configure</sp-button
-        >
-      </p>
-    `;
-  }
-
   render() {
     if (Object.keys(this.config).length === 0)
       return html` <div>Loading config...</div> `;
@@ -115,7 +98,24 @@ export class MfeThree extends LitElement {
     return html`
       <sp-global-styles>
         <div class="container" style="background-color: ${this.config.bgColor}">
-          ${this.mainTemplate()}
+          <sp-split-row>
+            <div slot="left">
+              <h2>${this.title}</h2>
+            </div>
+            <div slot="right">
+              <sp-button
+                leading-icon="edit"
+                button-type="transparent"
+                @click=${this.__configure}
+              ></sp-button>
+            </div>
+          </sp-split-row>
+          <p>count: ${this.counter}</p>
+          <p>
+            <sp-button type="primary" @click=${this.__increment}
+              >Increment</sp-button
+            >
+          </p>
         </div>
       </sp-global-styles>
     `;
