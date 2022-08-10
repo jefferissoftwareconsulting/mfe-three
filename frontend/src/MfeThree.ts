@@ -3,9 +3,22 @@ import { property } from 'lit/decorators.js';
 import eventBus from './lib/event-bus.js';
 import config from './config.js';
 
-interface Settings {
+const configSchema = {
+  fields: [{ label: 'Background color', name: 'bgColor' }],
+};
+
+interface Config {
   bgColor?: string;
 }
+
+const saveConfig = (componentConfig: Config) =>
+  fetch(config.configUrl, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(componentConfig),
+  }).then(res => res.json());
 
 export class MfeThree extends LitElement {
   eventBus: any;
@@ -23,9 +36,7 @@ export class MfeThree extends LitElement {
 
   constructor() {
     super();
-    // @ts-ignore
-    this.settingsMode = false;
-    fetch(config.settingsUrl)
+    fetch(config.configUrl)
       .then(res => res.json())
       .then(settings => {
         this.settings = settings;
@@ -33,11 +44,7 @@ export class MfeThree extends LitElement {
       .catch(err => console.error(err));
   }
 
-  @property({ type: Object }) settings: Settings = {};
-
-  @property({ type: String }) settingsFieldBgColor = '';
-
-  @property({ type: Boolean }) settingsMode = false;
+  @property({ type: Object }) settings: Config = {};
 
   @property({ type: String }) title = 'MFE-THREE';
 
@@ -54,6 +61,13 @@ export class MfeThree extends LitElement {
           this.counter += 1;
           break;
 
+        case 'configChanged':
+          if (!event.payload) break;
+          saveConfig(event.payload).then(updatedConfig => {
+            console.log('configChanged', updatedConfig);
+          });
+          break;
+
         default:
           break;
       }
@@ -64,35 +78,8 @@ export class MfeThree extends LitElement {
     this.eventBus.emit({ topic: 'mfe3:increment' });
   }
 
-  __showSettings() {
-    this.settingsMode = true;
-  }
-
-  __setBgColor(e: { target: { value: string } }) {
-    this.settingsFieldBgColor = e.target.value;
-  }
-
-  __saveSettings() {
-    if (this.settingsFieldBgColor) {
-      const updatedSettings = {
-        ...this.settings,
-        bgColor: this.settingsFieldBgColor,
-      };
-
-      fetch(config.settingsUrl, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(updatedSettings),
-      })
-        .then(res => res.json())
-        .then(settings => {
-          this.settings = settings;
-        });
-    }
-
-    this.settingsMode = false;
+  __configure() {
+    this.eventBus.emit({ topic: 'config', payload: configSchema });
   }
 
   mainTemplate() {
@@ -105,26 +92,9 @@ export class MfeThree extends LitElement {
         >
       </p>
       <p>
-        <sp-button type="transparent" @click=${this.__showSettings}
+        <sp-button type="transparent" @click=${this.__configure}
           >Configure</sp-button
         >
-      </p>
-    `;
-  }
-
-  settingsTemplate() {
-    return html`
-      <h2>Settings | ${this.title}</h2>
-      <div>
-        <label>Background colour</label>
-        <sp-input-text
-          type="text"
-          @input="${this.__setBgColor}"
-        ></sp-input-text>
-        <small>Current: ${this.settings.bgColor}</small>
-      </div>
-      <p>
-        <sp-button type="primary" @click=${this.__saveSettings}>Done</sp-button>
       </p>
     `;
   }
@@ -139,7 +109,7 @@ export class MfeThree extends LitElement {
           class="container"
           style="background-color: ${this.settings.bgColor}"
         >
-          ${this.settingsMode ? this.settingsTemplate() : this.mainTemplate()}
+          ${this.mainTemplate()}
         </div>
       </sp-global-styles>
     `;

@@ -1,5 +1,5 @@
-const apiHost = "http://localhost:8001";
+const apiHost = 'http://localhost:8001';
 
 export default {
-  settingsUrl: `${apiHost}/settings`,
+  configUrl: `${apiHost}/settings`,
 };
