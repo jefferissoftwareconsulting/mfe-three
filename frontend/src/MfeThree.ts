@@ -44,6 +44,8 @@ export class MfeThree extends LitElement {
 
   constructor() {
     super();
+    const params = new URLSearchParams(location.search);
+    this.configEnabled = params.get('config') === 'true';
     fetch(config.configUrl)
       .then(res => res.json())
       .then(config => {
@@ -51,6 +53,8 @@ export class MfeThree extends LitElement {
       })
       .catch(err => console.error(err));
   }
+
+  @property({ type: Boolean }) configEnabled = false;
 
   @property({ type: Object }) config: Config = {};
 
@@ -103,11 +107,13 @@ export class MfeThree extends LitElement {
               <h2>${this.title}</h2>
             </div>
             <div slot="right">
-              <sp-button
-                leading-icon="edit"
-                button-type="transparent"
-                @click=${this.__configure}
-              ></sp-button>
+              ${this.configEnabled
+                ? html`<sp-button
+                    leading-icon="edit"
+                    button-type="transparent"
+                    @click=${this.__configure}
+                  ></sp-button>`
+                : ''}
             </div>
           </sp-split-row>
           <p>count: ${this.counter}</p>
