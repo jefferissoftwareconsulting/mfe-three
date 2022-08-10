@@ -62,7 +62,8 @@ export class MfeThree extends LitElement {
     super.connectedCallback();
     this.eventBus = eventBus();
 
-    console.log('init', this.id);
+    if (!this.id) console.warn('Missing id attribute');
+
     const params = new URLSearchParams(location.search);
     this.configEnabled = params.get('config') === 'true';
 
@@ -74,14 +75,20 @@ export class MfeThree extends LitElement {
       .catch(err => console.error(err));
 
     this.eventBus.addListener((event: any) => {
+      if (
+        !event.payload?.componentId ||
+        event.payload.componentId !== this.id
+      ) {
+        return;
+      }
       console.log('in MFE-THREE event', event);
+
       switch (event.topic) {
         case 'mfe3:increment':
           this.counter += 1;
           break;
 
         case 'configChanged':
-          if (!event.payload || event.payload.componentId !== this.id) break;
           saveConfig(this.id, event.payload).then(updatedConfig => {
             this.config = updatedConfig;
           });
@@ -94,7 +101,7 @@ export class MfeThree extends LitElement {
   }
 
   __increment() {
-    this.eventBus.emit({ topic: 'mfe3:increment' });
+    this.eventBus.emit({ topic: 'mfe3:increment', payload: { id: this.id } });
   }
 
   __configure() {
@@ -113,7 +120,7 @@ export class MfeThree extends LitElement {
               <h2>${this.title}</h2>
             </div>
             <div slot="right">
-              ${this.configEnabled
+              ${this.configEnabled && this.id
                 ? html`<sp-button
                     leading-icon="edit"
                     button-type="transparent"
