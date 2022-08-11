@@ -5,11 +5,11 @@ import config from './config.js';
 import { v4 as uuidv4 } from 'uuid';
 
 interface ConfigSchemaParams {
-  id: string;
+  configId: string;
 }
 
-const configSchema = ({ id }: ConfigSchemaParams) => ({
-  componentId: id,
+const configSchema = ({ configId }: ConfigSchemaParams) => ({
+  componentId: configId,
   componentName: 'MFE-THREE',
   fields: [
     {
@@ -107,7 +107,11 @@ export class MfeThree extends LitElement {
   }
 
   __configure() {
-    this.eventBus.emit({ topic: 'config', payload: configSchema(this) });
+    if (!this.configId) return;
+    this.eventBus.emit({
+      topic: 'config',
+      payload: configSchema({ configId: this.configId }),
+    });
   }
 
   render() {
