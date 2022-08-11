@@ -58,13 +58,9 @@ export class MfeThree extends LitElement {
 
   @property({ type: Number }) counter = 0;
 
-  constructor() {
-    super();
-    this.id = uuidv4();
-  }
-
   connectedCallback() {
     super.connectedCallback();
+    this.id = uuidv4();
     this.eventBus = eventBus();
 
     const params = new URLSearchParams(location.search);
