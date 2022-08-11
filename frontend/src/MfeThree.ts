@@ -35,7 +35,7 @@ const saveConfig = (id: string, componentConfig: Config) =>
 
 export class MfeThree extends LitElement {
   eventBus: any;
-  id: string;
+  id: any;
 
   static styles = css`
     :host {
