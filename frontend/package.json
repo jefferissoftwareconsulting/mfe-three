@@ -19,7 +19,8 @@
     "lit": "^2.0.2",
     "lit-html": "^2.2.7",
     "lodash": "^4.17.21",
-    "react": "^18.2.0"
+    "react": "^18.2.0",
+    "uuid": "^8.3.2"
   },
   "devDependencies": {
     "@babel/preset-env": "^7.16.4",
@@ -31,6 +32,7 @@
     "@rollup/plugin-node-resolve": "^13.0.6",
     "@types/lodash": "^4.14.182",
     "@types/react": "^18.0.15",
+    "@types/uuid": "^8.3.4",
     "@typescript-eslint/eslint-plugin": "^4.33.0",
     "@typescript-eslint/parser": "^4.33.0",
     "@web/dev-server": "^0.1.28",

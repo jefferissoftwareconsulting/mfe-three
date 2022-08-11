@@ -2,6 +2,7 @@ import { html, css, LitElement } from 'lit';
 import { property } from 'lit/decorators.js';
 import eventBus from './lib/event-bus.js';
 import config from './config.js';
+import { v4 as uuidv4 } from 'uuid';
 
 interface ConfigSchemaParams {
   id: string;
@@ -34,6 +35,7 @@ const saveConfig = (id: string, componentConfig: Config) =>
 
 export class MfeThree extends LitElement {
   eventBus: any;
+  id: string;
 
   static styles = css`
     :host {
@@ -46,9 +48,7 @@ export class MfeThree extends LitElement {
     }
   `;
 
-  static properties = {
-    id: {},
-  };
+  @property({ type: String }) configId = null;
 
   @property({ type: Boolean }) configEnabled = false;
 
@@ -58,16 +58,19 @@ export class MfeThree extends LitElement {
 
   @property({ type: Number }) counter = 0;
 
+  constructor() {
+    super();
+    this.id = uuidv4();
+  }
+
   connectedCallback() {
     super.connectedCallback();
     this.eventBus = eventBus();
 
-    if (!this.id) console.warn('Missing id attribute');
-
     const params = new URLSearchParams(location.search);
     this.configEnabled = params.get('config') === 'true';
 
-    fetch(`${config.configUrl}/${this.id}`)
+    fetch(`${config.configUrl}/${this.configId}`)
       .then(res => res.json())
       .then(config => {
         this.config = config;
@@ -75,21 +78,21 @@ export class MfeThree extends LitElement {
       .catch(err => console.error(err));
 
     this.eventBus.addListener((event: any) => {
-      if (
-        !event.payload?.componentId ||
-        event.payload.componentId !== this.id
-      ) {
-        return;
-      }
       console.log('in MFE-THREE event', event);
 
       switch (event.topic) {
         case 'mfe3:increment':
-          this.counter += 1;
+          if (event.payload.id === this.id) this.counter += 1;
           break;
 
         case 'configChanged':
-          saveConfig(this.id, event.payload).then(updatedConfig => {
+          if (
+            !this.configId ||
+            !event.payload?.componentId ||
+            event.payload.componentId !== this.configId
+          )
+            break;
+          saveConfig(this.configId, event.payload).then(updatedConfig => {
             this.config = updatedConfig;
           });
           break;
@@ -101,7 +104,10 @@ export class MfeThree extends LitElement {
   }
 
   __increment() {
-    this.eventBus.emit({ topic: 'mfe3:increment', payload: { id: this.id } });
+    this.eventBus.emit({
+      topic: 'mfe3:increment',
+      payload: { id: this.id },
+    });
   }
 
   __configure() {
@@ -120,7 +126,7 @@ export class MfeThree extends LitElement {
               <h2>${this.title}</h2>
             </div>
             <div slot="right">
-              ${this.configEnabled && this.id
+              ${this.configEnabled && this.configId
                 ? html`<sp-button
                     leading-icon="edit"
                     button-type="transparent"
