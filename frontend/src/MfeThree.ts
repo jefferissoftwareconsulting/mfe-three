@@ -5,12 +5,17 @@ import config from './config.js';
 
 interface ConfigSchemaParams {
   id: string;
+  name?: string;
 }
 
-const configSchema = ({ id }: ConfigSchemaParams) => ({
+const configSchema = ({ id, name }: ConfigSchemaParams) => ({
   componentId: id,
-  componentName: 'MFE-THREE',
+  componentName: name ?? 'MFE-THREE',
   fields: [
+    {
+      label: 'Name',
+      name: 'name',
+    },
     {
       label: 'Background color',
       name: 'bgColor',
@@ -20,6 +25,7 @@ const configSchema = ({ id }: ConfigSchemaParams) => ({
 });
 
 interface Config {
+  name?: string;
   bgColor?: string;
 }
 
@@ -52,7 +58,7 @@ export class MfeThree extends LitElement {
 
   @property({ type: Object }) config: Config = {};
 
-  @property({ type: String }) title = 'MFE-THREE';
+  @property({ type: String }) name = 'MFE-THREE';
 
   @property({ type: Number }) counter = 0;
 
@@ -107,7 +113,7 @@ export class MfeThree extends LitElement {
     if (!this.id) return;
     this.eventBus.emit({
       topic: 'config',
-      payload: configSchema({ id: this.id }),
+      payload: configSchema({ id: this.id, name: this.name }),
     });
   }
 
@@ -120,7 +126,7 @@ export class MfeThree extends LitElement {
         <div class="container" style="background-color: ${this.config.bgColor}">
           <sp-split-row>
             <div slot="left">
-              <h2>${this.title}</h2>
+              <h2>${this.name}</h2>
             </div>
             <div slot="right">
               ${this.configEnabled && this.id

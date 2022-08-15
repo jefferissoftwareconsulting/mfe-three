@@ -34,15 +34,16 @@ router
       });
   })
   .put("/config/:id", async (ctx) => {
-    const { bgColor } = ctx.request.body;
-    if (!bgColor) ctx.throw(400);
+    const { name, bgColor } = ctx.request.body;
+    if (!name || !bgColor) ctx.throw(400);
 
     const db = getDatabase();
     await set(ref(db, `config/${ctx.params.id}`), {
+      name,
       bgColor,
     });
 
-    ctx.body = { bgColor };
+    ctx.body = { name, bgColor };
   });
 
 app.use(cors()).use(koaBody()).use(router.routes());
