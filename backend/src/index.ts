@@ -35,7 +35,7 @@ router
   })
   .put("/config/:id", async (ctx) => {
     const { name, bgColor } = ctx.request.body;
-    if (!name || !bgColor) ctx.throw(400);
+    if (!name && !bgColor) ctx.throw(400);
 
     const db = getDatabase();
     await set(ref(db, `config/${ctx.params.id}`), {
