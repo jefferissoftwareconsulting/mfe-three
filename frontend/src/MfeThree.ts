@@ -3,22 +3,19 @@ import { property } from 'lit/decorators.js';
 import eventBus from './lib/event-bus.js';
 import config from './config.js';
 
-interface ConfigSchemaParams {
-  id: string;
-  name: string;
-}
-
-const configSchema = ({ id, name }: ConfigSchemaParams) => ({
+const configSchema = ({ id, name, bgColor }: any) => ({
   componentId: id,
   componentName: name,
   fields: [
     {
       label: 'Name',
       name: 'name',
+      value: name,
     },
     {
       label: 'Background color',
       name: 'bgColor',
+      value: bgColor,
       placeholder: 'Enter hex, rgba, color name etc',
     },
   ],
@@ -77,7 +74,7 @@ export class MfeThree extends LitElement {
     if (!this.id) return;
     this.eventBus.emit({
       topic: 'config',
-      payload: configSchema({ id: this.id, name: this.name }),
+      payload: configSchema(this),
     });
   }
 
