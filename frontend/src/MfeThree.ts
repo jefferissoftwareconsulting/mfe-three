@@ -96,7 +96,7 @@ export class MfeThree extends LitElement {
                 : ''}
             </div>
           </sp-split-row>
-          <p>count: ${this.counter}</p>
+          <sp-heading size="xl">count: ${this.counter}</sp-heading>
           <p>
             <sp-button type="primary" @click=${this.__increment}
               >Increment</sp-button
