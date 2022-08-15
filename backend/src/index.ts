@@ -6,6 +6,7 @@ import koaBody from "koa-body";
 import cors from "@koa/cors";
 
 const DEFAULT_CONFIG = {
+  name: "MFE-THREE",
   bgColor: "lightblue",
 };
 
@@ -15,7 +16,7 @@ app.context.dbRef = ref(getDatabase());
 const router = new Router();
 router
   .get("/", (ctx) => {
-    ctx.body = "MFE-1 server working";
+    ctx.body = "MFE server working";
   })
   .get("/config", async (ctx) => {
     ctx.body = DEFAULT_CONFIG;

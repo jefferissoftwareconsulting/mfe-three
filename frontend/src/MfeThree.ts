@@ -5,12 +5,12 @@ import config from './config.js';
 
 interface ConfigSchemaParams {
   id: string;
-  name?: string;
+  name: string;
 }
 
 const configSchema = ({ id, name }: ConfigSchemaParams) => ({
   componentId: id,
-  componentName: name ?? 'MFE-THREE',
+  componentName: name,
   fields: [
     {
       label: 'Name',
@@ -23,20 +23,6 @@ const configSchema = ({ id, name }: ConfigSchemaParams) => ({
     },
   ],
 });
-
-interface Config {
-  name?: string;
-  bgColor?: string;
-}
-
-const saveConfig = (id: string, componentConfig: Config) =>
-  fetch(`${config.configUrl}/${id}`, {
-    method: 'PUT',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(componentConfig),
-  }).then(res => res.json());
 
 export class MfeThree extends LitElement {
   eventBus: any;
@@ -54,11 +40,11 @@ export class MfeThree extends LitElement {
 
   @property({ type: String }) id = '';
 
-  @property({ type: Boolean }) configEnabled = false;
-
-  @property({ type: Object }) config: Config = {};
+  @property({ type: Boolean }) editing = false;
 
   @property({ type: String }) name = 'MFE-THREE';
+
+  @property({ type: String }) bgColor = 'transparent';
 
   @property({ type: Number }) counter = 0;
 
@@ -66,34 +52,12 @@ export class MfeThree extends LitElement {
     super.connectedCallback();
     this.eventBus = eventBus();
 
-    const params = new URLSearchParams(location.search);
-    this.configEnabled = params.get('config') === 'true';
-
-    fetch(`${config.configUrl}/${this.id}`)
-      .then(res => res.json())
-      .then(config => {
-        this.config = config;
-      })
-      .catch(err => console.error(err));
-
     this.eventBus.addListener((event: any) => {
       console.log('in MFE-THREE event', event);
 
       switch (event.topic) {
         case 'mfe3:increment':
           if (event.payload.id === this.id) this.counter += 1;
-          break;
-
-        case 'configChanged':
-          if (
-            !this.id ||
-            !event.payload?.componentId ||
-            event.payload.componentId !== this.id
-          )
-            break;
-          saveConfig(this.id, event.payload).then(updatedConfig => {
-            this.config = updatedConfig;
-          });
           break;
 
         default:
@@ -118,18 +82,15 @@ export class MfeThree extends LitElement {
   }
 
   render() {
-    if (Object.keys(this.config).length === 0)
-      return html` <div>Loading config...</div> `;
-
     return html`
       <sp-global-styles>
-        <div class="container" style="background-color: ${this.config.bgColor}">
+        <div class="container" style="background-color: ${this.bgColor}">
           <sp-split-row>
             <div slot="left">
               <h2>${this.name}</h2>
             </div>
             <div slot="right">
-              ${this.configEnabled && this.id
+              ${this.editing && this.id
                 ? html`<sp-button
                     leading-icon="edit"
                     button-type="transparent"
