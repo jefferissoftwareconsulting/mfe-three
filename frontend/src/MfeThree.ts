@@ -50,7 +50,8 @@ export class MfeThree extends LitElement {
     this.eventBus = eventBus();
 
     this.eventBus.addListener((event: any) => {
-      console.log('in MFE-THREE event', event);
+      if (event.payload.id === this.id)
+        console.log('in MFE-THREE event', event);
 
       switch (event.topic) {
         case 'mfe3:increment':
