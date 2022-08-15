@@ -40,9 +40,9 @@ export class MfeThree extends LitElement {
 
   @property({ type: String }) id = '';
 
-  @property({ type: Boolean }) editing = false;
-
   @property({ type: String }) name = 'MFE-THREE';
+
+  @property({ type: String }) editing = 'false';
 
   @property({ type: String }) bgColor = 'transparent';
 
@@ -90,7 +90,7 @@ export class MfeThree extends LitElement {
               <h2>${this.name}</h2>
             </div>
             <div slot="right">
-              ${this.editing && this.id
+              ${this.editing === 'true' && this.id
                 ? html`<sp-button
                     leading-icon="edit"
                     button-type="transparent"
